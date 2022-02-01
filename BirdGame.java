@@ -128,7 +128,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setColor(Color.YELLOW);
       g2.fillOval(700, -100, 200, 200);
       
-      g2.setColor(Color.YELLOW);
+      if (start)
+      {
       for (Rectangle y: yBricks)
       {
          y.setRect(y.getX() + 5, y.getY(), y.getWidth(), y.getHeight());
@@ -139,12 +140,10 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          
          if (y.getX() < -100)
          {
-            y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
+          y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
          }
-         g2.fill(y);
       }
 
-      g2.setColor(Color.RED);
       for (Rectangle y: rBricks)
       {
          y.setRect(y.getX() - 5, y.getY(), y.getWidth(), y.getHeight());
@@ -157,9 +156,15 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          {
             y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
          }
-         g2.fill(y);
       }
-
+   }
+      g2.setColor(Color.YELLOW);
+      for (Rectangle y: yBricks)
+         g2.fill(y);
+      
+      g2.setColor(Color.RED);
+      for (Rectangle y: rBricks)
+         g2.fill(y);
 
       if (canPassThrough)
       {
@@ -401,20 +406,20 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    @Override
    public void keyPressed(KeyEvent e)
    {
-      if(e.getKeyCode() == KeyEvent.VK_UP && !gameOver && start)
+      if(e.getKeyCode() == KeyEvent.VK_UP && !gameOver)
       {
          up = true;
       }
-      if(e.getKeyCode() == KeyEvent.VK_DOWN && !gameOver && start)
+      if(e.getKeyCode() == KeyEvent.VK_DOWN && !gameOver)
       {
          down = true;
       }
-      if(e.getKeyCode() == KeyEvent.VK_LEFT && !gameOver && start)
+      if(e.getKeyCode() == KeyEvent.VK_LEFT && !gameOver)
       {
          left = true;
          facingleft = true;
       }
-      if(e.getKeyCode() == KeyEvent.VK_RIGHT && !gameOver && start)
+      if(e.getKeyCode() == KeyEvent.VK_RIGHT && !gameOver)
       {
          right = true;
          facingleft = false;
