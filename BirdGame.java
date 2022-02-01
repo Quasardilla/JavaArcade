@@ -46,20 +46,15 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    private static boolean right = false;
    private boolean canPassThrough = false;
    private static int speed = 10;
-   private static int trueRectCount = 1;
+   private static int trueRectCount = 5;
    private static int rectCount = trueRectCount;
-   private static int count = 0;
-   private static int mousex = 0;
-   private static int mousey = 0;
    private static int birdx = 0;
    private static int birdy = 0;
    private static int score = 0;
-   private static Image pic = null;
    private static Image bird = null;
    
-   private static ArrayList<Rectangle> obstacle = new ArrayList<Rectangle>();
    private static ArrayList<Rectangle> yBricks = new ArrayList<Rectangle>();
-   private static ArrayList<Rectangle> rBrick = new ArrayList<Rectangle>();
+   private static ArrayList<Rectangle> rBricks = new ArrayList<Rectangle>();
    
    //Misc
    private static FontMetrics metrics;
@@ -100,11 +95,15 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
             });
       timer.start();
       
-      for (int i = 0; i < rectCount; i++)
+      for (int i = 0; i < trueRectCount; i++)
       {
          int w = (int) (Math.random() * 101) + 50;
          int h = (int) (Math.random() * 101) + 50;
-         obstacle.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
+         yBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
+         (int)(Math.random() * (PREF_H - h)), w, h));
+         w = (int) (Math.random() * 101) + 50;
+         h = (int) (Math.random() * 101) + 50;
+         rBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
    }
@@ -114,14 +113,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      Rectangle obstacle1 = new Rectangle(400, 100, 80, 40);
       Rectangle birdHitBox = new Rectangle(birdx, birdy, 100, 60);
       message = "Press SPACE to play!";
-      try {
-         mousex = this.getMousePosition().x;
-         mousey = this.getMousePosition().y;
-      } catch (Exception e) {
-      }
       
       g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                            RenderingHints.VALUE_ANTIALIAS_ON));
@@ -135,6 +128,39 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setColor(Color.YELLOW);
       g2.fillOval(700, -100, 200, 200);
       
+      g2.setColor(Color.YELLOW);
+      for (Rectangle y: yBricks)
+      {
+         y.setRect(y.getX() + 5, y.getY(), y.getWidth(), y.getHeight());
+         if (y.getX() > PREF_W + 100)
+         {
+          y.setRect(-90, y.getY(), y.getWidth(), y.getHeight());
+         }
+         
+         if (y.getX() < -100)
+         {
+            y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
+         }
+         g2.fill(y);
+      }
+
+      g2.setColor(Color.RED);
+      for (Rectangle y: rBricks)
+      {
+         y.setRect(y.getX() - 5, y.getY(), y.getWidth(), y.getHeight());
+         if (y.getX() > PREF_W + 100)
+         {
+          y.setRect(-90, y.getY(), y.getWidth(), y.getHeight());
+         }
+         
+         if (y.getX() < -100)
+         {
+            y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
+         }
+         g2.fill(y);
+      }
+
+
       if (canPassThrough)
       {
          if(up && left)
@@ -256,33 +282,27 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setColor(Color.BLACK);
       g2.drawString("Thomas & Victor", 10, 580);
       
-      for (int i = obstacle.size()-1; i >= 0; i--)
+      for (int i = yBricks.size()-1; i >= 0; i--)
       {
-      if (birdHitBox.intersects(obstacle.get(i)))
+      if (birdHitBox.intersects(yBricks.get(i)))
       {
          score += 100;
-         obstacle.remove(i);
+         yBricks.remove(i);
       }
       }
-      if (obstacle.size() <= 0)
+
+      if (yBricks.size() <= 0)
       {
-         rectCount = rectCount/2;
+         rectCount = rectCount + 2;
          resetRectangles(rectCount);
       }
       
-      if (rectCount <= 0)
+      for (int i = rBricks.size()-1; i >= 0; i--)
+      {
+      if (birdHitBox.intersects(rBricks.get(i)))
       {
          gameOver = true;
       }
-      
-      g2.setColor(Color.black);
-      g2.fill(obstacle1);
-      g2.draw(obstacle1);
-      
-      g2.setColor(Color.YELLOW);
-      for (Rectangle r: obstacle)
-      {
-         g2.fill(r);
       }
       g2.setColor(Color.BLACK);
       g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
