@@ -80,7 +80,6 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       this.addMouseListener(this);
       this.addKeyListener(this);
       this.addMouseMotionListener(this);
-      pic = new ImageIcon(this.getClass().getResource("snowflake.png")).getImage();
       bird = new ImageIcon(this.getClass().getResource("flappybird.png")).getImage();
       timer = new Timer
             (
