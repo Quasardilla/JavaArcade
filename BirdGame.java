@@ -46,7 +46,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    private static boolean right = false;
    private boolean canPassThrough = false;
    private static int speed = 10;
-   private static int trueRectCount = 5;
+   private static final int trueRectCount = 5;
    private static int rectCount = trueRectCount;
    private static int birdx = 0;
    private static int birdy = 0;
@@ -97,12 +97,12 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       
       for (int i = 0; i < trueRectCount; i++)
       {
-         int w = (int) (Math.random() * 101) + 50;
-         int h = (int) (Math.random() * 101) + 50;
+         int w = (int) (Math.random() * 51) + 50;
+         int h = (int) (Math.random() * 51) + 50;
          yBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
-         w = (int) (Math.random() * 101) + 50;
-         h = (int) (Math.random() * 101) + 50;
+         w = (int) (Math.random() * 51) + 50;
+         h = (int) (Math.random() * 51) + 50;
          rBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
@@ -251,8 +251,6 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
             birdx -= speed;
       }
 
-      this.drawSnowman(g2);
-      
       
       int x1[] = {624, 540, 604, 557, 613, 580, 650, 695, 671, 709, 662, 722};
       int y1[] = {438, 433, 332, 333, 254, 254, 156, 255, 256, 329, 331, 443};
@@ -287,32 +285,37 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setColor(Color.BLACK);
       g2.drawString("Thomas & Victor", 10, 580);
       
+      if (start)
+      {
       for (int i = yBricks.size()-1; i >= 0; i--)
       {
-      if (birdHitBox.intersects(yBricks.get(i)))
-      {
-         score += 100;
-         yBricks.remove(i);
-      }
+         if (birdHitBox.intersects(yBricks.get(i)))
+         {
+            score += 1;
+            yBricks.remove(i);
+         }
       }
 
       if (yBricks.size() <= 0)
       {
-         rectCount = rectCount + 2;
+         rectCount += 2;
          resetRectangles(rectCount);
       }
       
-      for (int i = rBricks.size()-1; i >= 0; i--)
-      {
-      if (birdHitBox.intersects(rBricks.get(i)))
-      {
-         gameOver = true;
-      }
+         for (int i = rBricks.size()-1; i >= 0; i--)
+         {
+            if (birdHitBox.intersects(rBricks.get(i)))
+            {
+               gameOver = false;
+            }
+         }
       }
       g2.setColor(Color.BLACK);
       g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
       g2.drawString("Score: " + score, 10, 25);
       g2.drawString("Time: " + (currentTime - startTime), 10, 45);
+      g2.drawString("Red:" + rBricks.size(), 10, 65);
+      g2.drawString("Yellow:" + yBricks.size(), 10, 85);
       
       metrics = g2.getFontMetrics(new Font("Helvetica", Font.PLAIN, 20));
       
@@ -345,7 +348,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    
    public static void createAndShowGUI()
    {
-      JFrame frame = new JFrame("Do You Want to Build a Snowman?");
+      JFrame frame = new JFrame("Bird Game");
       JPanel gamePanel = new BirdGame();
       
       frame.getContentPane().add(gamePanel);
@@ -471,9 +474,17 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    {
       for (int i = 0; i < count; i++)
       {
-         int w = (int) (Math.random() * 101) + 50;
-         int h = (int) (Math.random() * 101) + 50;
-         obstacle.add(new Rectangle((int)(Math.random()*PREF_W) - w, (int)(Math.random()*PREF_H) - h, w, h));
+         int w = (int) (Math.random() * 51) + 50;
+         int h = (int) (Math.random() * 51) + 50;
+         yBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
+         (int)(Math.random() * (PREF_H - h)), w, h));
+      }
+      for (int i = 0; i < 2; i++)
+      {
+         int w = (int) (Math.random() * 51) + 50;
+         int h = (int) (Math.random() * 51) + 50;
+         rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
+         (int)(Math.random() * (PREF_H - h)), w, h));
       }
    }
    
@@ -616,16 +627,27 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       
       for (int i = 0; i < trueRectCount; i++)
       {
-         int w = (int) (Math.random() * 101) + 50;
-         int h = (int) (Math.random() * 101) + 50;
-         obstacle.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
+         int w = (int) (Math.random() * 51) + 50;
+         int h = (int) (Math.random() * 51) + 50;
+         yBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
+         (int)(Math.random() * (PREF_H - h)), w, h));
+         w = (int) (Math.random() * 51) + 50;
+         h = (int) (Math.random() * 51) + 50;
+         rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
-      if (obstacle.size() > trueRectCount);
+      if (yBricks.size() > trueRectCount);
       {
-         for (int i = 0; i < (obstacle.size() - 100); i++)
+         for (int i = 0; i < (yBricks.size() - trueRectCount); i++)
          {
-            obstacle.remove(obstacle.size()-1);
+            yBricks.remove(yBricks.size()-1);
+         }
+      }
+      if (rBricks.size() > trueRectCount);
+      {
+         for (int i = 0; i < (rBricks.size() - trueRectCount); i++)
+         {
+            rBricks.remove(rBricks.size()-1);
          }
       }
    }
