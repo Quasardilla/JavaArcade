@@ -306,7 +306,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          {
             if (birdHitBox.intersects(rBricks.get(i)))
             {
-               gameOver = false;
+               gameOver = true;
             }
          }
       }
