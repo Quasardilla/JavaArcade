@@ -120,10 +120,11 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
                            RenderingHints.VALUE_ANTIALIAS_ON));
       
       g2.setStroke(new BasicStroke(4));
-      
+
       //Background
       g2.setColor(new Color(66, 161, 245));
       g2.fillRect(0, 0, PREF_W, PREF_H - 250);
+      this.drawSnowman(g2);
       
       g2.setColor(Color.YELLOW);
       g2.fillOval(700, -100, 200, 200);
@@ -252,20 +253,6 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       }
 
       
-      int x1[] = {624, 540, 604, 557, 613, 580, 650, 695, 671, 709, 662, 722};
-      int y1[] = {438, 433, 332, 333, 254, 254, 156, 255, 256, 329, 331, 443};
-      int x2[] = {609, 599, 663, 653};
-      int y2[] = {435, 483, 486, 435};
-      
-      g2.setColor(new Color(135, 80, 43));
-      g2.fillPolygon(x2, y2, x2.length);
-      g2.setColor(Color.BLACK);
-      g2.drawPolygon(x2, y2, x2.length);
-      
-      g2.setColor(new Color(23, 54, 19));
-      g2.fillPolygon(x1, y1, x1.length);
-      g2.setColor(Color.BLACK);
-      g2.drawPolygon(x1, y1, x1.length);
       
       if (facingleft)
       {
@@ -488,6 +475,21 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    
    public void drawSnowman(Graphics2D g2)
    {
+      //Tree
+      int x1[] = {624, 540, 604, 557, 613, 580, 650, 695, 671, 709, 662, 722};
+      int y1[] = {438, 433, 332, 333, 254, 254, 156, 255, 256, 329, 331, 443};
+      int x2[] = {609, 599, 663, 653};
+      int y2[] = {435, 483, 486, 435};
+      
+      g2.setColor(new Color(135, 80, 43));
+      g2.fillPolygon(x2, y2, x2.length);
+      g2.setColor(Color.BLACK);
+      g2.drawPolygon(x2, y2, x2.length);
+      
+      g2.setColor(new Color(23, 54, 19));
+      g2.fillPolygon(x1, y1, x1.length);
+      g2.setColor(Color.BLACK);
+      g2.drawPolygon(x1, y1, x1.length);
       
       //Bottom snowball
       g2.setColor(Color.WHITE);
