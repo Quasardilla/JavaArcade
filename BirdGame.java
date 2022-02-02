@@ -314,8 +314,6 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
       g2.drawString("Score: " + score, 10, 25);
       g2.drawString("Time: " + (currentTime - startTime), 10, 45);
-      g2.drawString("Red:" + rBricks.size(), 10, 65);
-      g2.drawString("Yellow:" + yBricks.size(), 10, 85);
       
       metrics = g2.getFontMetrics(new Font("Helvetica", Font.PLAIN, 20));
       
