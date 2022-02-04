@@ -424,7 +424,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       {
          canPassThrough = !canPassThrough;
       }
-      if(e.getKeyCode() == KeyEvent.VK_R && start)
+      if(e.getKeyCode() == KeyEvent.VK_R)
       {
          gameReset();
       }
@@ -491,7 +491,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    }
    public void gameOverRectangle(int count)
    {
-      for (int i = 0; i < count - 1; i++)
+      for (int i = 0; i < count; i++)
       {
          int w = 50;
          int h = 50;
@@ -502,14 +502,14 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       }
       if (yBricks.size()-1 > count);
       {
-         for (int i = 0; i < (yBricks.size() - count); i++)
+         for (int i = 0; i < (yBricks.size() - 1); i++)
          {
             yBricks.remove(yBricks.size()-1);
          }
       }
       if (rBricks.size()-1 > count);
       {
-         for (int i = 0; i < (rBricks.size() - count); i++)
+         for (int i = 0; i < (rBricks.size() - 1); i++)
          {
             rBricks.remove(rBricks.size()-1);
          }
