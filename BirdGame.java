@@ -52,6 +52,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    private static int birdy = 0;
    private static int score = 0;
    private static Image bird = null;
+   private static Image coin = null;
+   private static Image bill = null;
    
    private static ArrayList<Rectangle> yBricks = new ArrayList<Rectangle>();
    private static ArrayList<Rectangle> rBricks = new ArrayList<Rectangle>();
@@ -76,6 +78,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       this.addKeyListener(this);
       this.addMouseMotionListener(this);
       bird = new ImageIcon(this.getClass().getResource("flappybird.png")).getImage();
+      bill = new ImageIcon(this.getClass().getResource("bulletbill.png")).getImage();
+      coin = new ImageIcon(this.getClass().getResource("mariocoin.png")).getImage();
       timer = new Timer
             (
             10,
@@ -160,12 +164,12 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       }
    }
       g2.setColor(Color.YELLOW);
-      for (Rectangle y: yBricks)
-         g2.fill(y);
+      for (Rectangle r: yBricks)
+         g2.drawImage(coin, r.x, r.y, 50, 50, null);
       
       g2.setColor(Color.RED);
-      for (Rectangle y: rBricks)
-         g2.fill(y);
+      for (Rectangle r: rBricks)
+         g2.drawImage(bill, r.x, r.y, 50, 50, null);
 
       if (canPassThrough)
       {
@@ -461,15 +465,15 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    {
       for (int i = 0; i < count; i++)
       {
-         int w = (int) (Math.random() * 51) + 50;
-         int h = (int) (Math.random() * 51) + 50;
+         int w = 50;
+         int h = 50;
          yBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
       for (int i = 0; i < 2; i++)
       {
-         int w = (int) (Math.random() * 51) + 50;
-         int h = (int) (Math.random() * 51) + 50;
+         int w = 50;
+         int h = 50;
          rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
