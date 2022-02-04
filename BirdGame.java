@@ -283,7 +283,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          }
       }
 
-      if (yBricks.size() <= 0)
+      if (yBricks.size() <= 0 && !gameOver)
       {
          rectCount += 2;
          resetRectangles(rectCount);
@@ -300,7 +300,9 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setColor(Color.BLACK);
       g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
       g2.drawString("Score: " + score, 10, 25);
-      g2.drawString("Time: " + (currentTime - startTime), 10, 45);
+      g2.drawString("Time: " + ((currentTime - startTime)/1000000000), 10, 45);
+      g2.drawString("Bricks Remaining: " + yBricks.size(), 10, 85);
+      g2.drawString("Red Bricks: " + rBricks.size(), 10, 65);
       
       metrics = g2.getFontMetrics(new Font("Helvetica", Font.PLAIN, 20));
       
@@ -426,7 +428,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       }
       if(e.getKeyCode() == KeyEvent.VK_SPACE && gameOver)
       {
-         this.gameReset();
+         gameReset();
       }
       else if (e.getKeyCode() == KeyEvent.VK_SPACE)
       {
@@ -471,6 +473,20 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
+      if (yBricks.size() > count);
+      {
+         for (int i = 0; i < (yBricks.size() - count); i++)
+         {
+            yBricks.remove(yBricks.size()-1);
+         }
+      }
+      if (rBricks.size() > count);
+      {
+         for (int i = 0; i < (rBricks.size() - count); i++)
+         {
+            rBricks.remove(rBricks.size()-1);
+         }
+      }
    }
    
    public void drawSnowman(Graphics2D g2)
@@ -490,7 +506,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.fillPolygon(x1, y1, x1.length);
       g2.setColor(Color.BLACK);
       g2.drawPolygon(x1, y1, x1.length);
-      
+
       //Bottom snowball
       g2.setColor(Color.WHITE);
       g2.fillOval(275, 340, 250, 220);
@@ -624,31 +640,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       start = false;
       gameOver = false;
       pause = false;
+      resetRectangles(rectCount);
       
-      for (int i = 0; i < trueRectCount; i++)
-      {
-         int w = (int) (Math.random() * 51) + 50;
-         int h = (int) (Math.random() * 51) + 50;
-         yBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
-         (int)(Math.random() * (PREF_H - h)), w, h));
-         w = (int) (Math.random() * 51) + 50;
-         h = (int) (Math.random() * 51) + 50;
-         rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
-         (int)(Math.random() * (PREF_H - h)), w, h));
-      }
-      if (yBricks.size() > trueRectCount);
-      {
-         for (int i = 0; i < (yBricks.size() - trueRectCount); i++)
-         {
-            yBricks.remove(yBricks.size()-1);
-         }
-      }
-      if (rBricks.size() > trueRectCount);
-      {
-         for (int i = 0; i < (rBricks.size() - trueRectCount); i++)
-         {
-            rBricks.remove(rBricks.size()-1);
-         }
-      }
    }
 }
