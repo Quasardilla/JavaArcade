@@ -97,12 +97,10 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       
       for (int i = 0; i < trueRectCount; i++)
       {
-         int w = (int) (Math.random() * 51) + 50;
-         int h = (int) (Math.random() * 51) + 50;
+         int w = 50;
+         int h = 50;
          yBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
-         w = (int) (Math.random() * 51) + 50;
-         h = (int) (Math.random() * 51) + 50;
          rBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
@@ -459,17 +457,16 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    
    public void resetRectangles(int count)
    {
+      int w = 50;
+      int h = 50;
+
       for (int i = 0; i < count; i++)
       {
-         int w = (int) (Math.random() * 51) + 50;
-         int h = (int) (Math.random() * 51) + 50;
          yBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
       for (int i = 0; i < 2; i++)
       {
-         int w = (int) (Math.random() * 51) + 50;
-         int h = (int) (Math.random() * 51) + 50;
          rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
       }
@@ -481,6 +478,32 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          }
       }
       if (rBricks.size() > count);
+      {
+         for (int i = 0; i < (rBricks.size() - count); i++)
+         {
+            rBricks.remove(rBricks.size()-1);
+         }
+      }
+   }
+   public void gameOverRectangle(int count)
+   {
+      for (int i = 0; i < count - 1; i++)
+      {
+         int w = 50;
+         int h = 50;
+         yBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
+         (int)(Math.random() * (PREF_H - h)), w, h));
+         rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
+         (int)(Math.random() * (PREF_H - h)), w, h));
+      }
+      if (yBricks.size()-1 > count);
+      {
+         for (int i = 0; i < (yBricks.size() - count); i++)
+         {
+            yBricks.remove(yBricks.size()-1);
+         }
+      }
+      if (rBricks.size()-1 > count);
       {
          for (int i = 0; i < (rBricks.size() - count); i++)
          {
@@ -632,6 +655,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    
    public void gameReset()
    {
+      startTime = System.nanoTime();
       birdx = 0;
       birdy = 0;
       time = 0;
@@ -640,7 +664,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       start = false;
       gameOver = false;
       pause = false;
-      resetRectangles(rectCount);
+      gameOverRectangle(rectCount);
       
    }
 }
