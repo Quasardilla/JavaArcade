@@ -169,90 +169,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       for (Rectangle r: rBricks)
          g2.drawImage(bill, r.x, r.y, 50, 50, null);
 
-      if (canPassThrough)
-      {
-         if(up && left)
-         {
-            birdy -= speed / 2;
-            birdx -= speed / 2;
-         }
-         if(up && right)
-         {
-            birdy -= speed / 2;
-            birdx += speed / 2;
-         }
-         else if (up && !left && !right)
-            birdy -= speed;
-         
-         if (down && left)
-         {
-            birdy += speed / 2;
-            birdx -= speed / 2;
-         }
-         if(down && right)
-         {
-            birdy += speed / 2;
-            birdx += speed / 2;
-         }
-         else if (down && !left && !right)
-            birdy += speed;
-         else if (right && !up && !down)
-            birdx += speed;
-         else if (left && !up && !down)
-            birdx -= speed;
-         
-         if (birdx > PREF_W + 100)
-         {
-            birdx = -90;
-         }
-         
-         if (birdx < -100)
-         {
-            birdx = PREF_W + 90;
-         }
-         
-         if (birdy > PREF_H + 100)
-         {
-            birdy = -90;
-         }
-         
-         if (birdy < -100)
-         {
-            birdy = PREF_H + 90;
-         }
-      }
-      else
-      {
-         if(up && left && birdy > 0 && birdx > 0)
-         {
-            birdy -= speed / 2;
-            birdx -= speed / 2;
-         }
-         if(up && right && birdy > 0 && birdx < PREF_W - 100)
-         {
-            birdy -= speed / 2;
-            birdx += speed / 2;
-         }
-         else if (up && !left && !right && birdy > 0)
-            birdy -= speed;
-         
-         if (down && left && birdy < PREF_H - 60 && birdx > 0)
-         {
-            birdy += speed / 2;
-            birdx -= speed / 2;
-         }
-         if(down && right && birdy < PREF_H - 60 && birdx < PREF_W - 100)
-         {
-            birdy += speed / 2;
-            birdx += speed / 2;
-         }
-         else if (down && !left && !right && birdy < PREF_H - 60)
-            birdy += speed;
-         else if (right && !up && !down && birdx < PREF_W - 100)
-            birdx += speed;
-         else if (left && !up && !down && birdx > 0)
-            birdx -= speed;
-      }
+      birdPassThrough();
 
       
       
@@ -657,6 +574,94 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.drawArc(368, 198, 20, 21, -94, 188);//base of nose   
    }
    
+   public void birdPassThrough()
+   {
+      if (canPassThrough)
+      {
+         if(up && left)
+         {
+            birdy -= speed / 2;
+            birdx -= speed / 2;
+         }
+         if(up && right)
+         {
+            birdy -= speed / 2;
+            birdx += speed / 2;
+         }
+         else if (up && !left && !right)
+            birdy -= speed;
+         
+         if (down && left)
+         {
+            birdy += speed / 2;
+            birdx -= speed / 2;
+         }
+         if(down && right)
+         {
+            birdy += speed / 2;
+            birdx += speed / 2;
+         }
+         else if (down && !left && !right)
+            birdy += speed;
+         else if (right && !up && !down)
+            birdx += speed;
+         else if (left && !up && !down)
+            birdx -= speed;
+         
+         if (birdx > PREF_W + 100)
+         {
+            birdx = -90;
+         }
+         
+         if (birdx < -100)
+         {
+            birdx = PREF_W + 90;
+         }
+         
+         if (birdy > PREF_H + 100)
+         {
+            birdy = -90;
+         }
+         
+         if (birdy < -100)
+         {
+            birdy = PREF_H + 90;
+         }
+      }
+      else
+      {
+         if(up && left && birdy > 0 && birdx > 0)
+         {
+            birdy -= speed / 2;
+            birdx -= speed / 2;
+         }
+         if(up && right && birdy > 0 && birdx < PREF_W - 100)
+         {
+            birdy -= speed / 2;
+            birdx += speed / 2;
+         }
+         else if (up && !left && !right && birdy > 0)
+            birdy -= speed;
+         
+         if (down && left && birdy < PREF_H - 60 && birdx > 0)
+         {
+            birdy += speed / 2;
+            birdx -= speed / 2;
+         }
+         if(down && right && birdy < PREF_H - 60 && birdx < PREF_W - 100)
+         {
+            birdy += speed / 2;
+            birdx += speed / 2;
+         }
+         else if (down && !left && !right && birdy < PREF_H - 60)
+            birdy += speed;
+         else if (right && !up && !down && birdx < PREF_W - 100)
+            birdx += speed;
+         else if (left && !up && !down && birdx > 0)
+            birdx -= speed;
+      }
+   }
+
    public void gameReset()
    {
       startTime = System.nanoTime();
