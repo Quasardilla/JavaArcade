@@ -363,6 +363,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    }
    public void gameOverRectangle(int count)
    {
+      rBricks.clear();
+      yBricks.clear();
       for (int i = 0; i < count; i++)
       {
          int w = 50;
@@ -371,20 +373,6 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          (int)(Math.random() * (PREF_H - h)), w, h));
          rBricks.add(i, new Rectangle((int)(Math.random() * (PREF_W - w)),
          (int)(Math.random() * (PREF_H - h)), w, h));
-      }
-      if (yBricks.size()-1 > count);
-      {
-         for (int i = 0; i < (yBricks.size() - 1); i++)
-         {
-            yBricks.remove(yBricks.size()-1);
-         }
-      }
-      if (rBricks.size()-1 > count);
-      {
-         for (int i = 0; i < (rBricks.size() - 1); i++)
-         {
-            rBricks.remove(rBricks.size()-1);
-         }
       }
    }
    
