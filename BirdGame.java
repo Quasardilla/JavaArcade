@@ -54,6 +54,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    private static Image bird = null;
    private static Image coin = null;
    private static Image bill = null;
+   private Rectangle birdHitBox = new Rectangle(birdx, birdy, 100, 60);
    
    private static ArrayList<Rectangle> yBricks = new ArrayList<Rectangle>();
    private static ArrayList<Rectangle> rBricks = new ArrayList<Rectangle>();
@@ -115,7 +116,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      Rectangle birdHitBox = new Rectangle(birdx, birdy, 100, 60);
+      birdHitBox = new Rectangle(birdx, birdy, 100, 60);
       message = "Press SPACE to play!";
       
       g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING,
@@ -160,7 +161,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
             y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
          }
       }
-   }
+
       g2.setColor(Color.YELLOW);
       for (Rectangle r: yBricks)
          g2.drawImage(coin, r.x, r.y, 50, 50, null);
@@ -169,76 +170,26 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       for (Rectangle r: rBricks)
          g2.drawImage(bill, r.x, r.y, 50, 50, null);
 
-      birdPassThrough();
-
-      
-      
-      if (facingleft)
-      {
-      g2.setColor(new Color(0, 0, 0, 0));
-      birdHitBox = new Rectangle(birdx, birdy, 100, 60);
-      g2.fill(birdHitBox);
-      g2.drawImage(bird, birdx + 100, birdy, -100, 60, this);
-      }
-      else 
-      {
-      g2.setColor(new Color(0, 0, 0, 0));
-      birdHitBox = new Rectangle(birdx, birdy, 100, 60);
-      g2.fill(birdHitBox);
-      g2.drawImage(bird, birdx, birdy, 100, 60, this);
-      }
+      this.birdPassThrough();
+      this.drawBird(g2);
       
       g2.setColor(Color.BLACK);
-      g2.drawString("Thomas & Victor", 10, 580);
       
       if (start)
       {
-      for (int i = yBricks.size()-1; i >= 0; i--)
-      {
-         if (birdHitBox.intersects(yBricks.get(i)))
+         this.checkCollision();
+         
+         if (yBricks.size() <= 0 && !gameOver)
          {
-            score += 1;
-            yBricks.remove(i);
+            rectCount += 2;
+            this.resetRectangles(rectCount);
          }
       }
 
-      if (yBricks.size() <= 0 && !gameOver)
-      {
-         rectCount += 2;
-         resetRectangles(rectCount);
-      }
+      this.drawInfo(g2);
       
-         for (int i = rBricks.size()-1; i >= 0; i--)
-         {
-            if (birdHitBox.intersects(rBricks.get(i)))
-            {
-               gameOver = true;
-            }
-         }
-      }
-      g2.setColor(Color.BLACK);
-      g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
-      g2.drawString("Score: " + score, 10, 25);
-      g2.drawString("Time: " + ((currentTime - startTime)/1000000000), 10, 45);
-      g2.drawString("Bricks Remaining: " + yBricks.size(), 10, 85);
-      g2.drawString("Red Bricks: " + rBricks.size(), 10, 65);
-      
-      metrics = g2.getFontMetrics(new Font("Helvetica", Font.PLAIN, 20));
-      
-      g2.setFont(new Font("Helvetica", Font.PLAIN, 40));
-      if (!start)
-      g2.drawString(message,((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
-      if (pause)
-      {
-      message = "Game Paused";
-      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
-      }
-      if (gameOver)
-      {
-      message = "Game Over!";
-      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
-      message = "Press SPACE to play again!";
-      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2 + 40);
+      this.messageHandler(g2);
+
       }
       
    }
@@ -676,4 +627,73 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       gameOverRectangle(rectCount);
       
    }
+
+   public void checkCollision()
+   {
+      for (int i = yBricks.size()-1; i >= 0; i--)
+      {
+         if (birdHitBox.intersects(yBricks.get(i)))
+         {
+            score += 1;
+            yBricks.remove(i);
+         }
+      }
+      
+      for (int i = rBricks.size()-1; i >= 0; i--)
+         {
+            if (birdHitBox.intersects(rBricks.get(i)))
+            {
+               gameOver = true;
+            }
+         }
+   }
+
+   public void drawBird(Graphics2D g2)
+   {
+      if (facingleft)
+      {
+      g2.setColor(new Color(0, 0, 0, 0));
+      birdHitBox = new Rectangle(birdx, birdy, 100, 60);
+      g2.fill(birdHitBox);
+      g2.drawImage(bird, birdx + 100, birdy, -100, 60, this);
+      }
+      else 
+      {
+      g2.setColor(new Color(0, 0, 0, 0));
+      birdHitBox = new Rectangle(birdx, birdy, 100, 60);
+      g2.fill(birdHitBox);
+      g2.drawImage(bird, birdx, birdy, 100, 60, this);
+      }
+   }
+
+   public void drawInfo(Graphics2D g2)
+   {
+      g2.setColor(Color.BLACK);
+      g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
+      g2.drawString("Thomas & Victor", 10, 580);
+      g2.drawString("Score: " + score, 10, 25);
+      g2.drawString("Time: " + ((currentTime - startTime)/1000000000), 10, 45);
+      g2.drawString("Bricks Remaining: " + yBricks.size(), 10, 85);
+      g2.drawString("Red Bricks: " + rBricks.size(), 10, 65);
+   }
+
+   public void messageHandler(Graphics2D g2)
+   {
+      metrics = g2.getFontMetrics(new Font("Helvetica", Font.PLAIN, 20));
+      g2.setFont(new Font("Helvetica", Font.PLAIN, 40));
+      if (!start)
+      g2.drawString(message,((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
+      if (pause)
+      {
+      message = "Game Paused";
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
+      }
+      if (gameOver)
+      {
+      message = "Game Over!";
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
+      message = "Press SPACE to play again!";
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2 + 40);
+   }
+}
 }
