@@ -162,16 +162,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          }
       }
 
-      g2.setColor(Color.YELLOW);
-      for (Rectangle r: yBricks)
-         g2.drawImage(coin, r.x, r.y, 50, 50, null);
-      
-      g2.setColor(Color.RED);
-      for (Rectangle r: rBricks)
-         g2.drawImage(bill, r.x, r.y, 50, 50, null);
 
-      this.birdPassThrough();
-      this.drawBird(g2);
       
       g2.setColor(Color.BLACK);
       
@@ -186,12 +177,25 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          }
       }
 
-      this.drawInfo(g2);
       
-      this.messageHandler(g2);
+   }
+   
+   g2.setColor(Color.YELLOW);
+   for (Rectangle r: yBricks)
+   g2.drawImage(coin, r.x, r.y, 50, 50, null);
+   
+   g2.setColor(Color.RED);
+   for (Rectangle r: rBricks)
+   g2.drawImage(bill, r.x, r.y, 50, 50, null);
+   
+   this.birdPassThrough();
+   this.drawBird(g2);
+   
+   this.drawInfo(g2);
+   
+   
+   this.messageHandler(g2);
 
-      }
-      
    }
       
 
