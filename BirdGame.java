@@ -62,9 +62,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    //Misc
    private static FontMetrics metrics;
    private static String message;
-   private static double startTime = System.nanoTime();
-   private static double currentTime = System.nanoTime();
-   private static int time = 0;
+   private static double time = 0;
    private Timer timer;
    private boolean start = false;
    private boolean pause = false;
@@ -93,8 +91,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
                   repaint();
                   if (!pause && !gameOver && start)
                   {
-                  currentTime = System.nanoTime();
                   repaint();
+                  time += 0.01;
                   }
                }  
             });
@@ -607,7 +605,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
 
    public void gameReset()
    {
-      startTime = System.nanoTime();
+      time = 0;
       birdx = 0;
       birdy = 0;
       time = 0;
@@ -664,7 +662,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
       g2.drawString("Thomas & Victor", 10, 580);
       g2.drawString("Score: " + score, 10, 25);
-      g2.drawString("Time: " + ((currentTime - startTime)/1000000000), 10, 45);
+      g2.drawString("Time: " + String.valueOf(time).substring(0, 3), 10, 45);
       g2.drawString("Bricks Remaining: " + yBricks.size(), 10, 85);
       g2.drawString("Red Bricks: " + rBricks.size(), 10, 65);
    }
