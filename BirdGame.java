@@ -102,15 +102,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
             });
       timer.start();
       
-      for (int i = 0; i < trueRectCount; i++)
-      {
-         int w = 50;
-         int h = 50;
-         yBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
-         (int)(Math.random() * (PREF_H - h)), w, h));
-         rBricks.add(new Rectangle((int)(Math.random() * (PREF_W - w)),
-         (int)(Math.random() * (PREF_H - h)), w, h));
-      }
+      gameOverRectangle(trueRectCount);
    }
    
    //The method used to add graphical images to the panel
@@ -136,6 +128,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       
       if (start)
       {
+         //move coins
       for (Rectangle y: yBricks)
       {
          y.setRect(y.getX() + 5, y.getY(), y.getWidth(), y.getHeight());
@@ -150,6 +143,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          }
       }
 
+      //move bullet bills
       for (Rectangle y: rBricks)
       {
          y.setRect(y.getX() - 5, y.getY(), y.getWidth(), y.getHeight());
@@ -165,23 +159,20 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          
       }
 
-
-      
-      g2.setColor(Color.BLACK);
-      
-      if (start)
+      //check collisions
+      checkCollision(); 
+      //when all coins are collected reset round with more coins
+      if (yBricks.size() <= 0 && !gameOver)
       {
-         this.checkCollision();
-         
-         if (yBricks.size() <= 0 && !gameOver)
-         {
-            rectCount += 2;
-            this.resetRectangles(rectCount);
-         }
+         rectCount += 2;
+         resetRectangles(rectCount);
       }
-
+      
+      //draw bonus
       g2.drawImage(bonus, bx, by, 50, 50, null);
+      //make it fall
       by++;
+      //if collected or touches floor, reset
       if (by > PREF_H || birdHitBox.intersects(new Rectangle(bx, by, 50, 50)))
       {
          bx = (int)(Math.random() * (PREF_W+1));
@@ -191,22 +182,22 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       
    }
    
+   //draw coins
    g2.setColor(Color.YELLOW);
    for (Rectangle r: yBricks)
    g2.drawImage(coin, r.x, r.y, 50, 50, null);
    
+   //draw bullets
    g2.setColor(Color.RED);
    for (Rectangle r: rBricks)
    g2.drawImage(bill, r.x, r.y, 50, 50, null);
    
-   this.birdPassThrough();
-   this.drawBird(g2);
-   
-   this.drawInfo(g2);
-   
-   
-   this.messageHandler(g2);
 
+   //move bird, check if bird can pass through walls
+   birdPassThrough();
+   drawBird(g2);
+   drawInfo(g2);
+   messageHandler(g2);//draw message based on game state
    }
       
 
@@ -303,7 +294,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       {
          pause = !pause;
       }
-      if(e.getKeyCode() == KeyEvent.VK_P && !gameOver && start)
+      if(e.getKeyCode() == KeyEvent.VK_P)
       {
          canPassThrough = !canPassThrough;
       }
@@ -678,8 +669,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.drawString("Thomas & Victor", 10, 580);
       g2.drawString("Score: " + score, 10, 25);
       g2.drawString("Time: " + String.valueOf(time).substring(0, String.valueOf(time).indexOf(".")+2), 10, 45);
-      g2.drawString("Bricks Remaining: " + yBricks.size(), 10, 85);
-      g2.drawString("Red Bricks: " + rBricks.size(), 10, 65);
+      g2.drawString("Coins left: " + yBricks.size(), 10, 85);
+      g2.drawString("Enemies: " + rBricks.size(), 10, 65);
    }
 
    public void messageHandler(Graphics2D g2)
