@@ -54,6 +54,9 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
    private static Image bird = null;
    private static Image coin = null;
    private static Image bill = null;
+   private static Image bonus = null;
+   private static int bx = (int)(Math.random() * (PREF_W+1));
+   private static int by = (int)(Math.random() * (1001)) + -1000;
    private Rectangle birdHitBox = new Rectangle(birdx, birdy, 100, 60);
    
    private static ArrayList<Rectangle> yBricks = new ArrayList<Rectangle>();
@@ -79,6 +82,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       bird = new ImageIcon(this.getClass().getResource("flappybird.png")).getImage();
       bill = new ImageIcon(this.getClass().getResource("bulletbill.png")).getImage();
       coin = new ImageIcon(this.getClass().getResource("mariocoin.png")).getImage();
+      bonus = new ImageIcon(this.getClass().getResource("greenmushroom.png")).getImage();
       timer = new Timer
             (
             10,
@@ -158,6 +162,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          {
             y.setRect(PREF_W + 90, y.getY(), y.getWidth(), y.getHeight());
          }
+         
       }
 
 
@@ -175,6 +180,14 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
          }
       }
 
+      g2.drawImage(bonus, bx, by, 50, 50, null);
+      by++;
+      if (by > PREF_H || birdHitBox.intersects(new Rectangle(bx, by, 50, 50)))
+      {
+         bx = (int)(Math.random() * (PREF_W+1));
+         by = (int)(Math.random() * (1001)) + -1000;
+         score+=2;
+      }
       
    }
    
@@ -615,6 +628,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       gameOver = false;
       pause = false;
       gameOverRectangle(rectCount);
+      bx = (int)(Math.random() * (PREF_W+1));
+      by = (int)(Math.random() * (1001)) + -1000;
       
    }
 
@@ -662,7 +677,7 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.setFont(new Font("Helvetica", Font.PLAIN, 20));
       g2.drawString("Thomas & Victor", 10, 580);
       g2.drawString("Score: " + score, 10, 25);
-      g2.drawString("Time: " + String.valueOf(time).substring(0, 3), 10, 45);
+      g2.drawString("Time: " + String.valueOf(time).substring(0, String.valueOf(time).indexOf(".")+2), 10, 45);
       g2.drawString("Bricks Remaining: " + yBricks.size(), 10, 85);
       g2.drawString("Red Bricks: " + rBricks.size(), 10, 65);
    }
@@ -684,6 +699,8 @@ public class BirdGame extends JPanel implements MouseListener, MouseMotionListen
       g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2);
       message = "Press SPACE to play again!";
       g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message)), PREF_H/2 + 40);
+   
+   
    }
 }
 }
