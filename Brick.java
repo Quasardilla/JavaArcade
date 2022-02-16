@@ -2,13 +2,8 @@ import java.awt.Color;
 
 public class Brick {
     //Variables for the class's objects (Instance Variables)
-    public int x;
-    public int y;
-    public int width;
-    public int height;
-    public int dx;
-    public int dy;
-    public Color color;
+    private int x, y ,width, height, dx, dy;
+    private Color color;
     
     public Brick(int x, int y, int width, int height)
     {
@@ -29,12 +24,81 @@ public class Brick {
         this.color = color;
     }
 
-    public static void main(String[] args) {
-        Brick brick1 = new Brick(5, 5, 10, 20);
-        System.out.println(brick1.x);
-        Brick brick2 = new Brick(3, 6, 13, 21, 3, 1, Color.BLUE);
-        System.out.println(brick2.x);
-        Brick brick3 = new Brick(7, 4, 43, 26, 2, 9, Color.BLUE);
-        System.out.println(brick3.x);
+    //Standard getter & setter methods
+    public int getX()
+    {
+        return this.x;
+    }
+    
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+
+    public int getY()
+    {
+        return this.y;
+    }
+    
+    public void setY(int y)
+    {
+        this.y = y;
+    }
+
+    public int getW()
+    {
+        return this.width;
+    }
+    
+    public void setW(int w)
+    {
+        this.width = w;
+    }
+
+    public int getH()
+    {
+        return this.height;
+    }
+    
+    public void setH(int h)
+    {
+        this.height = h;
+    }
+
+    public int getDx()
+    {
+        return this.dx;
+    }
+    
+    public void setDx(int dx)
+    {
+        this.dx = dx;
+    }
+
+    public int getDy()
+    {
+        return this.dy;
+    }
+    
+    public void setDy(int dy)
+    {
+        this.dy = dy;
+    }
+
+    public Color getColor()
+    {
+        return this.color;
+    }
+    
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
+
+    public String toString()
+    {
+        return ("x=" + x + ", y=" + y + ", w=" + width + ", h= " + height 
+        + ", dx=" + dx + ", dy=" + dy + ", color=" + color);
     }
 }
