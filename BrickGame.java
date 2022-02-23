@@ -31,8 +31,8 @@ public class BrickGame extends JPanel implements KeyListener
       requestFocus();
       brick1 = new Brick(100, 50, 80, 25, Color.RED);
       brick2 = new Brick(125, 10, 25, 25, Color.BLUE);
-      brick2.setDx(2);
-      brick2.setDy(2);
+      brick2.setDx(3);
+      brick2.setDy(3);
       brick2.setXMax(PREF_W);
       brick2.setYMax(PREF_H);
 

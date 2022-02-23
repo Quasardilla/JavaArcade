@@ -176,9 +176,10 @@ public class Brick {
     {
         x += dx;
         y += dy;
-        if (x > XMax - width || x < 0)
+
+        if (x > XMax - width || x < XMin)
         dx = -dx;
-        if (y > YMax - height || y < 0)
+        if (y > YMax - height || y < YMin)
         dy = -dy;
     }
 }
