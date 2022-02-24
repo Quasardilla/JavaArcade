@@ -6,7 +6,7 @@ import javax.swing.GroupLayout;
 public class Brick {
     //Variables for the class's objects (Instance Variables)
     private int x, y ,width, height;
-    private int dx, dy;
+    private double dx, dy;
     private int XMin, XMax, YMin, YMax;
     private Color color;
     
@@ -36,6 +36,38 @@ public class Brick {
         this.color = color;
         this.dx = dx;
         this.dy = dy;
+    }
+
+    public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
+     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+    {
+        this.x = x;
+        this.y = x;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.dx = dx;
+        this.dy = dy;
+        this.XMax = XMax;
+        this.XMin = XMin;
+        this.YMax = YMax;
+        this.YMin = YMin;
+    }
+
+    public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
+     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+    {
+        this.x = x;
+        this.y = x;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.dx = dx;
+        this.dy = dy;
+        this.XMax = XMax;
+        this.XMin = XMin;
+        this.YMax = YMax;
+        this.YMin = YMin;
     }
 
     //Standard getter & setter methods
@@ -88,7 +120,7 @@ public class Brick {
         this.color = color;
     }
 
-    public int getDx()
+    public double getDx()
     {
         return this.dx;
     }
@@ -98,7 +130,7 @@ public class Brick {
         this.dx = dx;
     }
 
-    public int getDy()
+    public double getDy()
     {
         return this.dy;
     }
