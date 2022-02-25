@@ -42,7 +42,7 @@ public class Brick {
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         this.x = x;
-        this.y = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
@@ -194,6 +194,14 @@ public class Brick {
         g2.setStroke(new BasicStroke(3));
         g2.setColor(color.BLACK);
         g2.drawRect(x, y, width, height);
+    }
+
+    public static Color getRandomColor()
+    {
+        int r = (int) (Math.random()*256);
+        int b = (int) (Math.random()*256);
+        int g = (int) (Math.random()*256);
+        return new Color(r, g, b);
     }
 
     public void randomColor()

@@ -34,16 +34,17 @@ public class BrickGame extends JPanel implements KeyListener
       brick1 = new Brick(100, 50, 80, 25, Color.RED);
       brick2 = new Brick(125, 10, 25, 25, Color.BLUE, 3, 3, 0, PREF_W, 0, PREF_H);
       brick3 = new Brick(100, 30, 25, 25, Color.GREEN, 3.2, 3.2, 0, PREF_W, 0, PREF_H);
-
+      Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, new Color(200, 0, 255), Color.PINK};
       bricks = new ArrayList<Brick>();
-      bricks.add(new Brick(100, 30, 25, 25, Color.PINK, 4, 4, 0, PREF_W, 0, PREF_H));
       for (int i = 1; i < 100; i++)
       {
          int x = (int) (Math.random() * (PREF_W - 25));
-         int y = (int) (Math.random() * (PREF_H - 225));
+         int y = (int) (Math.random() * (PREF_H - 25));
          int dx = (int) (Math.random() * 8);
          int dy = (int) (Math.random() * 8);
-         bricks.add(new Brick(x, y, 25, 25, Color.ORANGE, dx, dy, 0, PREF_W, 0, PREF_H));
+         Color color = colors[(int) (Math.random() * colors.length)];
+         // bricks.add(new Brick(x, y, 25, 25, Brick.getRandomColor(), dx, dy, 0, PREF_W, 0, PREF_H));
+         bricks.add(new Brick(x, y, 25, 25, color, dx, dy, 0, PREF_W, 0, PREF_H));
       }
 
       timer = new Timer(10, 
@@ -51,12 +52,12 @@ public class BrickGame extends JPanel implements KeyListener
 
          @Override
          public void actionPerformed(ActionEvent e) { 
-            brick2.update(); 
-            brick3.update();
             for (Brick brick : bricks)
             {
                brick.update();
             }
+            brick2.update(); 
+            brick3.update();
             repaint();
          }         
       });
