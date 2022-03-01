@@ -9,6 +9,8 @@ public class Brick {
     private double dx, dy;
     private int XMin, XMax, YMin, YMax;
     private Color color;
+    private boolean left, right, up, down;
+    private int leftKey, rightKey, upKey, downKey;
     
     public Brick(int x, int y, int width, int height)
     {
@@ -180,6 +182,46 @@ public class Brick {
         return this.YMin;
     }
 
+    public void setUpKey(int upKey)
+    {
+        this.upKey = upKey;
+    }
+
+    public int getUpKey()
+    {
+        return this.upKey;
+    }
+
+    public void setDownKey(int downKey)
+    {
+        this.downKey = downKey;
+    }
+
+    public int getDownKey()
+    {
+        return this.downKey;
+    }
+
+    public void setLeftKey(int leftKey)
+    {
+        this.leftKey = leftKey;
+    }
+
+    public int getLeftKey()
+    {
+        return this.leftKey;
+    }
+
+    public void setRightKey(int rightKey)
+    {
+        this.rightKey = rightKey;
+    }
+
+    public int getrightKey()
+    {
+        return this.rightKey;
+    }
+
 
     public String toString()
     {
@@ -214,12 +256,51 @@ public class Brick {
 
     public void update()
     {
-        x += dx;
-        y += dy;
-
-        if (x > XMax - width || x < XMin)
-        dx = -dx;
-        if (y > YMax - height || y < YMin)
-        dy = -dy;
+        if (upKey > 0 || downKey > 0)
+        {
+            if (up)
+            y -= dy;
+            if (down)
+            y += dy;
+            if (left)
+            x -= dx;
+            if (right)
+            x += dx;
+        }
+        else 
+        {
+            x += dx;
+            y += dy;
+    
+            if (x > XMax - width || x < XMin)
+            dx = -dx;
+            if (y > YMax - height || y < YMin)
+            dy = -dy;
+        }
     }
+
+       //Less efficient that using the key pressed method
+   public void keyWasPressed(int key)
+   {
+      if (key == upKey)
+         up = true;
+      if (key == downKey)
+         down = true;
+      if (key == leftKey)
+         left = true;
+      if (key == rightKey)
+         right = true;
+   }
+
+   public void keyWasReleased(int key)
+   {
+      if (key == upKey)
+         up = false;
+      if (key == downKey)
+         down = false;
+      if (key == leftKey)
+         left = false;
+      if (key == rightKey)
+         right = false;
+   }
 }

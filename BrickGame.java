@@ -22,6 +22,9 @@ public class BrickGame extends JPanel implements KeyListener
    private static final int PREF_H = 400;
    private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
    private Font font = new Font("Quicksand", Font.PLAIN, 25);
+   private boolean left, right, up, down;
+   private int leftKey, rightKey, upKey, downKey;
+   private int playerSpeed = 3;
    private Brick brick1, brick2, brick3;
    private Timer timer;
    private ArrayList<Brick> bricks;
@@ -31,20 +34,29 @@ public class BrickGame extends JPanel implements KeyListener
       addKeyListener(this);
       setFocusable(true);
       requestFocus();
-      brick1 = new Brick(100, 50, 80, 25, Color.RED);
+
+      brick1 = new Brick(100, 50, 80, 25, Color.RED, 2, 2,  0, PREF_W, 0, PREF_H);
       brick2 = new Brick(125, 10, 25, 25, Color.BLUE, 3, 3, 0, PREF_W, 0, PREF_H);
       brick3 = new Brick(100, 30, 25, 25, Color.GREEN, 3.2, 3.2, 0, PREF_W, 0, PREF_H);
+
+      brick1.setUpKey(38);
+      brick1.setDownKey(40);
+      brick1.setLeftKey(37);
+      brick1.setRightKey(39);
+
       Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, new Color(200, 0, 255), Color.PINK};
+
       bricks = new ArrayList<Brick>();
-      for (int i = 1; i < 100; i++)
+
+      for (int i = 1; i < 10; i++)
       {
          int x = (int) (Math.random() * (PREF_W - 25));
          int y = (int) (Math.random() * (PREF_H - 25));
          int dx = (int) (Math.random() * 8);
          int dy = (int) (Math.random() * 8);
          Color color = colors[(int) (Math.random() * colors.length)];
-         // bricks.add(new Brick(x, y, 25, 25, Brick.getRandomColor(), dx, dy, 0, PREF_W, 0, PREF_H));
-         bricks.add(new Brick(x, y, 25, 25, color, dx, dy, 0, PREF_W, 0, PREF_H));
+         bricks.add(new Brick(x, y, 25, 25, Brick.getRandomColor(), dx, dy, 0, PREF_W, 0, PREF_H));
+         // bricks.add(new Brick(x, y, 25, 25, color, dx, dy, 0, PREF_W, 0, PREF_H));
       }
 
       timer = new Timer(10, 
@@ -56,8 +68,9 @@ public class BrickGame extends JPanel implements KeyListener
             {
                brick.update();
             }
-            brick2.update(); 
-            brick3.update();
+            brick3.update(); 
+            brick2.update();
+            brick1.update(); 
             repaint();
          }         
       });
@@ -83,6 +96,15 @@ public class BrickGame extends JPanel implements KeyListener
          brick.draw(g2);
       }
 
+      if (right)
+         brick1.setX(brick1.getX() + playerSpeed);
+      if (left)
+         brick1.setX(brick1.getX() - playerSpeed);
+      if (up)
+      brick1.setY(brick1.getY() - playerSpeed);
+      if (down)
+      brick1.setY(brick1.getY() + playerSpeed);
+      
       brick1.draw(g2);
       brick2.draw(g2);
       brick3.draw(g2);
@@ -92,26 +114,37 @@ public class BrickGame extends JPanel implements KeyListener
    public void keyPressed(KeyEvent e)
    {
       int key = e.getKeyCode();
-      if(key == KeyEvent.VK_SPACE)
-         System.out.println("Pressing Space...");
-
       if (key == KeyEvent.VK_C)
       {
          brick1.randomColor();
       }
 
-      if (key == KeyEvent.VK_RIGHT)
-         brick1.setX(brick1.getX() + 10);
-      if (key == KeyEvent.VK_LEFT)
-         brick1.setX(brick1.getX() - 10);
-      if (key == KeyEvent.VK_UP)
-         brick1.setY(brick1.getY() - 10);
-      if (key == KeyEvent.VK_DOWN)
-         brick1.setY(brick1.getY() + 10);
+      brick1.keyWasPressed(e.getKeyCode());
+
+      // if (key == KeyEvent.VK_RIGHT)
+      //    right = true;
+      // if (key == KeyEvent.VK_LEFT)
+      //    left = true;
+      // if (key == KeyEvent.VK_UP)
+      //    up = true;
+      // if (key == KeyEvent.VK_DOWN)
+      //    down = true;
    }
 
    @Override
-   public void keyReleased(KeyEvent e){}
+   public void keyReleased(KeyEvent e){
+      
+      brick1.keyWasReleased(e.getKeyCode());
+
+      // if (key == KeyEvent.VK_RIGHT)
+      // right = false;
+      // if (key == KeyEvent.VK_LEFT)
+      // left = false;
+      // if (key == KeyEvent.VK_UP)
+      // up = false;
+      // if (key == KeyEvent.VK_DOWN)
+      // down = false;
+   }
 
    @Override
    public void keyTyped(KeyEvent e){}
@@ -134,4 +167,5 @@ public class BrickGame extends JPanel implements KeyListener
          }
       });
    }
+
 }
