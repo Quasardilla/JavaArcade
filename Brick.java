@@ -254,32 +254,29 @@ public class Brick {
         this.setColor(new Color(r, g, b));
     }
 
+    public void updateKeyMovement()
+    {
+        if (up && y > YMin)
+        y -= dy;
+        if (down && y < YMax - (height + 2))
+        y += dy;
+        if (left && x > XMin)
+        x -= dx;
+        if (right && x < XMax - (width + 3))
+        x += dx;
+    }
+
     public void update()
     {
-        if (upKey > 0 || downKey > 0)
-        {
-            if (up)
-            y -= dy;
-            if (down)
-            y += dy;
-            if (left)
-            x -= dx;
-            if (right)
-            x += dx;
-        }
-        else 
-        {
             x += dx;
             y += dy;
-    
             if (x > XMax - width || x < XMin)
             dx = -dx;
             if (y > YMax - height || y < YMin)
             dy = -dy;
-        }
     }
 
-       //Less efficient that using the key pressed method
+       //Less efficient than using the key pressed method
    public void keyWasPressed(int key)
    {
       if (key == upKey)

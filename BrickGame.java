@@ -22,10 +22,7 @@ public class BrickGame extends JPanel implements KeyListener
    private static final int PREF_H = 400;
    private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
    private Font font = new Font("Quicksand", Font.PLAIN, 25);
-   private boolean left, right, up, down;
-   private int leftKey, rightKey, upKey, downKey;
-   private int playerSpeed = 3;
-   private Brick brick1, brick2, brick3;
+   private Brick brick0, brick1, brick2, brick3;
    private Timer timer;
    private ArrayList<Brick> bricks;
 
@@ -35,9 +32,15 @@ public class BrickGame extends JPanel implements KeyListener
       setFocusable(true);
       requestFocus();
 
-      brick1 = new Brick(100, 50, 80, 25, Color.RED, 2, 2,  0, PREF_W, 0, PREF_H);
+      brick0 = new Brick(100, 50, 80, 25, Color.ORANGE, 5, 5,  0, PREF_W, 0, PREF_H);
+      brick1 = new Brick(100, 50, 80, 25, Color.RED, 5, 5,  0, PREF_W, 0, PREF_H);
       brick2 = new Brick(125, 10, 25, 25, Color.BLUE, 3, 3, 0, PREF_W, 0, PREF_H);
       brick3 = new Brick(100, 30, 25, 25, Color.GREEN, 3.2, 3.2, 0, PREF_W, 0, PREF_H);
+
+      brick0.setUpKey(87);
+      brick0.setDownKey(83);
+      brick0.setLeftKey(65);
+      brick0.setRightKey(68);
 
       brick1.setUpKey(38);
       brick1.setDownKey(40);
@@ -70,7 +73,8 @@ public class BrickGame extends JPanel implements KeyListener
             }
             brick3.update(); 
             brick2.update();
-            brick1.update(); 
+            brick1.updateKeyMovement(); 
+            brick0.updateKeyMovement(); 
             repaint();
          }         
       });
@@ -95,16 +99,8 @@ public class BrickGame extends JPanel implements KeyListener
       {
          brick.draw(g2);
       }
-
-      if (right)
-         brick1.setX(brick1.getX() + playerSpeed);
-      if (left)
-         brick1.setX(brick1.getX() - playerSpeed);
-      if (up)
-      brick1.setY(brick1.getY() - playerSpeed);
-      if (down)
-      brick1.setY(brick1.getY() + playerSpeed);
       
+      brick0.draw(g2);
       brick1.draw(g2);
       brick2.draw(g2);
       brick3.draw(g2);
@@ -120,6 +116,7 @@ public class BrickGame extends JPanel implements KeyListener
       }
 
       brick1.keyWasPressed(e.getKeyCode());
+      brick0.keyWasPressed(e.getKeyCode());
 
       // if (key == KeyEvent.VK_RIGHT)
       //    right = true;
@@ -135,6 +132,7 @@ public class BrickGame extends JPanel implements KeyListener
    public void keyReleased(KeyEvent e){
       
       brick1.keyWasReleased(e.getKeyCode());
+      brick0.keyWasReleased(e.getKeyCode());
 
       // if (key == KeyEvent.VK_RIGHT)
       // right = false;
