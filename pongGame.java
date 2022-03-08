@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
 
-public class BrickGame extends JPanel implements KeyListener, MouseInputListener
+public class pongGame extends JPanel implements KeyListener, MouseInputListener
 {
    private static final long serialVersionUID = 1L;
    private static int PREF_W = 600;
@@ -47,7 +47,7 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
    private boolean bricksCanCollide;
    private Clip collisionSound;
 
-   public BrickGame()
+   public pongGame()
    {
       addKeyListener(this);
       addMouseListener(this);
@@ -249,7 +249,7 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
    public void keyTyped(KeyEvent e){}
 
    private static void createAndShowGUI() {
-      BrickGame gamePanel = new BrickGame();
+      pongGame gamePanel = new pongGame();
       JFrame frame = new JFrame("My Frame");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.getContentPane().add(gamePanel);
