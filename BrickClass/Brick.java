@@ -1,3 +1,4 @@
+package BrickClass;
 import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -6,12 +7,13 @@ import javax.swing.GroupLayout;
 
 public class Brick {
     //Variables for the class's objects (Instance Variables)
-    private int x, y ,width, height;
-    private double dx, dy;
-    private int XMin, XMax, YMin, YMax;
-    private Color color;
-    private boolean left, right, up, down;
-    private int leftKey, rightKey, upKey, downKey;
+    protected int x, y ,width;
+    protected int height;
+    protected double dx, dy;
+    protected int XMin, XMax, YMin, YMax;
+    protected Color color;
+    protected boolean left, right, up, down;
+    protected int leftKey, rightKey, upKey, downKey;
     
     public Brick(int x, int y, int width, int height)
     {
@@ -284,16 +286,6 @@ public class Brick {
         x -= dx;
         if (right && x < XMax - (width + 3))
         x += dx;
-    }
-
-    public void update()
-    {
-            x += dx;
-            y += dy;
-            if (x > XMax - width || x < XMin)
-            dx = -dx;
-            if (y > YMax - height || y < YMin)
-            dy = -dy;
     }
 
        //Less efficient than using the key pressed method

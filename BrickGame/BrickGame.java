@@ -1,3 +1,4 @@
+package BrickGame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -28,6 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
+
+import BrickClass.Brick;
 
 public class BrickGame extends JPanel implements KeyListener, MouseInputListener
 {
