@@ -8,102 +8,188 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.awt.Toolkit;
+import java.awt.Image;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.event.MouseInputListener;
 
-public class BrickGame extends JPanel implements KeyListener
+public class BrickGame extends JPanel implements KeyListener, MouseInputListener
 {
    private static final long serialVersionUID = 1L;
-   private static final int PREF_W = 600;
-   private static final int PREF_H = 400;
+   private static int PREF_W = 600;
+   private static int PREF_H = 400;
    private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
    private Font font = new Font("Quicksand", Font.PLAIN, 25);
-   private Brick brick0, brick1, brick2, brick3;
    private Timer timer;
+   private ArrayList<Brick> playerBricks;
+   private ArrayList<Brick> deadBricks;
    private ArrayList<Brick> bricks;
+   private Brick dvd;
+   private int cornerTouchCount;
+   private int mouseX, mouseY;
+   private Image img = new ImageIcon(this.getClass().getResource("dvdlogo.png")).getImage();
+   private boolean bricksCanCollide;
+   private Clip collisionSound;
 
    public BrickGame()
    {
       addKeyListener(this);
+      addMouseListener(this);
       setFocusable(true);
       requestFocus();
 
-      brick0 = new Brick(100, 50, 80, 25, Color.ORANGE, 5, 5,  0, PREF_W, 0, PREF_H);
-      brick1 = new Brick(100, 50, 80, 25, Color.RED, 5, 5,  0, PREF_W, 0, PREF_H);
-      brick2 = new Brick(125, 10, 25, 25, Color.BLUE, 3, 3, 0, PREF_W, 0, PREF_H);
-      brick3 = new Brick(100, 30, 25, 25, Color.GREEN, 3.2, 3.2, 0, PREF_W, 0, PREF_H);
+      bricks = new ArrayList<Brick>();
+      playerBricks = new ArrayList<Brick>();
+      deadBricks = new ArrayList<Brick>();
+      
+      URL file = this.getClass().getResource("ball-hit.wav");
+                  AudioInputStream audio;
+                  try {
+                     audio = AudioSystem.getAudioInputStream(file);
+                     collisionSound = AudioSystem.getClip();
+                     collisionSound.open(audio);
+                     collisionSound.setFramePosition(collisionSound.getFrameLength()/4 + 1);
+                  } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                  catch (UnsupportedAudioFileException e1) {
+                  }
+      dvd = new Brick(0, 0, 1200 / 8, 718 / 8, Color.BLACK, 4, 4, 0, PREF_W, 0, PREF_H);
 
-      brick0.setUpKey(87);
-      brick0.setDownKey(83);
-      brick0.setLeftKey(65);
-      brick0.setRightKey(68);
 
-      brick1.setUpKey(38);
-      brick1.setDownKey(40);
-      brick1.setLeftKey(37);
-      brick1.setRightKey(39);
-
+      playerBricks.add(new Brick(0, 0, 25, 80, Color.ORANGE, 5, 5,  0, PREF_W, 0, PREF_H));
+      playerBricks.add(new Brick(0, 0, 80, 25, Color.RED, 5, 5,  0, PREF_W, 0, PREF_H));
+      
+      playerBricks.get(0).setDirectionKeys(87, 83, 65, 68);
+      playerBricks.get(1).setDirectionKeys(38, 40, 37, 39);
+      
       Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, new Color(200, 0, 255), Color.PINK};
 
-      bricks = new ArrayList<Brick>();
-
-      for (int i = 1; i < 10; i++)
+      for (int i = 1; i <= 5; i++)
       {
          int x = (int) (Math.random() * (PREF_W - 25));
          int y = (int) (Math.random() * (PREF_H - 25));
-         int dx = (int) (Math.random() * 8);
-         int dy = (int) (Math.random() * 8);
+         int dx = (int) (Math.random() * 3 + 1);
+         int dy = (int) (Math.random() * 3 + 1);
          Color color = colors[(int) (Math.random() * colors.length)];
+         // for (int ii = 0; ii < PREF_W; ii += 5)
+         // for (int iii = 0; iii < PREF_H; iii += 5)
+         // bricks.add(new Brick((int) ii, (int) iii, 5, 5, color.red));
+
          bricks.add(new Brick(x, y, 25, 25, Brick.getRandomColor(), dx, dy, 0, PREF_W, 0, PREF_H));
          // bricks.add(new Brick(x, y, 25, 25, color, dx, dy, 0, PREF_W, 0, PREF_H));
-      }
 
+      }
+      
       timer = new Timer(10, 
       new ActionListener(){
-
+         
          @Override
          public void actionPerformed(ActionEvent e) { 
+
             for (Brick brick : bricks)
             {
                brick.update();
+               brick.colorAdjust(PREF_W, PREF_H);
+               if (brick.checkAndReactToCollisionWith(playerBricks.get(0)) && collisionSound.getFramePosition() >= collisionSound.getFrameLength() / 4)
+               {
+               collisionSound.flush();
+               collisionSound.setFramePosition(0);
+               collisionSound.start();
+               }
+               for (Brick player : playerBricks)
+               {
+                  brick.checkAndReactToCollisionWith(player);
+               }
+               for (Brick dead : deadBricks)
+               {
+                  brick.checkAndReactToCollisionWith(dead);
+               }
+               if (bricksCanCollide)
+               for (Brick brick1 : bricks)
+               {
+                  if (brick != brick1)
+                  brick.checkAndReactToCollisionWith(brick1);
+               }
+               if (brick.getX() == 0 && brick.getY() == 0 || brick.getX() + brick.getW() == PREF_W && brick.getY() + brick.getH() == PREF_H ||
+               brick.getX() + brick.getW() == PREF_W && brick.getY() == 0 || brick.getY() + brick.getH() == PREF_H && brick.getX() == 0)
+               cornerTouchCount++;
             }
-            brick3.update(); 
-            brick2.update();
-            brick1.updateKeyMovement(); 
-            brick0.updateKeyMovement(); 
+            
+            dvd.update();
+            for (Brick player : playerBricks)
+            player.updateKeyMovement();
             repaint();
          }         
       });
       timer.start();
    }
-
+   
    public Dimension getPreferredSize() {
       return new Dimension(PREF_W, PREF_H);
    }
-
+   
    @Override
    public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
       g2.setRenderingHints(hints);
+      g2.setFont(font);
+      
+      PREF_W = this.getWidth();
+      PREF_H = this.getHeight();
 
-      // g2.setFont(font);
       // g2.setColor(Color.RED);
       // g2.drawString("Hello", 200, 200);
+
+      try
+      {
+      mouseX = this.getMousePosition().x;
+      mouseY = this.getMousePosition().y;
+      }
+      catch (Exception e)
+      {  
+      }
 
       for (Brick brick : bricks)
       {
          brick.draw(g2);
       }
       
-      brick0.draw(g2);
-      brick1.draw(g2);
-      brick2.draw(g2);
-      brick3.draw(g2);
+      for (Brick player : playerBricks)
+      player.draw(g2);
+
+      // g2.drawString("Corner Touches: " + cornerTouchCount, 50, 50);
+      // dvd.setXMax(PREF_W);
+      // dvd.setYMax(PREF_H);
+
+
+      for (Brick dead : deadBricks)
+      dead.draw(g2);
+
+      // g2.drawImage(img, dvd.getX(), dvd.getY(), dvd.getW(), dvd.getH(), null);
+
+      //COLOR DEBUG
+      // g2.setColor(Color.BLACK);
+      // g2.drawString("" + brick2.getChangedColor(mouseX, mouseY, PREF_W, PREF_H), 100, 100);
+      // g2.drawString("x:" + mouseX + " y:" + mouseY, 100, 80);
+
+      // brick2.draw(g2);
+      // brick3.draw(g2);
    }
 
    @Override
@@ -112,11 +198,26 @@ public class BrickGame extends JPanel implements KeyListener
       int key = e.getKeyCode();
       if (key == KeyEvent.VK_C)
       {
-         brick1.randomColor();
+         bricksCanCollide = !bricksCanCollide;
       }
 
-      brick1.keyWasPressed(e.getKeyCode());
-      brick0.keyWasPressed(e.getKeyCode());
+      for (Brick player : playerBricks)
+      player.keyWasPressed(e.getKeyCode());
+
+         if (key == KeyEvent.VK_H)
+            {
+               Brick brick1 = playerBricks.get(1);
+               deadBricks.add(brick1.killBrick());
+               playerBricks.set(1, new Brick(100, 50, 80, 25, Color.RED, 5, 5,  0, PREF_W, 0, PREF_H));
+               playerBricks.get(1).setDirectionKeys(38, 40, 37, 39);
+            }
+            if (key == KeyEvent.VK_V)
+            {
+               Brick brick0 = playerBricks.get(0);
+               deadBricks.add(brick0.killBrick());
+               playerBricks.set(0, new Brick(100, 50, 25, 80, Color.ORANGE, 5, 5,  0, PREF_W, 0, PREF_H));
+               playerBricks.get(0).setDirectionKeys(87, 83, 65, 68);
+            }
 
       // if (key == KeyEvent.VK_RIGHT)
       //    right = true;
@@ -131,8 +232,8 @@ public class BrickGame extends JPanel implements KeyListener
    @Override
    public void keyReleased(KeyEvent e){
       
-      brick1.keyWasReleased(e.getKeyCode());
-      brick0.keyWasReleased(e.getKeyCode());
+      for (Brick player : playerBricks)
+      player.keyWasReleased(e.getKeyCode());
 
       // if (key == KeyEvent.VK_RIGHT)
       // right = false;
@@ -164,6 +265,52 @@ public class BrickGame extends JPanel implements KeyListener
             createAndShowGUI();
          }
       });
+   }
+
+   @Override
+   public void mouseClicked(MouseEvent e) {
+      try {
+      for (Brick dead: deadBricks)
+         if (mouseX > dead.getX() && mouseX < dead.getX() + dead.getW() &&
+         mouseY > dead.getY() && mouseY < dead.getY() + dead.getH())
+         {
+               deadBricks.remove(dead);
+            }
+         } catch (ConcurrentModificationException a) {System.out.println(":sob: console complaining about concurrent modification");}
+      }
+
+   @Override
+   public void mousePressed(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseReleased(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseEntered(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseExited(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseDragged(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseMoved(MouseEvent e) {
    }
 
 }
