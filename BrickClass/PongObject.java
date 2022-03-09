@@ -285,4 +285,16 @@ public boolean checkIfNotPlayer()
         return true;
 }
 
+public void returnToCenter()
+{
+   x = ((XMax / 2) - width);
+   y = ((YMax / 2) - height);
+}
+
+public void pointTowardsWinner()
+{
+   dx = -dx;
+   dy = -dy;
+}
+
 }

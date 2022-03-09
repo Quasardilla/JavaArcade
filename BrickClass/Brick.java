@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 
-import javax.swing.GroupLayout;
-
 public class Brick {
     //Variables for the class's objects (Instance Variables)
     protected int x, y ,width;
@@ -135,12 +133,22 @@ public class Brick {
         this.dx = dx;
     }
 
+    public void setDx(double dx)
+    {
+        this.dx = dx;
+    }
+
     public double getDy()
     {
         return this.dy;
     }
 
     public void setDy(int dy)
+    {
+        this.dy = dy;
+    }
+
+    public void setDy(double dy)
     {
         this.dy = dy;
     }

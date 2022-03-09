@@ -2,6 +2,7 @@ package Pong;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -42,8 +43,11 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    private PongObject gameObject;
    private int cornerTouchCount;
    private int mouseX, mouseY;
+   private int scoreL, scoreR = 0;
    private boolean bricksCanCollide;
+   private boolean gameOver, paused, start;
    private Clip collisionSound;
+   private static FontMetrics metrics;
 
    public pongGame()
    {
@@ -76,7 +80,9 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
          @Override
          public void actionPerformed(ActionEvent e) { 
             
+            if (!gameOver && !paused && start)
             gameObject.update();
+
             paddleL.updateKeyMovement();
             paddleR.updateKeyMovement();
 
@@ -99,25 +105,39 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       Graphics2D g2 = (Graphics2D) g;
       g2.setRenderingHints(hints);
       g2.setFont(font);
-      
-      PREF_W = this.getWidth();
-      PREF_H = this.getHeight();
-
-      // g2.setColor(Color.RED);
-      // g2.drawString("Hello", 200, 200);
-
-      try
-      {
-      mouseX = this.getMousePosition().x;
-      mouseY = this.getMousePosition().y;
-      }
-      catch (Exception e)
-      {}
+      metrics = g2.getFontMetrics(font);
 
       gameObject.draw(g2);
-      
       paddleL.draw(g2);
       paddleR.draw(g2);
+
+      if (gameObject.getX() > gameObject.getXMax()) 
+      {
+      gameOver = true;
+      scoreL++;
+      }
+      if (gameObject.getX() < gameObject.getXMin() - gameObject.getW())
+      {
+      gameOver = true;
+      scoreR++;
+      }
+      
+      g2.drawString("" + scoreL, ((PREF_W/4) - (metrics.stringWidth("" + scoreL) / 2)), PREF_H/8);
+      g2.drawString("" + scoreR, ((int) (PREF_W * 0.75) - (metrics.stringWidth("" + scoreR) / 2)), PREF_H/8);
+      
+      if (!start)
+      g2.drawString("Welcome to Pong!\nPress SPACE to start!", ((PREF_W/2) - metrics.stringWidth("Welcome to Pong!\nPress SPACE to start!") / 2), PREF_H/2);
+      if (gameOver)
+      {
+      gameObject.returnToCenter();
+      gameObject.pointTowardsWinner();
+      gameOver = false;
+      }
+      if (paused)
+      {
+      g2.drawString("Game is paused\nPress SPACE to resume!", ((PREF_W/2) - metrics.stringWidth("Game Over!\nPress SPACE to play again!") / 2), PREF_H/2);
+      }
+
    }
 
    @Override
@@ -128,6 +148,8 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       {
          bricksCanCollide = !bricksCanCollide;
       }
+      if (key == KeyEvent.VK_SPACE && !start)
+      start = true;
 
       paddleL.keyWasPressed(e.getKeyCode());
       paddleR.keyWasPressed(e.getKeyCode());
@@ -189,7 +211,14 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    }
 
    @Override
-   public void mouseMoved(MouseEvent e) {
+   public void mouseMoved(MouseEvent e) 
+   {
+      try
+      {
+      mouseX = this.getMousePosition().x;
+      mouseY = this.getMousePosition().y;
+      }
+      catch (Exception a){}
    }
 
 }
