@@ -288,7 +288,7 @@ public boolean checkIfNotPlayer()
 public void returnToCenter()
 {
    x = ((XMax / 2) - width);
-   y = ((YMax / 2) - height);
+   y = (int) (Math.random() * YMax);
 }
 
 public void pointTowardsWinner()

@@ -43,9 +43,10 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    private PongObject gameObject;
    private int cornerTouchCount;
    private int mouseX, mouseY;
+   private String message;
    private int scoreL, scoreR = 0;
    private boolean bricksCanCollide;
-   private boolean gameOver, paused, start;
+   private boolean gameOver, gameOverOnce, paused, start;
    private Clip collisionSound;
    private static FontMetrics metrics;
 
@@ -114,11 +115,13 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       if (gameObject.getX() > gameObject.getXMax()) 
       {
       gameOver = true;
+      gameOverOnce = true;
       scoreL++;
-      }
-      if (gameObject.getX() < gameObject.getXMin() - gameObject.getW())
-      {
+   }
+   if (gameObject.getX() < gameObject.getXMin() - gameObject.getW())
+   {
       gameOver = true;
+      gameOverOnce = true;
       scoreR++;
       }
       
@@ -126,16 +129,25 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       g2.drawString("" + scoreR, ((int) (PREF_W * 0.75) - (metrics.stringWidth("" + scoreR) / 2)), PREF_H/8);
       
       if (!start)
-      g2.drawString("Welcome to Pong!\nPress SPACE to start!", ((PREF_W/2) - metrics.stringWidth("Welcome to Pong!\nPress SPACE to start!") / 2), PREF_H/2);
+      {
+      message = "Welcome to Pong!\nPress SPACE to start!";
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2);
+      }
       if (gameOver)
+      {
+      message = "Press SPACE to serve!";
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2);
+      if (gameOverOnce)
       {
       gameObject.returnToCenter();
       gameObject.pointTowardsWinner();
-      gameOver = false;
+      gameOverOnce = false;
+      }
       }
       if (paused)
       {
-      g2.drawString("Game is paused\nPress SPACE to resume!", ((PREF_W/2) - metrics.stringWidth("Game Over!\nPress SPACE to play again!") / 2), PREF_H/2);
+      message = "Game is paused\nPress SPACE to resume!";
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2);
       }
 
    }
@@ -150,6 +162,8 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       }
       if (key == KeyEvent.VK_SPACE && !start)
       start = true;
+      if (key == KeyEvent.VK_SPACE && gameOver)
+      gameOver = false;
 
       paddleL.keyWasPressed(e.getKeyCode());
       paddleR.keyWasPressed(e.getKeyCode());
