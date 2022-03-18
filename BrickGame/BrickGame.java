@@ -10,20 +10,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
-import java.awt.Toolkit;
-import java.awt.Image;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -43,10 +38,10 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
    private ArrayList<Brick> playerBricks;
    private ArrayList<Brick> deadBricks;
    private ArrayList<Brick> bricks;
-   private Brick dvd;
-   private int cornerTouchCount;
+   // private Brick dvd;
+   // private int cornerTouchCount;
+   // private Image img = new ImageIcon(this.getClass().getResource("dvdlogo.png")).getImage();
    private int mouseX, mouseY;
-   private Image img = new ImageIcon(this.getClass().getResource("dvdlogo.png")).getImage();
    private boolean bricksCanCollide;
    private Clip collisionSound;
 
@@ -71,7 +66,7 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
                   } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
                   catch (UnsupportedAudioFileException e1) {
                   }
-      dvd = new Brick(0, 0, 1200 / 8, 718 / 8, Color.BLACK, 4, 4, 0, PREF_W, 0, PREF_H);
+      // dvd = new Brick(0, 0, 1200 / 8, 718 / 8, Color.BLACK, 4, 4, 0, PREF_W, 0, PREF_H);
 
 
       playerBricks.add(new Brick(0, 0, 25, 80, Color.ORANGE, 5, 5,  0, PREF_W, 0, PREF_H));
@@ -80,7 +75,7 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
       playerBricks.get(0).setDirectionKeys(87, 83, 65, 68);
       playerBricks.get(1).setDirectionKeys(38, 40, 37, 39);
       
-      Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, new Color(200, 0, 255), Color.PINK};
+      // Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, new Color(200, 0, 255), Color.PINK};
 
       for (int i = 1; i <= 5; i++)
       {
@@ -88,7 +83,8 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
          int y = (int) (Math.random() * (PREF_H - 25));
          int dx = (int) (Math.random() * 3 + 1);
          int dy = (int) (Math.random() * 3 + 1);
-         Color color = colors[(int) (Math.random() * colors.length)];
+         // Color color = colors[(int) (Math.random() * colors.length)];
+
          // for (int ii = 0; ii < PREF_W; ii += 5)
          // for (int iii = 0; iii < PREF_H; iii += 5)
          // bricks.add(new Brick((int) ii, (int) iii, 5, 5, color.red));
@@ -128,12 +124,12 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
                   if (brick != brick1)
                   brick.checkAndReactToCollisionWith(brick1);
                }
-               if (brick.getX() == 0 && brick.getY() == 0 || brick.getX() + brick.getW() == PREF_W && brick.getY() + brick.getH() == PREF_H ||
-               brick.getX() + brick.getW() == PREF_W && brick.getY() == 0 || brick.getY() + brick.getH() == PREF_H && brick.getX() == 0)
-               cornerTouchCount++;
+               // if (brick.getX() == 0 && brick.getY() == 0 || brick.getX() + brick.getW() == PREF_W && brick.getY() + brick.getH() == PREF_H ||
+               // brick.getX() + brick.getW() == PREF_W && brick.getY() == 0 || brick.getY() + brick.getH() == PREF_H && brick.getX() == 0)
+               // cornerTouchCount++;
             }
             
-            dvd.update();
+            // dvd.update();
             for (Brick player : playerBricks)
             player.updateKeyMovement();
             repaint();

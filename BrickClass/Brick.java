@@ -45,6 +45,38 @@ public class Brick {
     }
 
     public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
+     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.dx = dx;
+        this.dy = dy;
+        this.XMax = XMax;
+        this.XMin = XMin;
+        this.YMax = YMax;
+        this.YMin = YMin;
+    }
+
+    public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
+     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+    {
+        this.x = x;
+        this.y = x;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.dx = dx;
+        this.dy = dy;
+        this.XMax = XMax;
+        this.XMin = XMin;
+        this.YMax = YMax;
+        this.YMin = YMin;
+    }
+
+    public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         this.x = x;
@@ -307,6 +339,16 @@ public class Brick {
         if (right && x < XMax - (width + 3))
         x += dx;
     }
+
+    public void update()
+{
+        x += dx;
+        y += dy;
+        if (y > YMax - height || y < YMin)
+        dy = -dy;
+        if (x > XMax - width || x < XMin)
+        dx = -dx;
+}
 
        //Less efficient than using the key pressed method
    public void keyWasPressed(int key)
