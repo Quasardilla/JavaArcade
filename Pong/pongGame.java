@@ -81,6 +81,8 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       
       paddleL.setDirectionKeys(87, 83, 0, 0);
       paddleR.setDirectionKeys(38, 40, 0, 0);
+
+      gameObject.combo = 0;
       
       timer = new Timer(10, 
       new ActionListener(){
@@ -93,6 +95,12 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
 
             paddleL.updateKeyMovement();
             paddleR.updateKeyMovement();
+
+            if (gameObject.checkAndReactToCollisionWith(paddleL) || gameObject.checkAndReactToCollisionWith(paddleR))
+            {
+               gameObject.combo++;
+               gameObject.hit = 50;
+            }   
 
             gameObject.checkAndReactToCollisionWith(paddleL);
             gameObject.checkAndReactToCollisionWith(paddleR);
@@ -121,6 +129,11 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       paddleL.drawImage(g2);
       paddleR.drawImage(g2);
 
+      if (gameObject.hit > 0)
+      {
+         g2.drawString("COMBO x"+gameObject.combo, gameObject.getX(), (int) ((gameObject.getY()-10) + Math.sin(gameObject.getY()) * 5));
+         gameObject.hit--;
+      }
 
       if (gameObject.getX() > gameObject.getXMax()) 
       {
@@ -145,6 +158,8 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       }
       if (gameOver)
       {
+         gameObject.combo = 0;
+         gameObject.hit = 0;
       message = "Press SPACE to serve!";
       g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2-20);
       if (gameOverOnce)
