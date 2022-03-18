@@ -99,7 +99,8 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
             if (gameObject.checkAndReactToCollisionWith(paddleL) || gameObject.checkAndReactToCollisionWith(paddleR))
             {
                gameObject.combo++;
-               gameObject.hit = 50;
+               if (gameObject.combo >= 3)
+                  gameObject.hit = 50;
             }   
 
             gameObject.checkAndReactToCollisionWith(paddleL);
