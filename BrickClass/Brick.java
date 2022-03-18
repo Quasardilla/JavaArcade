@@ -2,6 +2,7 @@ package BrickClass;
 import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class Brick {
     //Variables for the class's objects (Instance Variables)
@@ -12,6 +13,7 @@ public class Brick {
     protected Color color;
     protected boolean left, right, up, down;
     protected int leftKey, rightKey, upKey, downKey;
+    protected Image img;
     
     public Brick(int x, int y, int width, int height)
     {
@@ -19,6 +21,7 @@ public class Brick {
         this.y = x;
         this.width = width;
         this.height = height;
+        
     }
 
     public Brick(int x, int y, int width, int height, Color color) //Another constructor with optional values
@@ -42,7 +45,7 @@ public class Brick {
     }
 
     public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
-     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+     int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         this.x = x;
         this.y = y;
@@ -55,10 +58,11 @@ public class Brick {
         this.XMin = XMin;
         this.YMax = YMax;
         this.YMin = YMin;
+        this.img = img;
     }
 
     public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
-     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+     int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         this.x = x;
         this.y = x;
@@ -71,6 +75,7 @@ public class Brick {
         this.XMin = XMin;
         this.YMax = YMax;
         this.YMin = YMin;
+        this.img = img;
     }
 
     //Standard getter & setter methods
@@ -261,11 +266,18 @@ public class Brick {
 
     public void draw(Graphics2D g2)
     {
-        g2.setColor(this.color);
-        g2.fillRect(this.x, this.y, this.width, this.height);
-        g2.setStroke(new BasicStroke(1));
-        g2.setColor(color.BLACK);
-        g2.drawRect(x, y, width, height);
+        // g2.setColor(this.color);
+        // g2.fillRect(this.x, this.y, this.width, this.height);
+        // g2.setStroke(new BasicStroke(1));
+        // g2.setColor(Color.BLACK);
+        // g2.drawRect(x, y, width, height);
+        g2.setColor(new Color(230, 230, 230));
+        g2.fillOval(x, y, width, height);
+    }
+
+    public void drawImage(Graphics2D g2)
+    {
+        g2.drawImage(img, x, y, width, height, null);
     }
 
     public static Color getRandomColor()

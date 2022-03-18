@@ -15,13 +15,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import BrickClass.PongObject;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -67,10 +68,16 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
                   } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
                   catch (UnsupportedAudioFileException e1) {
                   }
-      gameObject = new PongObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 0, PREF_H);
 
-      paddleL = new Brick(30, (PREF_H/2) - 40, 20, 80, Color.ORANGE, 0, 5, 0, PREF_W, 0, PREF_H);
-      paddleR = new Brick(PREF_W - (50), (PREF_H/2) - 40, 20, 80, Color.RED, 0, 5, 0, PREF_W, 0, PREF_H);
+
+      Image img = new ImageIcon("Pong/racket.png").getImage();
+
+
+      gameObject = new PongObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 30, PREF_H-30);
+
+
+      paddleL = new Brick(30, (PREF_H/2) - 40, 20, 80, Color.ORANGE, 0, 5, 0, PREF_W, 0, PREF_H, img);
+      paddleR = new Brick(PREF_W - (50), (PREF_H/2) - 40, 20, 80, Color.RED, 0, 5, 0, PREF_W, 0, PREF_H, img);
       
       paddleL.setDirectionKeys(87, 83, 0, 0);
       paddleR.setDirectionKeys(38, 40, 0, 0);
@@ -108,9 +115,12 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       g2.setFont(font);
       metrics = g2.getFontMetrics(font);
 
+      g2.drawImage(new ImageIcon("Pong/table.png").getImage(), 0, 0, PREF_W, PREF_H, null);
+     
       gameObject.draw(g2);
-      paddleL.draw(g2);
-      paddleR.draw(g2);
+      paddleL.drawImage(g2);
+      paddleR.drawImage(g2);
+
 
       if (gameObject.getX() > gameObject.getXMax()) 
       {
@@ -125,18 +135,18 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       scoreR++;
       }
       
-      g2.drawString("" + scoreL, ((PREF_W/4) - (metrics.stringWidth("" + scoreL) / 2)), PREF_H/8);
-      g2.drawString("" + scoreR, ((int) (PREF_W * 0.75) - (metrics.stringWidth("" + scoreR) / 2)), PREF_H/8);
+      g2.drawString("" + scoreL, ((PREF_W/4) - (metrics.stringWidth("" + scoreL) / 2)), PREF_H/8+10);
+      g2.drawString("" + scoreR, ((int) (PREF_W * 0.75) - (metrics.stringWidth("" + scoreR) / 2)), PREF_H/8+10);
       
       if (!start)
       {
       message = "Welcome to Pong!\nPress SPACE to start!";
-      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2);
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2-20);
       }
       if (gameOver)
       {
       message = "Press SPACE to serve!";
-      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2);
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2-20);
       if (gameOverOnce)
       {
       gameObject.returnToCenter();
@@ -147,7 +157,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       if (paused)
       {
       message = "Game is paused\nPress SPACE to resume!";
-      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2);
+      g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2-20);
       }
 
    }
