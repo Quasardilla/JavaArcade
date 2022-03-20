@@ -1,6 +1,8 @@
 package BrickClass;
 import java.awt.Color;
 
+import Pong.pongGame;
+
 public class PongObject extends Brick{
    public int combo;
    public int hit;
@@ -291,7 +293,7 @@ public boolean checkIfNotPlayer()
 public void returnToCenter()
 {
    x = ((XMax / 2) - width);
-   y = (int) ((Math.random() * (YMax-50))+(YMin+50));
+   y = (int)(Math.random() * ((pongGame.PREF_H-50)-50+1)) + 50;
 }
 
 public void pointTowardsWinner()
