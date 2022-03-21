@@ -44,7 +44,8 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    private int scoreL, scoreR = 0;
    private boolean bricksCanCollide;
    private boolean gameOver, gameOverOnce, paused, start;
-   private Clip collisionSound;
+   private Clip bounceSound;
+   private Clip hitSound;
    private static FontMetrics metrics;
 
    public pongGame()
@@ -54,13 +55,20 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       setFocusable(true);
       requestFocus();
       
-      URL file = this.getClass().getResource("ball-hit.wav");
+      URL file = this.getClass().getResource("Ping-pong-ball-bounce.wav");
                   AudioInputStream audio;
                   try {
                      audio = AudioSystem.getAudioInputStream(file);
-                     collisionSound = AudioSystem.getClip();
-                     collisionSound.open(audio);
-                     collisionSound.setFramePosition(collisionSound.getFrameLength()/4 + 1);
+                     bounceSound = AudioSystem.getClip();
+                     bounceSound.open(audio);
+                  } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                  catch (UnsupportedAudioFileException e1) {
+                  }
+      file = this.getClass().getResource("Ping-pong-ball-hit.wav");
+                  try {
+                     audio = AudioSystem.getAudioInputStream(file);
+                     hitSound = AudioSystem.getClip();
+                     hitSound.open(audio);
                   } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
                   catch (UnsupportedAudioFileException e1) {
                   }
@@ -87,13 +95,25 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
          public void actionPerformed(ActionEvent e) { 
             
             if (!gameOver && !paused && start)
+            {
+            if (gameObject.getY() > gameObject.getYMax() - gameObject.getH() || gameObject.getY() < gameObject.getYMin())
+            {
+               bounceSound.flush();
+               bounceSound.setFramePosition(0);
+               bounceSound.start();
+            }
             gameObject.update();
+            }
 
             paddleL.updateKeyMovement();
             paddleR.updateKeyMovement();
 
             if (gameObject.checkAndReactToCollisionWith(paddleL) || gameObject.checkAndReactToCollisionWith(paddleR))
             {
+               hitSound.flush();
+               hitSound.setFramePosition(0);
+               hitSound.start();
+
                gameObject.combo++;
                if (gameObject.combo >= 3)
                   gameObject.hit = 50;
