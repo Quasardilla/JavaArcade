@@ -11,10 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import BrickClass.PongObject;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 
@@ -42,8 +40,6 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    private Timer timer;
    private Brick paddleL, paddleR;
    private PongObject gameObject;
-   private int cornerTouchCount;
-   private int mouseX, mouseY;
    private String message;
    private int scoreL, scoreR = 0;
    private boolean bricksCanCollide;
@@ -253,12 +249,6 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    @Override
    public void mouseMoved(MouseEvent e) 
    {
-      try
-      {
-      mouseX = this.getMousePosition().x;
-      mouseY = this.getMousePosition().y;
-      }
-      catch (Exception a){}
    }
 
 }

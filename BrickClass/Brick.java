@@ -284,7 +284,7 @@ public class Brick {
         this.downKey = 0;
         this.leftKey = 0;
         this.rightKey = 0;
-        this.color = color.lightGray;
+        this.color = Color.lightGray;
 
         return new Brick(x, y, width, height, color);
     }
