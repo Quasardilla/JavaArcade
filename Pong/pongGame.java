@@ -34,7 +34,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
 {
    private static final long serialVersionUID = 1L;
    private static int PREF_W = 600;
-   private static int PREF_H = 400;
+   public static int PREF_H = 400;
    private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
    private Font font = new Font("Quicksand", Font.PLAIN, 25);
    private Timer timer;
@@ -122,7 +122,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
 
       g2.drawImage(new ImageIcon("Pong/table.png").getImage(), 0, 0, PREF_W, PREF_H, null);
      
-      gameObject.draw(g2);
+      gameObject.drawCircle(g2);
       paddleL.drawImage(g2);
       paddleR.drawImage(g2);
 

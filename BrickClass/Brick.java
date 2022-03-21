@@ -298,11 +298,15 @@ public class Brick {
 
     public void draw(Graphics2D g2)
     {
-        // g2.setColor(this.color);
-        // g2.fillRect(this.x, this.y, this.width, this.height);
-        // g2.setStroke(new BasicStroke(1));
-        // g2.setColor(Color.BLACK);
-        // g2.drawRect(x, y, width, height);
+        g2.setColor(this.color);
+        g2.fillRect(this.x, this.y, this.width, this.height);
+        g2.setStroke(new BasicStroke(1));
+        g2.setColor(Color.BLACK);
+        g2.drawRect(x, y, width, height);
+    }
+
+    public void drawCircle(Graphics2D g2)
+    {
         g2.setColor(new Color(230, 230, 230));
         g2.fillOval(x, y, width, height);
     }
@@ -341,14 +345,40 @@ public class Brick {
     }
 
     public void update()
-{
+    {
         x += dx;
         y += dy;
         if (y > YMax - height || y < YMin)
         dy = -dy;
         if (x > XMax - width || x < XMin)
         dx = -dx;
-}
+    }  
+
+    public void updateGravity(int mousex, int mousey, int screenw, int screenh)
+    {
+        int cx = screenw / 2;
+        int cy = screenh / 2;
+
+        int chx = mousex - cx;
+        int chy = mousey - cy;
+
+        String f = asFraction(chy, chx);
+
+        double gx = Double.parseDouble(f.substring(0, f.indexOf("/")));
+        double gy = Double.parseDouble(f.substring(f.indexOf("/") + 1));
+
+        System.out.println(gx + " " + gy);
+
+        dx += gx/100;
+        dy += gy/100;
+
+        x += dx;
+        y += dy;
+        if (y > YMax - height || y < YMin)
+        dy = -dy;
+        if (x > XMax - width || x < XMin)
+        dx = -dx;
+    }  
 
        //Less efficient than using the key pressed method
    public void keyWasPressed(int key)
@@ -539,6 +569,15 @@ public boolean checkIfNotPlayer()
         return false;
     else
         return true;
+}
+
+public static long gcd(long a, long b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+public static String asFraction(long a, long b) {
+    long gcd = gcd(a, b);
+    return (a / gcd) + "/" + (b / gcd);
 }
 
 }
