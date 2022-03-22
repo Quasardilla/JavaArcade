@@ -44,8 +44,9 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    private int scoreL, scoreR = 0;
    private boolean bricksCanCollide;
    private boolean gameOver, gameOverOnce, paused, start;
-   private Clip bounceSound;
-   private Clip hitSound;
+   private boolean entireGameOver = true;
+   private Clip bounceSound, hitSound, pointSound, buzzerSound;
+   private String winner = "";
    private static FontMetrics metrics;
 
    public pongGame()
@@ -72,12 +73,31 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
                   } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
                   catch (UnsupportedAudioFileException e1) {
                   }
+      file = this.getClass().getResource("applause.wav");
+                  try {
+                     audio = AudioSystem.getAudioInputStream(file);
+                     pointSound = AudioSystem.getClip();
+                     pointSound.open(audio);
+                  } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                  catch (UnsupportedAudioFileException e1) {
+                  }
+      file = this.getClass().getResource("buzzer.wav");
+                  try {
+                     audio = AudioSystem.getAudioInputStream(file);
+                     buzzerSound = AudioSystem.getClip();
+                     buzzerSound.open(audio);
+                  } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                  catch (UnsupportedAudioFileException e1) {
+                  }
 
 
       Image img = new ImageIcon("Pong/racket.png").getImage();
+      Image ball = new ImageIcon("Pong/ping-pong-ball.png").getImage();
+
+      
 
 
-      gameObject = new PongObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 30, PREF_H-30);
+      gameObject = new PongObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 30, PREF_H-30, ball);
 
 
       paddleL = new Brick(30, (PREF_H/2) - 40, 20, 80, Color.ORANGE, 0, 5, 0, PREF_W, 0, PREF_H, img);
@@ -93,8 +113,22 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
          
          @Override
          public void actionPerformed(ActionEvent e) { 
-            
-            if (!gameOver && !paused && start)
+            if (scoreL == 3 || scoreR == 3)
+            {
+               entireGameOver = true;
+               if (scoreL == 3) winner = "The left side won!";
+               if (scoreR == 3) winner = "The right side won!";
+               scoreL = 0;
+               scoreR = 0;
+               gameObject.combo = 0;
+               gameObject.hit = 0;
+               start = false;
+               buzzerSound.flush();
+               buzzerSound.setFramePosition(0);
+               buzzerSound.start();
+            }
+
+            if (!gameOver && !paused && start && !entireGameOver)
             {
             if (gameObject.getY() > gameObject.getYMax() - gameObject.getH() || gameObject.getY() < gameObject.getYMin())
             {
@@ -142,9 +176,11 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
 
       g2.drawImage(new ImageIcon("Pong/table.png").getImage(), 0, 0, PREF_W, PREF_H, null);
      
-      gameObject.drawCircle(g2);
+      gameObject.drawImage(g2);
       paddleL.drawImage(g2);
       paddleR.drawImage(g2);
+
+      g2.setColor(Color.WHITE);
 
       if (gameObject.hit > 0)
       {
@@ -157,23 +193,33 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       gameOver = true;
       gameOverOnce = true;
       scoreL++;
+      pointSound.flush();
+      pointSound.setFramePosition(0);
+      pointSound.start();
    }
    if (gameObject.getX() < gameObject.getXMin() - gameObject.getW())
    {
       gameOver = true;
       gameOverOnce = true;
       scoreR++;
+      pointSound.flush();
+      pointSound.setFramePosition(0);
+      pointSound.start();
       }
       
       g2.drawString("" + scoreL, ((PREF_W/4) - (metrics.stringWidth("" + scoreL) / 2)), PREF_H/8+10);
       g2.drawString("" + scoreR, ((int) (PREF_W * 0.75) - (metrics.stringWidth("" + scoreR) / 2)), PREF_H/8+10);
       
-      if (!start)
+      if (!start || entireGameOver)
       {
       message = "Welcome to Pong!\nPress SPACE to start!";
       g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H/2-20);
+      if (winner.equals("The left side won!") || winner.equals("The right side won!"));
+      {
+         g2.drawString(winner, ((PREF_W/2) - metrics.stringWidth(winner) / 2), PREF_H/2-45);
+      }   
       }
-      if (gameOver)
+      if (gameOver && !entireGameOver)
       {
          gameObject.combo = 0;
          gameObject.hit = 0;
@@ -206,6 +252,23 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       start = true;
       if (key == KeyEvent.VK_SPACE && gameOver)
       gameOver = false;
+      if (key == KeyEvent.VK_SPACE && entireGameOver)
+      entireGameOver = false;
+      if (key == KeyEvent.VK_R)
+      {
+         entireGameOver = true;
+         gameObject.returnToCenter();
+         winner = "";
+         scoreL = 0;
+         scoreR = 0;
+         gameObject.combo = 0;
+         gameObject.hit = 0;
+         buzzerSound.flush();
+         buzzerSound.setFramePosition(0);
+         buzzerSound.start();
+      }
+      
+
 
       paddleL.keyWasPressed(e.getKeyCode());
       paddleR.keyWasPressed(e.getKeyCode());

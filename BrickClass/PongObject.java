@@ -1,5 +1,6 @@
 package BrickClass;
 import java.awt.Color;
+import java.awt.Image;
 
 import Pong.pongGame;
 
@@ -30,9 +31,9 @@ public class PongObject extends Brick{
     }
 
     public PongObject(int x, int y, int width, int height, Color color, double dx, double dy,
-     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+     int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
-        super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, null);
+        super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, img);
     }
 
    public boolean checkAndReactToCollisionWith(Brick r)
