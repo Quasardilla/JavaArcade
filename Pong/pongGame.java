@@ -174,6 +174,9 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       g2.setFont(font);
       metrics = g2.getFontMetrics(font);
 
+
+
+
       g2.drawImage(new ImageIcon("Pong/table.png").getImage(), 0, 0, PREF_W, PREF_H, null);
      
       gameObject.drawImage(g2);
@@ -218,7 +221,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       {
          g2.drawString(winner, ((PREF_W/2) - metrics.stringWidth(winner) / 2), PREF_H/2-45);
       }   
-      }
+      }  
       if (gameOver && !entireGameOver)
       {
          gameObject.combo = 0;
@@ -267,8 +270,6 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
          buzzerSound.setFramePosition(0);
          buzzerSound.start();
       }
-      
-
 
       paddleL.keyWasPressed(e.getKeyCode());
       paddleR.keyWasPressed(e.getKeyCode());
