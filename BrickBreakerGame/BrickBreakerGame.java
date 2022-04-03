@@ -225,6 +225,8 @@
             ballActive = true;
         if(key == KeyEvent.VK_SHIFT)
             slowMode = true;
+        if(key == KeyEvent.VK_ESCAPE && settings)
+            resetGame();
         if(key == KeyEvent.VK_ESCAPE)
             settings = !settings;
     }
