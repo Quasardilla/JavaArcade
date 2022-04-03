@@ -160,9 +160,7 @@ public class BrickGame extends JPanel implements KeyListener, MouseInputListener
       mouseX = this.getMousePosition().x;
       mouseY = this.getMousePosition().y;
       }
-      catch (Exception e)
-      {  
-      }
+      catch (Exception e){}
 
       for (Brick brick : bricks)
       {

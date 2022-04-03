@@ -314,6 +314,23 @@ public class Brick {
         g2.drawRect(x, y, width, height);
     }
 
+    public void draw(Graphics2D g2, boolean outline)
+    {
+        if(outline)
+        {
+            g2.setColor(this.color);
+            g2.fillRect(this.x, this.y, this.width, this.height);
+            g2.setStroke(new BasicStroke(1));
+            g2.setColor(Color.BLACK);
+            g2.drawRect(x, y, width, height);
+        }
+        else
+        {
+            g2.setColor(this.color);
+            g2.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+
     public void drawCircle(Graphics2D g2)
     {
         g2.setColor(new Color(230, 230, 230));
@@ -588,5 +605,16 @@ public static String asFraction(long a, long b) {
     long gcd = gcd(a, b);
     return (a / gcd) + "/" + (b / gcd);
 }
+
+public boolean isInside(int x1, int y1)
+    {
+        int x2 = this.x + this.width;
+        int y2 = this.y + this.height;
+
+        if(x1 > this.x && y1 > this.y && x1 < x2 && y1 < y2)
+        return true;
+        
+        return false;
+    }
 
 }

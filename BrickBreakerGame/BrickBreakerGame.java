@@ -42,13 +42,17 @@
     private Font font = new Font("Quicksand", Font.PLAIN, 25);
     private Timer timer;
     private static FontMetrics metrics;
+    private int mouseX, mouseY;
     private double speed = 2.0;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver, settings;
     private int lives = 3;
+    private int totalLives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
+    private Brick lifeButtonUp = new Brick(75, 65, 10, 10, Color.lightGray);
+    private Brick lifeButtonDown = new Brick(lifeButtonUp.getX(), lifeButtonUp.getY() + lifeButtonUp.getH(), lifeButtonUp.getW(), lifeButtonUp.getH(), Color.lightGray);
 
     public BrickBreakerGame()
     {
@@ -151,6 +155,12 @@
         g2.setFont(font);
         metrics = g2.getFontMetrics(font);
         
+        try {
+        mouseX = this.getMousePosition().x;
+        mouseY = this.getMousePosition().y;
+        }
+        catch (Exception e){}
+
         paddle.draw(g2);
         gameObject.draw(g2);
         
@@ -166,7 +176,7 @@
                 message = "Press SPACE to play!";
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
             }
-        if(!ballActive && lives < 3 && lives > 0)
+        if(!ballActive && lives < 3 && lives > 0 && !gameOver)
             {
                 message = "Press SPACE to continue";
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
@@ -191,6 +201,11 @@
                 g2.fillRect(0, 0, PREF_W, PREF_H);
                 g2.setColor(new Color(255, 255, 255));
                 g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
+
+                lifeButtonUp.draw(g2);
+                lifeButtonDown.draw(g2);
+
+                g2.drawString("Lives: " + totalLives, lifeButtonUp.getX() + 20, lifeButtonDown.getY() + 9);
             }
 
     }
@@ -267,7 +282,13 @@
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        }
+
+        if (lifeButtonUp.isInside(mouseX, mouseY))
+            totalLives++;
+
+        if (lifeButtonDown.isInside(mouseX, mouseY))
+            totalLives--;
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -299,11 +320,11 @@
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
 
-        for (int i = 0; i < 75; i += 8)
-            for (int ii = 1; ii < PREF_W; ii += 10)
+        for (int i = 8; i < 75; i += 8)
+            for (int ii = 1; ii < 120; ii += 10)
                 bricks.add(new Brick(ii * 5, i * 3, 40, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
-        lives = 3;
+        lives = totalLives;
         gameOver = false;
     }
 
