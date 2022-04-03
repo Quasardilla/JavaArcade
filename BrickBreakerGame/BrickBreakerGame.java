@@ -42,7 +42,7 @@
     private Font font = new Font("Quicksand", Font.PLAIN, 25);
     private Timer timer;
     private static FontMetrics metrics;
-    private double speed = 4.0;
+    private double speed = 2.0;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver, settings;
@@ -72,6 +72,7 @@
                 bricks.add(new Brick(ii * 5, i * 3, 40, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
                 paddle.setDirectionKeys(0, 0, 65, 68);
+                paddle.setSecondaryDirectionKeys(0, 0, 37, 39);
                 
                 timer = new Timer(10, 
                 new ActionListener(){

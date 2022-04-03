@@ -13,6 +13,7 @@ public class Brick {
     protected Color color;
     protected boolean left, right, up, down;
     protected int leftKey, rightKey, upKey, downKey;
+    protected int leftKey2, rightKey2, upKey2, downKey2;
     protected Image img;
     
     public Brick(int x, int y, int width, int height)
@@ -277,6 +278,14 @@ public class Brick {
         this.leftKey = leftKey;
         this.rightKey = rightKey;
     }
+    
+    public void setSecondaryDirectionKeys(int upKey2, int downKey2, int leftKey2, int rightKey2)
+    {
+        this.upKey2 = upKey2;
+        this.downKey2 = downKey2;
+        this.leftKey2 = leftKey2;
+        this.rightKey2 = rightKey2;
+    }
 
     public Brick killBrick()
     {
@@ -383,25 +392,25 @@ public class Brick {
        //Less efficient than using the key pressed method
    public void keyWasPressed(int key)
    {
-      if (key == upKey)
+      if (key == upKey || key == upKey2)
          up = true;
-      if (key == downKey)
+      if (key == downKey || key == downKey2)
          down = true;
-      if (key == leftKey)
+      if (key == leftKey || key == leftKey2)
          left = true;
-      if (key == rightKey)
+      if (key == rightKey || key == rightKey2)
          right = true;
    }
 
    public void keyWasReleased(int key)
    {
-      if (key == upKey)
+      if (key == upKey || key == upKey2)
          up = false;
-      if (key == downKey)
+      if (key == downKey || key == downKey2)
          down = false;
-      if (key == leftKey)
+      if (key == leftKey || key == leftKey2)
          left = false;
-      if (key == rightKey)
+      if (key == rightKey || key == rightKey2)
          right = false;
    }
 
