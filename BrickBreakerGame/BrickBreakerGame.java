@@ -320,7 +320,7 @@
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
 
-        for (int i = 8; i < 75; i += 8)
+        for (int i = 8; i < 75; i += 5)
             for (int ii = 0; ii < 120; ii += 10)
                 bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
