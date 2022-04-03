@@ -100,7 +100,6 @@
                     {   
                         if (gameObject.checkAndReactToCollisionWith(i))
                             bricks.remove(i);
-                        gameObject.checkAndReactToCollisionWith(i);
                     }
                 } catch (ConcurrentModificationException a) {} 
 
