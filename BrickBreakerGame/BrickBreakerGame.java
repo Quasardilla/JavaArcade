@@ -45,7 +45,7 @@
     private double speed = 4.0;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
-    private boolean ballActive, slowMode, gameOver;
+    private boolean ballActive, slowMode, gameOver, settings;
     private int lives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
@@ -154,6 +154,7 @@
         gameObject.draw(g2);
         
         g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3));
+        g2.drawString("Press ESC for settings", 0, PREF_H - 10);
 
         for(Brick i : bricks)
             i.draw(g2);
@@ -183,31 +184,44 @@
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
             }
 
+            if(settings)
+            {
+                g2.setColor(new Color(100, 100, 100, 200));
+                g2.fillRect(0, 0, PREF_W, PREF_H);
+                g2.setColor(new Color(255, 255, 255));
+                g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
+            }
+
     }
 
     @Override
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
+        if(!settings)
         paddle.keyWasPressed(key);
 
-        if(key == KeyEvent.VK_SPACE && gameOver)
+        if(key == KeyEvent.VK_SPACE && gameOver && !settings)
         {
             ballActive = true;
             resetGame();
         }
-        if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver)
+        if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
             ballActive = true;
         if(key == KeyEvent.VK_SHIFT)
             slowMode = true;
+        if(key == KeyEvent.VK_ESCAPE)
+            settings = !settings;
     }
     
     @Override
     public void keyReleased(KeyEvent e){
         int key = e.getKeyCode();
+
+        if(!settings)
         paddle.keyWasReleased(key);
         
-        if(key == KeyEvent.VK_SHIFT)
+        if(key == KeyEvent.VK_SHIFT && !settings)
         {
             slowMode = false;
             if (gameObject.getDx() < 0)
@@ -239,6 +253,7 @@
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.WHITE);
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     public static void main(String[] args) {
