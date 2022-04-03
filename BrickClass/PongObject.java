@@ -31,12 +31,18 @@ public class PongObject extends Brick{
     }
 
     public PongObject(int x, int y, int width, int height, Color color, double dx, double dy,
+     int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
+    {
+        super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, null);
+    }
+
+    public PongObject(int x, int y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, img);
     }
 
-   public boolean checkAndReactToCollisionWith(Brick r)
+public boolean checkAndReactToCollisionWith(Brick r)
    {
       int xm = x + width/2; //use the center of the moving brick as a reference
       int ym = y + height/2; //use the center of the moving brick as a reference
@@ -279,8 +285,6 @@ public void update()
 {
         x += dx;
         y += dy;
-        if (y > YMax - height || y < YMin)
-        dy = -dy;
 }
 
 public boolean checkIfNotPlayer()

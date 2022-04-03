@@ -93,10 +93,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
 
       Image img = new ImageIcon("Pong/racket.png").getImage();
       Image ball = new ImageIcon("Pong/ping-pong-ball.png").getImage();
-
-      
-
-
+ 
       gameObject = new PongObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 30, PREF_H-30, ball);
 
 
@@ -127,6 +124,9 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
                buzzerSound.setFramePosition(0);
                buzzerSound.start();
             }
+
+            if (gameObject.getY() > gameObject.getYMax() - gameObject.getH() || gameObject.getY() < gameObject.getYMin())
+            gameObject.setDy(-gameObject.getDy());
 
             if (!gameOver && !paused && start && !entireGameOver)
             {

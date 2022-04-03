@@ -18,7 +18,7 @@ public class Brick {
     public Brick(int x, int y, int width, int height)
     {
         this.x = x;
-        this.y = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         
@@ -36,7 +36,7 @@ public class Brick {
     public Brick(int x, int y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
     {
         this.x = x;
-        this.y = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
@@ -64,7 +64,7 @@ public class Brick {
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         this.x = x;
-        this.y = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
@@ -97,7 +97,7 @@ public class Brick {
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         this.x = x;
-        this.y = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
