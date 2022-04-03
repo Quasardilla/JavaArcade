@@ -13,10 +13,10 @@
     import java.awt.event.MouseEvent;
     import java.io.IOException;
     import java.net.URL;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
+    import java.util.ArrayList;
+    import java.util.ConcurrentModificationException;
 
-import javax.swing.ImageIcon;
+    import javax.swing.ImageIcon;
     import java.awt.Image;
 
     import javax.sound.sampled.AudioInputStream;
@@ -46,7 +46,7 @@ import javax.swing.ImageIcon;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver;
-    private int lives = 100;
+    private int lives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
 
