@@ -71,74 +71,73 @@
         //               catch (UnsupportedAudioFileException e1) {
         //               }
         
-        for (int i = 8; i < 75; i += 8)
-            for (int ii = 1; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 40, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
-                paddle.setDirectionKeys(0, 0, 65, 68);
-                paddle.setSecondaryDirectionKeys(0, 0, 37, 39);
+        paddle.setDirectionKeys(0, 0, 65, 68);
+        paddle.setSecondaryDirectionKeys(0, 0, 37, 39);
                 
-                timer = new Timer(10, 
-                new ActionListener(){
+        resetGame();
+
+        timer = new Timer(10, 
+            new ActionListener(){
+                
+            @Override   
+            public void actionPerformed(ActionEvent e) { 
                     
-                @Override   
-                public void actionPerformed(ActionEvent e) { 
-                        
-                    paddle.updateKeyMovement();
+                paddle.updateKeyMovement();
 
-                    if(ballActive)
-                    gameObject.update();
-                    else
-                    {
-                        gameObject.setX(paddle.getX() + (paddle.getW() / 2) - 5);
-                        gameObject.setY(paddle.getY() - 10);
+                if(ballActive)
+                gameObject.update();
+                else
+                {
+                    gameObject.setX(paddle.getX() + (paddle.getW() / 2) - 5);
+                    gameObject.setY(paddle.getY() - 10);
+                }
+
+                gameObject.checkAndReactToCollisionWith(paddle);
+
+                try {
+                    for(Brick i : bricks)
+                    {   
+                        if (gameObject.checkAndReactToCollisionWith(i))
+                            bricks.remove(i);
+                        gameObject.checkAndReactToCollisionWith(i);
                     }
+                } catch (ConcurrentModificationException a) {} 
 
-                    gameObject.checkAndReactToCollisionWith(paddle);
-
-                    try {
-                        for(Brick i : bricks)
-                        {   
-                            if (gameObject.checkAndReactToCollisionWith(i))
-                                bricks.remove(i);
-                            gameObject.checkAndReactToCollisionWith(i);
-                        }
-                    } catch (ConcurrentModificationException a) {} 
-
-                    if(slowMode)
-                        {
-                            if (gameObject.getDx() < 0)
-                            gameObject.setDx(-speed / 2);
-                            else
-                            gameObject.setDx(speed / 2);
-                            
-                            if (gameObject.getDy() < 0)
-                            gameObject.setDy(-speed / 2);
-                            else
-                            gameObject.setDy(speed / 2);
-
-                            if (paddle.getDx() < 0)
-                            paddle.setDx((-speed * 2) / 2);
-                            else
-                            paddle.setDx((speed * 2) / 2);
-                        }
+                if(slowMode)
+                    {
+                        if (gameObject.getDx() < 0)
+                        gameObject.setDx(-speed / 2);
                         else
-                        {}
+                        gameObject.setDx(speed / 2);
+                        
+                        if (gameObject.getDy() < 0)
+                        gameObject.setDy(-speed / 2);
+                        else
+                        gameObject.setDy(speed / 2);
 
-                    if (gameObject.getX() < gameObject.getXMin() || gameObject.getX() > (gameObject.getXMax() - gameObject.getW()))
-                        gameObject.setDx(-gameObject.getDx());
-
-                    if (gameObject.getY() < gameObject.getYMin())
-                        gameObject.setDy(-gameObject.getDy());
-                    
-                    if (gameObject.getY() > gameObject.getYMax() - gameObject.getH())
-                    {
-                        ballActive = false;
-                        lives--;
+                        if (paddle.getDx() < 0)
+                        paddle.setDx((-speed * 2) / 2);
+                        else
+                        paddle.setDx((speed * 2) / 2);
                     }
+                    else
+                    {}
 
-                    repaint();
-                }         
+                if (gameObject.getX() < gameObject.getXMin() || gameObject.getX() > (gameObject.getXMax() - gameObject.getW()))
+                    gameObject.setDx(-gameObject.getDx());
+
+                if (gameObject.getY() < gameObject.getYMin())
+                    gameObject.setDy(-gameObject.getDy());
+                
+                if (gameObject.getY() > gameObject.getYMax() - gameObject.getH())
+                {
+                    ballActive = false;
+                    lives--;
+                }
+
+                repaint();
+            }         
         });
         timer.start();
     }
@@ -321,8 +320,8 @@
             bricks.remove(i);
 
         for (int i = 8; i < 75; i += 8)
-            for (int ii = 1; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 40, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
+            for (int ii = 0; ii < 120; ii += 10)
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
         lives = totalLives;
         gameOver = false;
