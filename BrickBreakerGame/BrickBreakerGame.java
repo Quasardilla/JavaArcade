@@ -42,11 +42,11 @@ import javax.swing.ImageIcon;
     private Font font = new Font("Quicksand", Font.PLAIN, 25);
     private Timer timer;
     private static FontMetrics metrics;
-    private double speed = 2.0;
+    private double speed = 4.0;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver;
-    private int lives = 3;
+    private int lives = 100;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
 
@@ -67,8 +67,8 @@ import javax.swing.ImageIcon;
         //               catch (UnsupportedAudioFileException e1) {
         //               }
         
-        for (int i = 0; i < 75; i += 8)
-            for (int ii = 1; ii < PREF_W; ii += 10)
+        for (int i = 8; i < 75; i += 8)
+            for (int ii = 1; ii < 120; ii += 10)
                 bricks.add(new Brick(ii * 5, i * 3, 40, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
                 paddle.setDirectionKeys(0, 0, 65, 68);
@@ -173,6 +173,7 @@ import javax.swing.ImageIcon;
             {
                 gameOver = true;
                 message = "Congrats, You Win! Press SPACE to play again!";
+                ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
             }
             if(lives <= 0)
