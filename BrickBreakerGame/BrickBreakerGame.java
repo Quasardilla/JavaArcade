@@ -31,7 +31,7 @@
     import javax.swing.event.MouseInputListener;
 
     import BrickClass.Brick;
-    import BrickClass.PongObject;
+    import BrickClass.GameObject;
 
     public class BrickBreakerGame extends JPanel implements KeyListener, MouseInputListener
     {
@@ -45,7 +45,7 @@
     private int mouseX, mouseY;
     private double speed = 2.0;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
-    private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
+    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver, settings;
     private int lives = 3;
     private int totalLives = 3;
@@ -169,7 +169,7 @@
             i.draw(g2);
         
         g2.setColor(Color.black);
-        if(!ballActive && lives == 3)
+        if(!ballActive && lives == 3 && !gameOver)
             {
                 message = "Press SPACE to play!";
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
