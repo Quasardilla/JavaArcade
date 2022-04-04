@@ -2,9 +2,8 @@ package UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics2D;
 
-public class Slider implements UIElement{
+public class Slider extends UIElement{
     int x;
     int y;
     int width;
@@ -124,6 +123,13 @@ public class Slider implements UIElement{
 
     public int getValue() {
         return this.value;
+    }
+
+
+    @Override
+    void drawElement() {
+
+        
     }
 
 }

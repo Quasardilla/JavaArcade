@@ -11,8 +11,14 @@
     import java.awt.event.KeyEvent;
     import java.awt.event.KeyListener;
     import java.awt.event.MouseEvent;
-import java.security.SecurityPermission;
-import java.util.ArrayList;
+    import java.io.IOException;
+    import java.net.URL;
+    import java.util.ArrayList;
+    import javax.sound.sampled.AudioInputStream;
+    import javax.sound.sampled.AudioSystem;
+    import javax.sound.sampled.Clip;
+    import javax.sound.sampled.LineUnavailableException;
+    import javax.sound.sampled.UnsupportedAudioFileException;
     import java.util.ConcurrentModificationException;
     import javax.swing.JFrame;
     import javax.swing.JPanel;
@@ -23,6 +29,7 @@ import java.util.ArrayList;
     import BrickClass.Brick;
     import BrickClass.GameObject;
     import UI.Bar;
+    import UI.Button;
 
     public class BrickBreakout extends JPanel implements KeyListener, MouseInputListener
     {
@@ -42,10 +49,10 @@ import java.util.ArrayList;
     private int totalLives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
-    private Brick lifeButtonUp = new Brick(75, 65, 10, 10, Color.lightGray);
-    private Brick lifeButtonDown = new Brick(lifeButtonUp.getX(), lifeButtonUp.getY() + lifeButtonUp.getH(), lifeButtonUp.getW(), lifeButtonUp.getH(), Color.lightGray);
-    private Bar b = new Bar(75, 100, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
+    private Bar b = new Bar(75, 135, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
     private Clip break1, break2, levelFinish;
+    private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
+    private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 
     public BrickBreakout()
     {
@@ -165,6 +172,9 @@ import java.util.ArrayList;
         g2.setFont(font);
         metrics = g2.getFontMetrics(font);
         
+        lifeUp.setGraphics(g2);
+        lifeDown.setGraphics(g2);
+
         b.setGraphics(g2);
         b.setValAsFrac((double) lives / totalLives);
 
@@ -218,10 +228,10 @@ import java.util.ArrayList;
                 g2.setColor(new Color(255, 255, 255));
                 g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
 
-                lifeButtonUp.draw(g2);
-                lifeButtonDown.draw(g2);
+                lifeUp.draw();
+                lifeDown.draw();
 
-                g2.drawString("Lives: " + totalLives, lifeButtonUp.getX() + 20, lifeButtonDown.getY() + 9);
+                g2.drawString("Total Lives: " + totalLives, (int) lifeUp.x + 20, (int) lifeDown.y + 9);
 
                 b.draw();
             }
@@ -275,9 +285,6 @@ import java.util.ArrayList;
             else
             paddle.setDx(speed * 2);
         }
-
-        if (key == KeyEvent.VK_UP) b.value+=5;
-        if (key == KeyEvent.VK_DOWN) b.value-=5;
     }
 
     @Override
@@ -305,16 +312,12 @@ import java.util.ArrayList;
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-        if (lifeButtonUp.isInside(mouseX, mouseY))
-            totalLives++;
-
-        if (lifeButtonDown.isInside(mouseX, mouseY))
-            totalLives--;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (lifeUp.mouseClick(e.getX(), e.getY())) totalLives++;
+        if (lifeDown.mouseClick(e.getX(), e.getY())) totalLives--;
     }
 
     @Override

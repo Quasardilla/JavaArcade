@@ -71,6 +71,7 @@ public class Bar extends UIElement {
         g2.fillRect((int) (x + foreXOffset), (int) (y + foreYOffset), (int) (foreWidth * (value / (maxValue - minValue))), (int) foreHeight);
     
         //draw text
+        this.textFont = new Font(this.textFont.getFontName(), Font.PLAIN, (int) this.fontSize);
         g2.setColor(textColor);
         g2.setFont(textFont);
         g2.drawString(text, (int) (x + textXOffset), (int) (y + textYOffset));
