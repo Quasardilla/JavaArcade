@@ -15,6 +15,7 @@ int segmentWidth;
 int segmentHeight;
 Color segmentColor;
 int snapAmount;
+int value;
 
     public Slider(int x, int y, int width, int height, BasicStroke lineThickness, int segmentX, int segmentY, int segmentWidth, int segmentHeight, Color segmentColor, int snapAmount)
     {
@@ -120,5 +121,8 @@ int snapAmount;
         this.snapAmount = snapAmount;
     }
 
+    public int getValue() {
+        return this.value;
+    }
 
 }

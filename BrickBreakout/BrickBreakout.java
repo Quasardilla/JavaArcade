@@ -1,4 +1,4 @@
-    package BrickBreakerGame;
+    package BrickBreakout;
     import java.awt.Color;
     import java.awt.Dimension;
     import java.awt.Font;
@@ -33,7 +33,7 @@
     import BrickClass.Brick;
     import BrickClass.GameObject;
 
-    public class BrickBreakerGame extends JPanel implements KeyListener, MouseInputListener
+    public class BrickBreakout extends JPanel implements KeyListener, MouseInputListener
     {
     private static final long serialVersionUID = 1L;
     private static int PREF_W = 600;
@@ -53,23 +53,40 @@
     private String message;
     private Brick lifeButtonUp = new Brick(75, 65, 10, 10, Color.lightGray);
     private Brick lifeButtonDown = new Brick(lifeButtonUp.getX(), lifeButtonUp.getY() + lifeButtonUp.getH(), lifeButtonUp.getW(), lifeButtonUp.getH(), Color.lightGray);
+    private Clip break1, break2, levelFinish;
 
-    public BrickBreakerGame()
+    public BrickBreakout()
     {
         addKeyListener(this);
         addMouseListener(this);
         setFocusable(true);
         requestFocus();
         
-        //   URL file = this.getClass().getResource("Ping-pong-ball-bounce.wav");
-        //               AudioInputStream audio;
-        //               try {
-        //                  audio = AudioSystem.getAudioInputStream(file);
-        //                  bounceSound = AudioSystem.getClip();
-        //                  bounceSound.open(audio);
-        //               } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
-        //               catch (UnsupportedAudioFileException e1) {
-        //               }
+            URL file = this.getClass().getResource("break1.wav");
+                      AudioInputStream audio;
+                      try {
+                         audio = AudioSystem.getAudioInputStream(file);
+                         break1 = AudioSystem.getClip();
+                         break1.open(audio);
+                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                      catch (UnsupportedAudioFileException e1) {
+                      }
+            file = this.getClass().getResource("break2.wav");
+                      try {
+                         audio = AudioSystem.getAudioInputStream(file);
+                         break2 = AudioSystem.getClip();
+                         break2.open(audio);
+                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                      catch (UnsupportedAudioFileException e1) {
+                      }
+            file = this.getClass().getResource("levelFinish.wav");
+                      try {
+                         audio = AudioSystem.getAudioInputStream(file);
+                         levelFinish = AudioSystem.getClip();
+                         levelFinish.open(audio);
+                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                      catch (UnsupportedAudioFileException e1) {
+                      }
         
         
         paddle.setDirectionKeys(0, 0, 65, 68);
@@ -99,7 +116,10 @@
                     for(Brick i : bricks)
                     {   
                         if (gameObject.checkAndReactToCollisionWith(i))
+                        {
                             bricks.remove(i);
+                            playBreakSound();
+                        }
                     }
                 } catch (ConcurrentModificationException a) {} 
 
@@ -185,6 +205,9 @@
                 message = "Congrats, You Win! Press SPACE to play again!";
                 ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+                levelFinish.flush();
+                levelFinish.setFramePosition(0);
+                levelFinish.start();
             }
             if(lives <= 0)
             {
@@ -261,7 +284,7 @@
     public void keyTyped(KeyEvent e){}
 
     private static void createAndShowGUI() {
-        BrickBreakerGame gamePanel = new BrickBreakerGame();
+        BrickBreakout gamePanel = new BrickBreakout();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
@@ -326,6 +349,28 @@
         
         lives = totalLives;
         gameOver = false;
+    }
+
+    public void playBreakSound()
+    {
+        int rand = (int) (Math.random() * 2);
+        
+        switch (rand) {
+            case 1:
+                break1.flush();
+                break1.setFramePosition(0);
+                break1.start();
+                break;
+            
+            case 2:
+                break2.flush();
+                break2.setFramePosition(0);
+                break2.start();
+                break;
+
+            default:
+                break;
+        }
     }
 
     }
