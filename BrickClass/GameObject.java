@@ -4,39 +4,39 @@ import java.awt.Image;
 
 import Pong.pongGame;
 
-public class PongObject extends Brick{
+public class GameObject extends Brick{
    public int combo;
    public int hit;
 
 
-    public PongObject(int x, int y, int width, int height)
+    public GameObject(int x, int y, int width, int height)
     {
         super(x, y, width, height);
     }
 
-    public PongObject(int x, int y, int width, int height, Color color) //Another constructor with optional values
+    public GameObject(int x, int y, int width, int height, Color color) //Another constructor with optional values
     {
         super(x, y, width, height, color);
     }
 
-    public PongObject(int x, int y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
+    public GameObject(int x, int y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
     {
         super(x, y, width, height, color, dx, dy);
     }
 
-    public PongObject(int x, int y, int width, int height, Color color, int dx, int dy,
+    public GameObject(int x, int y, int width, int height, Color color, int dx, int dy,
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, null);
     }
 
-    public PongObject(int x, int y, int width, int height, Color color, double dx, double dy,
+    public GameObject(int x, int y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, null);
     }
 
-    public PongObject(int x, int y, int width, int height, Color color, double dx, double dy,
+    public GameObject(int x, int y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, img);
@@ -162,7 +162,7 @@ public boolean checkAndReactToCollisionWith(Brick r)
    }
 
 
-   public boolean checkAndReactToCollisionWith(PongObject r)
+   public boolean checkAndReactToCollisionWith(GameObject r)
 {
    int xm = x + width/2; //use the center of the moving brick as a reference
    int ym = y + height/2; //use the center of the moving brick as a reference
@@ -187,7 +187,7 @@ public boolean checkAndReactToCollisionWith(Brick r)
 *    2 = bottom
 *    3 = left
 */
-private int getSideForIntersection(PongObject r, int x1, int y1)
+private int getSideForIntersection(GameObject r, int x1, int y1)
 {
    double slopeMajor = (double) r.height / r.width;         //major diagonal slope
    double slopeMinor = (double) -r.height / r.width;        //minor diagonal slope
@@ -205,7 +205,7 @@ private int getSideForIntersection(PongObject r, int x1, int y1)
    return -1;   //Should never get here since "not above" is below OR ON a diagonal
 }
 
-private boolean checkCollisionLeftSideOfRectangle(PongObject r)
+private boolean checkCollisionLeftSideOfRectangle(GameObject r)
 {
    boolean collision = false;
    
@@ -224,7 +224,7 @@ private boolean checkCollisionLeftSideOfRectangle(PongObject r)
    return collision;
 }
 
-private boolean checkCollisionRightSideOfRectangle(PongObject r)
+private boolean checkCollisionRightSideOfRectangle(GameObject r)
 {
    boolean collision = false;
    
@@ -243,7 +243,7 @@ private boolean checkCollisionRightSideOfRectangle(PongObject r)
    return collision;
 }
 
-private boolean checkCollisionBottomOfRectangle(PongObject r)
+private boolean checkCollisionBottomOfRectangle(GameObject r)
 {
    boolean collision = false;
    
@@ -262,7 +262,7 @@ private boolean checkCollisionBottomOfRectangle(PongObject r)
    return collision;
 }
 
-private boolean checkCollisionTopOfRectangle(PongObject r)
+private boolean checkCollisionTopOfRectangle(GameObject r)
 {
    boolean collision = false;
    

@@ -28,7 +28,7 @@ import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
 
 import BrickClass.Brick;
-import BrickClass.PongObject;
+import BrickClass.GameObject;
 
 public class pongGame extends JPanel implements KeyListener, MouseInputListener
 {
@@ -39,7 +39,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
    private Font font = new Font("Quicksand", Font.PLAIN, 25);
    private Timer timer;
    private Brick paddleL, paddleR;
-   private PongObject gameObject;
+   private GameObject gameObject;
    private String message;
    private int scoreL, scoreR = 0;
    private boolean bricksCanCollide;
@@ -94,7 +94,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
       Image img = new ImageIcon("Pong/racket.png").getImage();
       Image ball = new ImageIcon("Pong/ping-pong-ball.png").getImage();
  
-      gameObject = new PongObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 30, PREF_H-30, ball);
+      gameObject = new GameObject(PREF_W/2, PREF_H/2, 20, 20, Color.BLACK, 4, 4, 0, PREF_W, 30, PREF_H-30, ball);
 
 
       paddleL = new Brick(30, (PREF_H/2) - 40, 20, 80, Color.ORANGE, 0, 5, 0, PREF_W, 0, PREF_H, img);

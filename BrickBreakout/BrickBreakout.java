@@ -1,4 +1,4 @@
-    package BrickBreakerGame;
+    package BrickBreakout;
     import java.awt.Color;
     import java.awt.Dimension;
     import java.awt.Font;
@@ -21,10 +21,10 @@ import java.util.ArrayList;
     import javax.swing.event.MouseInputListener;
 
     import BrickClass.Brick;
-    import BrickClass.PongObject;
+    import BrickClass.GameObject;
     import UI.Bar;
 
-    public class BrickBreakerGame extends JPanel implements KeyListener, MouseInputListener
+    public class BrickBreakout extends JPanel implements KeyListener, MouseInputListener
     {
     private static final long serialVersionUID = 1L;
     private static int PREF_W = 600;
@@ -36,7 +36,7 @@ import java.util.ArrayList;
     private int mouseX, mouseY;
     private double speed = 2.0;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
-    private PongObject gameObject = new PongObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
+    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver, settings;
     private int lives = 3;
     private int totalLives = 3;
@@ -45,23 +45,40 @@ import java.util.ArrayList;
     private Brick lifeButtonUp = new Brick(75, 65, 10, 10, Color.lightGray);
     private Brick lifeButtonDown = new Brick(lifeButtonUp.getX(), lifeButtonUp.getY() + lifeButtonUp.getH(), lifeButtonUp.getW(), lifeButtonUp.getH(), Color.lightGray);
     private Bar b = new Bar(75, 100, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
+    private Clip break1, break2, levelFinish;
 
-    public BrickBreakerGame()
+    public BrickBreakout()
     {
         addKeyListener(this);
         addMouseListener(this);
         setFocusable(true);
         requestFocus();
         
-        //   URL file = this.getClass().getResource("Ping-pong-ball-bounce.wav");
-        //               AudioInputStream audio;
-        //               try {
-        //                  audio = AudioSystem.getAudioInputStream(file);
-        //                  bounceSound = AudioSystem.getClip();
-        //                  bounceSound.open(audio);
-        //               } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
-        //               catch (UnsupportedAudioFileException e1) {
-        //               }
+            URL file = this.getClass().getResource("break1.wav");
+                      AudioInputStream audio;
+                      try {
+                         audio = AudioSystem.getAudioInputStream(file);
+                         break1 = AudioSystem.getClip();
+                         break1.open(audio);
+                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                      catch (UnsupportedAudioFileException e1) {
+                      }
+            file = this.getClass().getResource("break2.wav");
+                      try {
+                         audio = AudioSystem.getAudioInputStream(file);
+                         break2 = AudioSystem.getClip();
+                         break2.open(audio);
+                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                      catch (UnsupportedAudioFileException e1) {
+                      }
+            file = this.getClass().getResource("levelFinish.wav");
+                      try {
+                         audio = AudioSystem.getAudioInputStream(file);
+                         levelFinish = AudioSystem.getClip();
+                         levelFinish.open(audio);
+                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
+                      catch (UnsupportedAudioFileException e1) {
+                      }
         
         
         paddle.setDirectionKeys(0, 0, 65, 68);
@@ -91,7 +108,10 @@ import java.util.ArrayList;
                     for(Brick i : bricks)
                     {   
                         if (gameObject.checkAndReactToCollisionWith(i))
+                        {
                             bricks.remove(i);
+                            playBreakSound();
+                        }
                     }
                 } catch (ConcurrentModificationException a) {} 
 
@@ -164,7 +184,7 @@ import java.util.ArrayList;
             i.draw(g2);
         
         g2.setColor(Color.black);
-        if(!ballActive && lives == 3)
+        if(!ballActive && lives == 3 && !gameOver)
             {
                 message = "Press SPACE to play!";
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
@@ -180,6 +200,9 @@ import java.util.ArrayList;
                 message = "Congrats, You Win! Press SPACE to play again!";
                 ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+                levelFinish.flush();
+                levelFinish.setFramePosition(0);
+                levelFinish.start();
             }
             if(lives <= 0)
             {
@@ -261,7 +284,7 @@ import java.util.ArrayList;
     public void keyTyped(KeyEvent e){}
 
     private static void createAndShowGUI() {
-        BrickBreakerGame gamePanel = new BrickBreakerGame();
+        BrickBreakout gamePanel = new BrickBreakout();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
@@ -326,6 +349,28 @@ import java.util.ArrayList;
         
         lives = totalLives;
         gameOver = false;
+    }
+
+    public void playBreakSound()
+    {
+        int rand = (int) (Math.random() * 2);
+        
+        switch (rand) {
+            case 1:
+                break1.flush();
+                break1.setFramePosition(0);
+                break1.start();
+                break;
+            
+            case 2:
+                break2.flush();
+                break2.setFramePosition(0);
+                break2.start();
+                break;
+
+            default:
+                break;
+        }
     }
 
     }
