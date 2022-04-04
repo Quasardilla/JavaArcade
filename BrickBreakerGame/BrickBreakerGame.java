@@ -11,19 +11,9 @@
     import java.awt.event.KeyEvent;
     import java.awt.event.KeyListener;
     import java.awt.event.MouseEvent;
-    import java.io.IOException;
-    import java.net.URL;
-    import java.util.ArrayList;
+import java.security.SecurityPermission;
+import java.util.ArrayList;
     import java.util.ConcurrentModificationException;
-
-    import javax.swing.ImageIcon;
-    import java.awt.Image;
-
-    import javax.sound.sampled.AudioInputStream;
-    import javax.sound.sampled.AudioSystem;
-    import javax.sound.sampled.Clip;
-    import javax.sound.sampled.LineUnavailableException;
-    import javax.sound.sampled.UnsupportedAudioFileException;
     import javax.swing.JFrame;
     import javax.swing.JPanel;
     import javax.swing.SwingUtilities;
@@ -32,6 +22,7 @@
 
     import BrickClass.Brick;
     import BrickClass.PongObject;
+    import UI.Bar;
 
     public class BrickBreakerGame extends JPanel implements KeyListener, MouseInputListener
     {
@@ -53,6 +44,7 @@
     private String message;
     private Brick lifeButtonUp = new Brick(75, 65, 10, 10, Color.lightGray);
     private Brick lifeButtonDown = new Brick(lifeButtonUp.getX(), lifeButtonUp.getY() + lifeButtonUp.getH(), lifeButtonUp.getW(), lifeButtonUp.getH(), Color.lightGray);
+    private Bar b = new Bar(75, 100, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
 
     public BrickBreakerGame()
     {
@@ -153,6 +145,9 @@
         g2.setFont(font);
         metrics = g2.getFontMetrics(font);
         
+        b.setGraphics(g2);
+        b.setValAsFrac((double) lives / totalLives);
+
         try {
         mouseX = this.getMousePosition().x;
         mouseY = this.getMousePosition().y;
@@ -204,6 +199,8 @@
                 lifeButtonDown.draw(g2);
 
                 g2.drawString("Lives: " + totalLives, lifeButtonUp.getX() + 20, lifeButtonDown.getY() + 9);
+
+                b.draw();
             }
 
     }
@@ -255,6 +252,9 @@
             else
             paddle.setDx(speed * 2);
         }
+
+        if (key == KeyEvent.VK_UP) b.value+=5;
+        if (key == KeyEvent.VK_DOWN) b.value-=5;
     }
 
     @Override
