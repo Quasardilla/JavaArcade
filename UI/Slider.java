@@ -16,7 +16,7 @@ protected Color segmentColor, lineColor;
         this.lineThickness = lineThickness;
         this.segmentWidth = segmentWidth;
         this.segmentHeight = segmentHeight;
-        this.segmentX = x;
+        this.segmentX = (int) x;
         this.segmentColor = segmentColor;
         this.segmentColor = lineColor;
         this.snapAmount = snapAmount;
@@ -109,7 +109,7 @@ protected Color segmentColor, lineColor;
     {
         g2.setColor(Color.black);
         g2.drawLine((int) x, (int) y + segmentHeight / 2, (int) x + width, (int) y + segmentHeight / 2);
-        g2.fillRect(x + (value * snapInterval), y, segmentWidth, segmentHeight);
+        g2.fillRect((int) (x + (value * snapInterval)), (int) y, segmentWidth, segmentHeight);
     }
 
     public void drag(int mouseX)

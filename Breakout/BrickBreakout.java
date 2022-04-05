@@ -238,9 +238,7 @@ import java.awt.Color;
                 speed = speedSlider.getValue();
                 }
                 
-                g2.drawString("Speed: " + speed, speedSlider.getX() + speedSlider.getWidth() + 10, speedSlider.getY() + 11);
-                g2.drawString("Speed: " + speed, (int) speedSlider.getX() + 20, (int) speedSlider.getY());
-
+                g2.drawString("Speed: " + speed, (int) speedSlider.getX() + speedSlider.getWidth() + 10, (int) speedSlider.getY() + 11);
                 lifeUp.draw();
                 lifeDown.draw();
 
