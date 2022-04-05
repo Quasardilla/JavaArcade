@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Slider {
+public class Slider extends UIElement {
 protected int x, y, width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
 protected BasicStroke lineThickness;
 protected Color segmentColor;
@@ -104,7 +104,8 @@ protected Color segmentColor;
         this.mouseDist = mouseDist;
     }
 
-    public void draw(Graphics2D g2)
+    @Override
+    void drawElement()
     {
         g2.drawLine(x, y + segmentHeight / 2, x + width, y + segmentHeight / 2);
         g2.fillRect(value * snapInterval, y, segmentWidth, segmentHeight);
