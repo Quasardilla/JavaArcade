@@ -2,14 +2,13 @@ package UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 public class Slider extends UIElement {
 protected int x, y, width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
 protected BasicStroke lineThickness;
-protected Color segmentColor;
+protected Color segmentColor, lineColor;
 
-    public Slider(int x, int y, int width, BasicStroke lineThickness, int segmentWidth, int segmentHeight, int segmentX, int segmentY, Color segmentColor, int snapAmount)
+    public Slider(int x, int y, int width, BasicStroke lineThickness, int segmentWidth, int segmentHeight, int segmentY, Color segmentColor, Color linecColor, int snapAmount)
     {
         this.x = x;
         this.y = y;
@@ -17,8 +16,9 @@ protected Color segmentColor;
         this.lineThickness = lineThickness;
         this.segmentWidth = segmentWidth;
         this.segmentHeight = segmentHeight;
-        this.segmentX = segmentX;
+        this.segmentX = x;
         this.segmentColor = segmentColor;
+        this.segmentColor = lineColor;
         this.snapAmount = snapAmount;
         this.snapInterval = width / snapAmount;
     }
@@ -107,8 +107,9 @@ protected Color segmentColor;
     @Override
     void drawElement()
     {
+        g2.setColor(Color.black);
         g2.drawLine(x, y + segmentHeight / 2, x + width, y + segmentHeight / 2);
-        g2.fillRect(value * snapInterval, y, segmentWidth, segmentHeight);
+        g2.fillRect(x + (value * snapInterval), y, segmentWidth, segmentHeight);
     }
 
     public void drag(int mouseX)

@@ -50,9 +50,7 @@ import java.awt.Color;
     private int lives = 3, totalLives = 3, initialLives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
-    private Brick lifeButtonUp = new Brick(75, 65, 10, 10, Color.lightGray);
-    private Brick lifeButtonDown = new Brick(lifeButtonUp.getX(), lifeButtonUp.getY() + lifeButtonUp.getH(), lifeButtonUp.getW(), lifeButtonUp.getH(), Color.lightGray);
-    private Slider speedSlider = new Slider(75, 100, 50, new BasicStroke(1), 10, 10, 75, 85, Color.gray, 2);
+    private Slider speedSlider = new Slider(75, 180, 50, new BasicStroke(1), 10, 10, 85, Color.gray, Color.black, 2);
     private Bar b = new Bar(75, 135, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
     private Clip break1, break2, levelFinish;
     private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
@@ -178,6 +176,7 @@ import java.awt.Color;
         
         lifeUp.setGraphics(g2);
         lifeDown.setGraphics(g2);
+        speedSlider.setGraphics(g2);
 
         b.setGraphics(g2);
         b.setValAsFrac((double) lives / totalLives);
@@ -231,9 +230,6 @@ import java.awt.Color;
                 g2.fillRect(0, 0, PREF_W, PREF_H);
                 g2.setColor(new Color(255, 255, 255));
                 g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
-                
-                lifeButtonUp.draw(g2);
-                lifeButtonDown.draw(g2);
                 speedSlider.draw();
 
                 if (mouseClicked)
@@ -242,11 +238,7 @@ import java.awt.Color;
                 speed = speedSlider.getValue();
                 }
                 
-                g2.drawString("Lives: " + totalLives, lifeButtonUp.getX() + 20, lifeButtonDown.getY() + 9);
-                g2.drawString("Speed: " + speed, speedSlider.getX() + 20, speedSlider.getY());
-
-                lifeUp.draw();
-                lifeDown.draw();
+                g2.drawString("Speed: " + speed, speedSlider.getX() + speedSlider.getWidth() + 10, speedSlider.getY() + 11);
 
                 g2.drawString("Total Lives: " + totalLives, (int) lifeUp.x + 20, (int) lifeDown.y + 9);
 
@@ -340,7 +332,7 @@ import java.awt.Color;
         mouseClicked = true;
         speedSlider.setMouseDist(mouseX - speedSlider.getX());
         if (lifeUp.mouseClick(e.getX(), e.getY())) totalLives++;
-        if (lifeDown.mouseClick(e.getX(), e.getY())) totalLives--;
+        if (lifeDown.mouseClick(e.getX(), e.getY()) && totalLives > 1) totalLives--;
     }
     
     @Override
