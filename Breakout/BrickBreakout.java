@@ -178,6 +178,7 @@ import java.awt.Color;
         
         lifeUp.setGraphics(g2);
         lifeDown.setGraphics(g2);
+        speedSlider.setGraphics(g2);
 
         b.setGraphics(g2);
         b.setValAsFrac((double) lives / totalLives);
@@ -243,7 +244,7 @@ import java.awt.Color;
                 }
                 
                 g2.drawString("Lives: " + totalLives, lifeButtonUp.getX() + 20, lifeButtonDown.getY() + 9);
-                g2.drawString("Speed: " + speed, speedSlider.getX() + 20, speedSlider.getY());
+                g2.drawString("Speed: " + speed, (int) speedSlider.getX() + 20, (int) speedSlider.getY());
 
                 lifeUp.draw();
                 lifeDown.draw();
@@ -338,7 +339,7 @@ import java.awt.Color;
     @Override
     public void mousePressed(MouseEvent e) {
         mouseClicked = true;
-        speedSlider.setMouseDist(mouseX - speedSlider.getX());
+        speedSlider.setMouseDist(mouseX - (int) speedSlider.getX());
         if (lifeUp.mouseClick(e.getX(), e.getY())) totalLives++;
         if (lifeDown.mouseClick(e.getX(), e.getY())) totalLives--;
     }
