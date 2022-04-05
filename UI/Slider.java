@@ -4,11 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 
 public class Slider extends UIElement {
-protected int x, y, width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
+protected int width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
 protected BasicStroke lineThickness;
 protected Color segmentColor, lineColor;
 
-    public Slider(int x, int y, int width, BasicStroke lineThickness, int segmentWidth, int segmentHeight, int segmentY, Color segmentColor, Color linecColor, int snapAmount)
+    public Slider(double x, double y, int width, BasicStroke lineThickness, int segmentWidth, int segmentHeight, int segmentY, Color segmentColor, Color linecColor, int snapAmount)
     {
         this.x = x;
         this.y = y;
@@ -24,19 +24,19 @@ protected Color segmentColor, lineColor;
     }
 
 
-    public int getX() {
+    public double getX() {
         return this.x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return this.y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -108,7 +108,7 @@ protected Color segmentColor, lineColor;
     void drawElement()
     {
         g2.setColor(Color.black);
-        g2.drawLine(x, y + segmentHeight / 2, x + width, y + segmentHeight / 2);
+        g2.drawLine((int) x, (int) y + segmentHeight / 2, (int) x + width, (int) y + segmentHeight / 2);
         g2.fillRect(x + (value * snapInterval), y, segmentWidth, segmentHeight);
     }
 
