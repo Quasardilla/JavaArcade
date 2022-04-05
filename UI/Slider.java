@@ -2,34 +2,25 @@ package UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class Slider {
-int x;
-int y;
-int width;
-int height;
-BasicStroke lineThickness;
-int segmentX;
-int segmentY;
-int segmentWidth;
-int segmentHeight;
-Color segmentColor;
-int snapAmount;
-int value;
+protected int x, y, width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
+protected BasicStroke lineThickness;
+protected Color segmentColor;
 
-    public Slider(int x, int y, int width, int height, BasicStroke lineThickness, int segmentX, int segmentY, int segmentWidth, int segmentHeight, Color segmentColor, int snapAmount)
+    public Slider(int x, int y, int width, BasicStroke lineThickness, int segmentWidth, int segmentHeight, int segmentX, int segmentY, Color segmentColor, int snapAmount)
     {
         this.x = x;
-        this.y = x;
+        this.y = y;
         this.width = width;
-        this.height = height;
         this.lineThickness = lineThickness;
-        this.segmentX = segmentX;
-        this.segmentY = segmentY;
         this.segmentWidth = segmentWidth;
         this.segmentHeight = segmentHeight;
+        this.segmentX = segmentX;
         this.segmentColor = segmentColor;
         this.snapAmount = snapAmount;
+        this.snapInterval = width / snapAmount;
     }
 
 
@@ -57,36 +48,12 @@ int value;
         this.width = width;
     }
 
-    public int getHeight() {
-        return this.height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public BasicStroke getLineThickness() {
         return this.lineThickness;
     }
 
     public void setLineThickness(BasicStroke lineThickness) {
         this.lineThickness = lineThickness;
-    }
-
-    public int getSegmentX() {
-        return this.segmentX;
-    }
-
-    public void setSegmentX(int segmentX) {
-        this.segmentX = segmentX;
-    }
-
-    public int getSegmentY() {
-        return this.segmentY;
-    }
-
-    public void setSegmentY(int segmentY) {
-        this.segmentY = segmentY;
     }
 
     public int getSegmentWidth() {
@@ -125,4 +92,30 @@ int value;
         return this.value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getMouseDist() {
+        return this.mouseDist;
+    }
+
+    public void setMouseDist(int mouseDist) {
+        this.mouseDist = mouseDist;
+    }
+
+    public void draw(Graphics2D g2)
+    {
+        g2.drawLine(x, y + segmentHeight / 2, x + width, y + segmentHeight / 2);
+        g2.fillRect(value * snapInterval, y, segmentWidth, segmentHeight);
+    }
+
+    public void drag(int mouseX)
+    {
+        if(mouseX - mouseDist > x && mouseX - mouseDist < x + width)
+        this.segmentX = mouseX - mouseDist;
+        
+        value = segmentX / snapInterval;
+
+    }
 }
