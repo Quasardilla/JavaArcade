@@ -1,6 +1,6 @@
     package Breakout;
     import java.awt.BasicStroke;
-import java.awt.Color;
+    import java.awt.Color;
     import java.awt.Dimension;
     import java.awt.Font;
     import java.awt.FontMetrics;
@@ -46,7 +46,7 @@ import java.awt.Color;
     private double speed = 1, initialSpeed = 1;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
-    private boolean ballActive, slowMode, gameOver, settings, mouseClicked;
+    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true;
     private int lives = 3, totalLives = 3, initialLives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
@@ -197,12 +197,12 @@ import java.awt.Color;
             i.draw(g2);
         
         g2.setColor(Color.black);
-        if(!ballActive && lives == 3 && !gameOver)
+        if(!ballActive && lives == totalLives && !gameOver)
             {
                 message = "Press SPACE to play!";
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
             }
-        if(!ballActive && lives < 3 && lives > 0 && !gameOver)
+        if(!ballActive && lives < totalLives && lives > 0 && !gameOver)
             {
                 message = "Press SPACE to continue";
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
@@ -213,9 +213,16 @@ import java.awt.Color;
                 message = "Congrats, You Win! Press SPACE to play again!";
                 ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+                if (playOnce)
+                {
+                    try {
+                        Thread.sleep((long) 500);  
+                    } catch (Exception e) {}
                 levelFinish.flush();
                 levelFinish.setFramePosition(0);
                 levelFinish.start();
+                playOnce = false;
+                }
             }
             if(lives <= 0)
             {
@@ -376,11 +383,12 @@ import java.awt.Color;
         
         lives = totalLives;
         gameOver = false;
+        playOnce = true;
     }
 
     public void playBreakSound()
     {
-        int rand = (int) (Math.random() * 2);
+        int rand = (int) (Math.random() * 2 + 1);
         
         switch (rand) {
             case 1:
