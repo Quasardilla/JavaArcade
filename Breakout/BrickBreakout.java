@@ -43,19 +43,20 @@ import java.awt.Color;
     private Timer timer;
     private static FontMetrics metrics;
     private int mouseX, mouseY;
-    private double speed = 2, initialspeed = 2;
+    private double speed = 1, initialSpeed = 1;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
     private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
     private boolean ballActive, slowMode, gameOver, settings, mouseClicked;
     private int lives = 3, totalLives = 3, initialLives = 3;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
-    private Slider speedSlider = new Slider(75, 180, 50, new BasicStroke(1), 10, 10, 85, Color.gray, Color.black, 2);
+    private Slider speedSlider = new Slider(75, 180, 50, new BasicStroke(1), true, Color.BLACK, 10, 10, 10, Color.BLACK);
     private Bar b = new Bar(75, 135, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
     private Clip break1, break2, levelFinish;
     private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
     private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 
+    
     public BrickBreakout()
     {
         addKeyListener(this);
@@ -141,8 +142,7 @@ import java.awt.Color;
                         else
                         paddle.setDx((speed * 2) / 2);
                     }
-                    else
-                    {}
+                    else{}
 
                 if (gameObject.getX() < gameObject.getXMin() || gameObject.getX() > (gameObject.getXMax() - gameObject.getW()))
                     gameObject.setDx(-gameObject.getDx());
@@ -230,6 +230,8 @@ import java.awt.Color;
                 g2.fillRect(0, 0, PREF_W, PREF_H);
                 g2.setColor(new Color(255, 255, 255));
                 g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
+
+                g2.setColor(speedSlider.getLineColor());
                 speedSlider.draw();
 
                 if (mouseClicked)
@@ -265,10 +267,14 @@ import java.awt.Color;
             ballActive = true;
         if(key == KeyEvent.VK_SHIFT)
             slowMode = true;
-        if(key == KeyEvent.VK_ESCAPE && settings && totalLives != initialLives && speed != initialspeed)
+        if(key == KeyEvent.VK_ESCAPE && settings && totalLives != initialLives || speed != initialSpeed)
         {
             initialLives = totalLives;
-            initialspeed = speed;
+            initialSpeed = speed;
+            paddle.setDx(speed * 2);
+            paddle.setDy(speed * 2);
+            gameObject.setDx(speed);
+            gameObject.setDy(speed);
             resetGame();
         }
         if(key == KeyEvent.VK_ESCAPE)

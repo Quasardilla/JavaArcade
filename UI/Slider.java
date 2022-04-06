@@ -4,16 +4,21 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 
 public class Slider extends UIElement {
-protected int width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
+protected int x, y, width, segmentWidth, segmentHeight, segmentX, snapAmount, value, mouseDist, snapInterval;
 protected BasicStroke lineThickness;
 protected Color segmentColor, lineColor;
+protected boolean line;
 
-    public Slider(double x, double y, int width, BasicStroke lineThickness, int segmentWidth, int segmentHeight, int segmentY, Color segmentColor, Color linecColor, int snapAmount)
+    public Slider(int x, int y, int width,
+    BasicStroke lineThickness, Boolean line, Color lineColor, int snapAmount,
+    int segmentWidth, int segmentHeight, Color segmentColor)
     {
         this.x = x;
         this.y = y;
         this.width = width;
         this.lineThickness = lineThickness;
+        this.line = line;
+        this.lineColor = lineColor;
         this.segmentWidth = segmentWidth;
         this.segmentHeight = segmentHeight;
         this.segmentX = (int) x;
@@ -24,19 +29,19 @@ protected Color segmentColor, lineColor;
     }
 
 
-    public double getX() {
+    public int getX() {
         return this.x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getY() {
+    public int getY() {
         return this.y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -46,14 +51,6 @@ protected Color segmentColor, lineColor;
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public BasicStroke getLineThickness() {
-        return this.lineThickness;
-    }
-
-    public void setLineThickness(BasicStroke lineThickness) {
-        this.lineThickness = lineThickness;
     }
 
     public int getSegmentWidth() {
@@ -72,12 +69,12 @@ protected Color segmentColor, lineColor;
         this.segmentHeight = segmentHeight;
     }
 
-    public Color getSegmentColor() {
-        return this.segmentColor;
+    public int getSegmentX() {
+        return this.segmentX;
     }
 
-    public void setSegmentColor(Color segmentColor) {
-        this.segmentColor = segmentColor;
+    public void setSegmentX(int segmentX) {
+        this.segmentX = segmentX;
     }
 
     public int getSnapAmount() {
@@ -92,10 +89,6 @@ protected Color segmentColor, lineColor;
         return this.value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public int getMouseDist() {
         return this.mouseDist;
     }
@@ -104,12 +97,63 @@ protected Color segmentColor, lineColor;
         this.mouseDist = mouseDist;
     }
 
+    public int getSnapInterval() {
+        return this.snapInterval;
+    }
+
+    public void setSnapInterval(int snapInterval) {
+        this.snapInterval = snapInterval;
+    }
+
+    public BasicStroke getLineThickness() {
+        return this.lineThickness;
+    }
+
+    public void setLineThickness(BasicStroke lineThickness) {
+        this.lineThickness = lineThickness;
+    }
+
+    public Color getSegmentColor() {
+        return this.segmentColor;
+    }
+
+    public void setSegmentColor(Color segmentColor) {
+        this.segmentColor = segmentColor;
+    }
+
+    public Color getLineColor() {
+        return this.lineColor;
+    }
+
+    public void setLineColor(Color lineColor) {
+        this.lineColor = lineColor;
+    }
+
+    public boolean isLine() {
+        return this.line;
+    }
+
+    public boolean getLine() {
+        return this.line;
+    }
+
+    public void setLine(boolean line) {
+        this.line = line;
+    }
+
+    
+
     @Override
     void drawElement()
     {
-        g2.setColor(Color.black);
+        // if(line)
+        // {
+        g2.setColor(lineColor);
+        g2.setStroke(lineThickness);
         g2.drawLine((int) x, (int) y + segmentHeight / 2, (int) x + width, (int) y + segmentHeight / 2);
-        g2.fillRect((int) (x + (value * snapInterval)), (int) y, segmentWidth, segmentHeight);
+        // }
+        g2.setColor(segmentColor);
+        g2.fillRect((int) x + ((value * snapInterval)), (int) y, segmentWidth, segmentHeight);
     }
 
     public void drag(int mouseX)
@@ -117,7 +161,7 @@ protected Color segmentColor, lineColor;
         if(mouseX - mouseDist > x && mouseX - mouseDist < x + width)
         this.segmentX = mouseX - mouseDist;
         
-        value = segmentX / snapInterval;
+        value = (int) ((segmentX - x) / snapInterval);
 
     }
 }
