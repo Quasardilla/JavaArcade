@@ -38,21 +38,32 @@
     private static final long serialVersionUID = 1L;
     private static int PREF_W = 600;
     public static int PREF_H = 400;
+    private Timer timer;
+    private int mouseX, mouseY;
+    
+    //Game Booleans
+    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true;
+
+    //Player Variables
+    private int lives = 3, totalLives = 3, initialLives = 3;
+    private double speed = 2, initialSpeed = 2;
+    private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
+    
+    //Non-Player Variables
+    private ArrayList<Brick> bricks = new ArrayList<Brick>();
+    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
+    
+    //Sound
+    private Clip break1, break2, levelFinish;
+    
+    //UI
+    private int score = 0;
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private Font font = new Font("Quicksand", Font.PLAIN, 25);
-    private Timer timer;
     private static FontMetrics metrics;
-    private int mouseX, mouseY;
-    private double speed = 1, initialSpeed = 1;
-    private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
-    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
-    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true;
-    private int lives = 3, totalLives = 3, initialLives = 3;
-    private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private String message;
-    private Slider speedSlider = new Slider(75, 180, 50, new BasicStroke(1), true, Color.BLACK, 10, 10, 10, Color.BLACK);
     private Bar b = new Bar(75, 135, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
-    private Clip break1, break2, levelFinish;
+    private Slider speedSlider = new Slider(75, 180, 50, new BasicStroke(1), true, Color.BLACK, 4, 10, 10, Color.BLACK);
     private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
     private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 
@@ -65,30 +76,24 @@
         requestFocus();
         
             URL file = this.getClass().getResource("break1.wav");
-                      AudioInputStream audio;
-                      try {
-                         audio = AudioSystem.getAudioInputStream(file);
-                         break1 = AudioSystem.getClip();
-                         break1.open(audio);
-                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
-                      catch (UnsupportedAudioFileException e1) {
-                      }
+                AudioInputStream audio;
+                try {
+                    audio = AudioSystem.getAudioInputStream(file);
+                    break1 = AudioSystem.getClip();
+                    break1.open(audio);
+                } catch (IOException | LineUnavailableException e1) {} catch (UnsupportedAudioFileException e1) {}
             file = this.getClass().getResource("break2.wav");
-                      try {
-                         audio = AudioSystem.getAudioInputStream(file);
-                         break2 = AudioSystem.getClip();
-                         break2.open(audio);
-                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
-                      catch (UnsupportedAudioFileException e1) {
-                      }
+                try {
+                    audio = AudioSystem.getAudioInputStream(file);
+                    break2 = AudioSystem.getClip();
+                    break2.open(audio);
+                } catch (IOException | LineUnavailableException e1) {} catch (UnsupportedAudioFileException e1) {}
             file = this.getClass().getResource("levelFinish.wav");
-                      try {
-                         audio = AudioSystem.getAudioInputStream(file);
-                         levelFinish = AudioSystem.getClip();
-                         levelFinish.open(audio);
-                      } catch (IOException | LineUnavailableException e1) {} //initialize a sound clip objectxs   
-                      catch (UnsupportedAudioFileException e1) {
-                      }
+                try {
+                    audio = AudioSystem.getAudioInputStream(file);
+                    levelFinish = AudioSystem.getClip();
+                    levelFinish.open(audio);
+                } catch (IOException | LineUnavailableException e1) {} catch (UnsupportedAudioFileException e1) {}
         
         
         paddle.setDirectionKeys(0, 0, 65, 68);
@@ -96,12 +101,12 @@
                 
         resetGame();
 
-        timer = new Timer(10, 
-            new ActionListener(){
-                
+        timer = new Timer(10, new ActionListener(){
+
             @Override   
             public void actionPerformed(ActionEvent e) { 
-                    
+                 
+                //Updating & Collision Checks
                 paddle.updateKeyMovement();
 
                 if(ballActive)
@@ -114,6 +119,7 @@
 
                 gameObject.checkAndReactToCollisionWith(paddle);
 
+                //Brick Removing
                 try {
                     for(Brick i : bricks)
                     {   
@@ -121,10 +127,12 @@
                         {
                             bricks.remove(i);
                             playBreakSound();
+                            score += 10;
                         }
                     }
                 } catch (ConcurrentModificationException a) {} 
 
+                //Setting Slowmode Speed
                 if(slowMode)
                     {
                         if (gameObject.getDx() < 0)
@@ -142,7 +150,7 @@
                         else
                         paddle.setDx((speed * 2) / 2);
                     }
-                    else{}
+                    else {}
 
                 if (gameObject.getX() < gameObject.getXMin() || gameObject.getX() > (gameObject.getXMax() - gameObject.getW()))
                     gameObject.setDx(-gameObject.getDx());
@@ -170,32 +178,38 @@
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        //General Drawing Configuration
         g2.setRenderingHints(hints);
         g2.setFont(font);
         metrics = g2.getFontMetrics(font);
         
+        //UI Initialization
         lifeUp.setGraphics(g2);
         lifeDown.setGraphics(g2);
         speedSlider.setGraphics(g2);
-
         b.setGraphics(g2);
         b.setValAsFrac((double) lives / totalLives);
 
+        //Mouse X and Y positions set
         try {
         mouseX = this.getMousePosition().x;
         mouseY = this.getMousePosition().y;
-        }
-        catch (Exception e){}
+        } catch (Exception e){}
 
+        //Entity Drawing
         paddle.draw(g2);
         gameObject.draw(g2);
         
-        g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3));
+        //UI Drawing
+        g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
         g2.drawString("Press ESC for settings", 0, PREF_H - 10);
+        g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
 
         for(Brick i : bricks)
             i.draw(g2);
         
+        //Game States
         g2.setColor(Color.black);
         if(!ballActive && lives == totalLives && !gameOver)
             {
@@ -213,48 +227,56 @@
                 message = "Congrats, You Win! Press SPACE to play again!";
                 ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+                
                 if (playOnce)
                 {
                     try {
                         Thread.sleep((long) 500);  
                     } catch (Exception e) {}
-                levelFinish.flush();
-                levelFinish.setFramePosition(0);
-                levelFinish.start();
-                playOnce = false;
+
+                    levelFinish.flush();
+                    levelFinish.setFramePosition(0);
+                    levelFinish.start();
+                    playOnce = false;
                 }
             }
-            if(lives <= 0)
+        if(lives <= 0)
             {
-                gameOver = true;
-                message = "Oh No, You Lost! Press SPACE to play again!";
-                g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+            gameOver = true;
+            message = "Oh No, You Lost! Press SPACE to play again!";
+            g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
             }
             
-            if(settings)
+        //Auto Play
+        if(ballActive && !((gameObject.getX() + 5) - paddle.getW()/2 < paddle.getXMin()) && !((gameObject.getX() + 5) - paddle.getW()/2 > paddle.getXMax() - paddle.getW()))
+        paddle.setX(gameObject.getX() - ((paddle.getW() / 2) - 5));
+
+        if(settings)
+        {
+            //Background fading and panel drawing
+            g2.setColor(new Color(100, 100, 100, 200));
+            g2.fillRect(0, 0, PREF_W, PREF_H);
+            g2.setColor(new Color(255, 255, 255));
+            g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
+
+            g2.setColor(speedSlider.getLineColor());
+            speedSlider.draw();
+
+            
+            //Settings Drawing
+            g2.drawString("Speed: " + speed, (int) speedSlider.getX() + speedSlider.getWidth() + 10, (int) speedSlider.getY() + 11);
+            lifeUp.draw();
+            lifeDown.draw();   
+            g2.drawString("Total Lives: " + totalLives, (int) lifeUp.x + 20, (int) lifeDown.y + 9);   
+            b.draw();
+
+            //Slider Drag Reaction
+            if (mouseClicked)
             {
-                g2.setColor(new Color(100, 100, 100, 200));
-                g2.fillRect(0, 0, PREF_W, PREF_H);
-                g2.setColor(new Color(255, 255, 255));
-                g2.fillRect(50, 50, PREF_W - 100, PREF_H - 100);
-
-                g2.setColor(speedSlider.getLineColor());
-                speedSlider.draw();
-
-                if (mouseClicked)
-                {
                 speedSlider.drag(mouseX);
-                speed = speedSlider.getValue();
-                }
-                
-                g2.drawString("Speed: " + speed, (int) speedSlider.getX() + speedSlider.getWidth() + 10, (int) speedSlider.getY() + 11);
-                lifeUp.draw();
-                lifeDown.draw();
-
-                g2.drawString("Total Lives: " + totalLives, (int) lifeUp.x + 20, (int) lifeDown.y + 9);
-
-                b.draw();
-            }
+                speed = speedSlider.getValue() + 1;
+            } 
+        }
 
     }
 
@@ -262,8 +284,9 @@
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
+
         if(!settings)
-        paddle.keyWasPressed(key);
+            paddle.keyWasPressed(key);
 
         if(key == KeyEvent.VK_SPACE && gameOver && !settings)
         {
@@ -272,8 +295,10 @@
         }
         if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
             ballActive = true;
+            
         if(key == KeyEvent.VK_SHIFT)
             slowMode = true;
+
         if(key == KeyEvent.VK_ESCAPE && settings && totalLives != initialLives || speed != initialSpeed)
         {
             initialLives = totalLives;
@@ -284,20 +309,23 @@
             gameObject.setDy(speed);
             resetGame();
         }
-        if(key == KeyEvent.VK_ESCAPE)
-            settings = !settings;
-    }
+
+            if(key == KeyEvent.VK_ESCAPE)
+                settings = !settings;
+        }
     
     @Override
     public void keyReleased(KeyEvent e){
         int key = e.getKeyCode();
 
         if(!settings)
-        paddle.keyWasReleased(key);
+            paddle.keyWasReleased(key);
         
         if(key == KeyEvent.VK_SHIFT && !settings)
         {
             slowMode = false;
+
+            //Resetting Speed
             if (gameObject.getDx() < 0)
             gameObject.setDx(-speed);
             else
@@ -314,6 +342,7 @@
             paddle.setDx(speed * 2);
         }
     }
+
 
     @Override
     public void keyTyped(KeyEvent e){}
@@ -382,8 +411,10 @@
                 bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
         
         lives = totalLives;
+        score = 0;
         gameOver = false;
         playOnce = true;
+        ballActive = false;
     }
 
     public void playBreakSound()
