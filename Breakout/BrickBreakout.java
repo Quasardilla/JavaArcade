@@ -51,6 +51,7 @@
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
 
     //Non-Player Variables
+    int level = 1;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, -speed, 0, PREF_W, 0, PREF_H);
 
@@ -64,10 +65,12 @@
     private static FontMetrics metrics;
     private String message;
     private Bar b = new Bar(100, 87, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
-    private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, Color.BLACK, 5, 10, 10, Color.BLACK);
+    private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, Color.BLACK, 10, 10, 10, Color.BLACK);
     private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
     private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
     private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
+
+    public double angle;
 
     public BrickBreakout()
     {
@@ -104,7 +107,7 @@
 
         timer = new Timer(10, new ActionListener(){
 
-            @Override   
+            @Override
             public void actionPerformed(ActionEvent e) { 
                     
                 //Updating & Collision Checks
@@ -210,6 +213,8 @@
         g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
         g2.drawString("Press ESC for settings", 0, PREF_H - 10);
         g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
+        g2.drawString("Angle: " + angle, 0, PREF_H - (PREF_H / 3) + 30);
+        g2.drawString("Level: " + level, 0, PREF_H - (PREF_H / 3) + 50);
 
         for(Brick i : bricks)
             i.draw(g2);
@@ -232,7 +237,7 @@
                 message = "Congrats, You Win! Press SPACE to play again!";
                 ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
-                
+
                 if (playOnce)
                 {
                     try {
@@ -297,7 +302,9 @@
 
         if(key == KeyEvent.VK_SPACE && gameOver && !settings)
         {
-            ballActive = true;
+            ballActive = true;             
+            if(level < 14)
+            level++;
             resetGame();
         }
         if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
@@ -316,7 +323,8 @@
             paddle.setDy(speed * 2);
             gameObject.setDx(speed);
             gameObject.setDy(speed);
-            resetGame();
+            level = 0;
+            fullResetGame();
         }
 
             if(key == KeyEvent.VK_ESCAPE)
@@ -424,12 +432,29 @@
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
 
-        for (int i = 8; i < 75; i += 5)
+        for (int i = 10; i < 10 + 5 * level; i += 5)
             for (int ii = 0; ii < 120; ii += 10)
                 bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f)));
         
         lives = totalLives;
         score = 0;
+        gameOver = false;
+        playOnce = true;
+        ballActive = false;
+    }
+
+    public void fullResetGame()
+    {
+        for (int i = bricks.size() - 1; i > 0; i--)
+            bricks.remove(i);
+
+        for (int i = 8; i < 5 * level; i += 5)
+            for (int ii = 0; ii < 120; ii += 10)
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f)));
+        
+        lives = totalLives;
+        score = 0;
+        level = 0;
         gameOver = false;
         playOnce = true;
         ballActive = false;
@@ -459,28 +484,14 @@
 
     public void setBallDirection()
     {
-        int pointOfContactX = (gameObject.getX() - paddle.getX());
+        double pointOfContactX = (gameObject.getX() - paddle.getX());
         
-        double angle = 180 - (pointOfContactX / 180);
+        angle = 90 + (90 - (90 * (pointOfContactX / (double) paddle.getW())));
 
         gameObject.setDx(speed * Math.cos(Math.toRadians(angle)));
         gameObject.setDy(-(speed * Math.sin(Math.toRadians(angle))));
 
-        return;
-
-        // if (pointOfContactX <= width)
-        // {
-            
-        // }
-        // else
-        // {
-        //     double angle = (pointOfContactX - width) / 180;
-            
-        //     gameObject.setDx(-(speed * Math.cos(Math.toRadians(angle))));
-        //     gameObject.setDy(speed * Math.sin(Math.toRadians(angle)));
-        // }
-
 
     }
 
-    }
+}
