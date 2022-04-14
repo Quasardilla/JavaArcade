@@ -30,6 +30,7 @@
     import BrickClass.Brick;
     import BrickClass.GameObject;
     import UI.Slider;
+    import UI.Switch;
     import UI.Bar;
     import UI.Button;
 
@@ -40,34 +41,34 @@
     public static int PREF_H = 400;
     private Timer timer;
     private int mouseX, mouseY;
-    
+
     //Game Booleans
-    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true;
+    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true, autonomous;
 
     //Player Variables
     private int lives = 3, totalLives = 3, initialLives = 3;
     private double speed = 2, initialSpeed = 2;
     private Brick paddle = new Brick(PREF_W / 2 - 40, 325, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
-    
+
     //Non-Player Variables
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
-    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, speed, 0, PREF_W, 0, PREF_H);
-    
+    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, -speed, 0, PREF_W, 0, PREF_H);
+
     //Sound
     private Clip break1, break2, levelFinish;
-    
+
     //UI
     private int score = 0;
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private Font font = new Font("Quicksand", Font.PLAIN, 25);
     private static FontMetrics metrics;
     private String message;
-    private Bar b = new Bar(75, 135, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
-    private Slider speedSlider = new Slider(75, 180, 50, new BasicStroke(1), true, Color.BLACK, 4, 10, 10, Color.BLACK);
+    private Bar b = new Bar(100, 87, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
+    private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, Color.BLACK, 5, 10, 10, Color.BLACK);
     private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
     private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
+    private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
 
-    
     public BrickBreakout()
     {
         addKeyListener(this);
@@ -105,11 +106,12 @@
 
             @Override   
             public void actionPerformed(ActionEvent e) { 
-                 
+                    
                 //Updating & Collision Checks
-                paddle.updateKeyMovement();
+                if(autonomous && !ballActive || !autonomous)
+                    paddle.updateKeyMovement();
 
-                if(ballActive)
+                if(ballActive && !settings)
                 gameObject.update();
                 else
                 {
@@ -117,7 +119,8 @@
                     gameObject.setY(paddle.getY() - 10);
                 }
 
-                gameObject.checkAndReactToCollisionWith(paddle);
+                if (gameObject.checkAndReactToCollisionWith(paddle))
+                    setBallDirection();
 
                 //Brick Removing
                 try {
@@ -127,6 +130,7 @@
                         {
                             bricks.remove(i);
                             playBreakSound();
+                            if(!autonomous)
                             score += 10;
                         }
                     }
@@ -169,11 +173,11 @@
         });
         timer.start();
     }
-    
+
     public Dimension getPreferredSize() {
         return new Dimension(PREF_W, PREF_H);
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -190,6 +194,7 @@
         speedSlider.setGraphics(g2);
         b.setGraphics(g2);
         b.setValAsFrac((double) lives / totalLives);
+        auto.setGraphics(g2);
 
         //Mouse X and Y positions set
         try {
@@ -246,9 +251,9 @@
             message = "Oh No, You Lost! Press SPACE to play again!";
             g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
             }
-            
+
         //Auto Play
-        if(ballActive && !((gameObject.getX() + 5) - paddle.getW()/2 < paddle.getXMin()) && !((gameObject.getX() + 5) - paddle.getW()/2 > paddle.getXMax() - paddle.getW()))
+        if(autonomous && ballActive && !((gameObject.getX() + 5) - paddle.getW()/2 < paddle.getXMin()) && !((gameObject.getX() + 5) - paddle.getW()/2 > paddle.getXMax() - paddle.getW()))
         paddle.setX(gameObject.getX() - ((paddle.getW() / 2) - 5));
 
         if(settings)
@@ -265,10 +270,12 @@
             
             //Settings Drawing
             g2.drawString("Speed: " + speed, (int) speedSlider.getX() + speedSlider.getWidth() + 10, (int) speedSlider.getY() + 11);
+            g2.drawString("Auto", 120, 180);
             lifeUp.draw();
             lifeDown.draw();   
-            g2.drawString("Total Lives: " + totalLives, (int) lifeUp.x + 20, (int) lifeDown.y + 9);   
             b.draw();
+            b.text = "Lives " + lives + "/" + totalLives;
+            auto.draw();
 
             //Slider Drag Reaction
             if (mouseClicked)
@@ -294,7 +301,9 @@
             resetGame();
         }
         if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
+        {
             ballActive = true;
+        }
             
         if(key == KeyEvent.VK_SHIFT)
             slowMode = true;
@@ -313,7 +322,7 @@
             if(key == KeyEvent.VK_ESCAPE)
                 settings = !settings;
         }
-    
+
     @Override
     public void keyReleased(KeyEvent e){
         int key = e.getKeyCode();
@@ -370,28 +379,37 @@
     @Override
     public void mouseClicked(MouseEvent e) {
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        mouseClicked = true;
+        if(auto.isInside(mouseX, mouseY))
+        {
+            auto.toggleState();
+            autonomous = auto.getState();
+            resetGame();
+        }
+
+        if(speedSlider.isInside(mouseX, mouseY))
+            mouseClicked = true;
+
         speedSlider.setMouseDist(mouseX - (int) speedSlider.getX());
         if (lifeUp.mouseClick(e.getX(), e.getY())) totalLives++;
         if (lifeDown.mouseClick(e.getX(), e.getY()) && totalLives > 1) totalLives--;
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
         mouseClicked = false;
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) { 
     }
-    
+
     @Override
     public void mouseDragged(MouseEvent e) {
     }
@@ -408,7 +426,7 @@
 
         for (int i = 8; i < 75; i += 5)
             for (int ii = 0; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 1f, 1f)));
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f)));
         
         lives = totalLives;
         score = 0;
@@ -437,6 +455,32 @@
             default:
                 break;
         }
+    }
+
+    public void setBallDirection()
+    {
+        int pointOfContactX = (gameObject.getX() - paddle.getX());
+        
+        double angle = 180 - (pointOfContactX / 180);
+
+        gameObject.setDx(speed * Math.cos(Math.toRadians(angle)));
+        gameObject.setDy(-(speed * Math.sin(Math.toRadians(angle))));
+
+        return;
+
+        // if (pointOfContactX <= width)
+        // {
+            
+        // }
+        // else
+        // {
+        //     double angle = (pointOfContactX - width) / 180;
+            
+        //     gameObject.setDx(-(speed * Math.cos(Math.toRadians(angle))));
+        //     gameObject.setDy(speed * Math.sin(Math.toRadians(angle)));
+        // }
+
+
     }
 
     }

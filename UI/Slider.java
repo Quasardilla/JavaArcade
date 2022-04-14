@@ -164,4 +164,15 @@ protected boolean line;
         value = (int) ((segmentX - x) / snapInterval);
 
     }
+
+    public boolean isInside(int mouseX, int mouseY)
+    {
+        int x2 = this.segmentX + this.segmentWidth;
+        int y2 = this.y + this.segmentHeight;
+
+        if(mouseX > this.segmentX && mouseY > this.y && mouseX < x2 && mouseY < y2)
+            return true;
+
+        return false;
+    }
 }
