@@ -15,6 +15,7 @@ public class Brick {
     protected int leftKey, rightKey, upKey, downKey;
     protected int leftKey2, rightKey2, upKey2, downKey2;
     protected Image img;
+    protected int value;
     
     public Brick(int x, int y, int width, int height)
     {
@@ -32,6 +33,16 @@ public class Brick {
         this.width = width;
         this.height = height;
         this.color = color;
+    }
+
+    public Brick(int x, int y, int width, int height, Color color, int value) //Another constructor with optional values
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.value = value;
     }
 
     public Brick(int x, int y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
@@ -77,6 +88,23 @@ public class Brick {
         this.YMin = YMin;
     }
 
+    public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
+     int XMin, int XMax, int YMin, int YMax, int value) //Another constructor with all values
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.dx = dx;
+        this.dy = dy;
+        this.XMax = XMax;
+        this.XMin = XMin;
+        this.YMax = YMax;
+        this.YMin = YMin;
+        this.value = value;
+    }
+
     public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
@@ -110,7 +138,7 @@ public class Brick {
         this.YMin = YMin;
         this.img = img;
     }
-
+    
     //Standard getter & setter methods
     public int getX()
     {
@@ -269,6 +297,16 @@ public class Brick {
     public int getrightKey()
     {
         return this.rightKey;
+    }
+
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+
+    public int getValue()
+    {
+        return this.value;
     }
 
     public void setDirectionKeys(int upKey, int downKey, int leftKey, int rightKey)

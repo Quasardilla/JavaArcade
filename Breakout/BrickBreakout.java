@@ -122,8 +122,8 @@
                     gameObject.setY(paddle.getY() - 10);
                 }
 
-                if (gameObject.checkAndReactToCollisionWith(paddle))
-                    setBallDirection();
+                gameObject.checkAndReactToCollisionWith(paddle);
+                    // setBallDirection();
 
                 //Brick Removing
                 try {
@@ -131,7 +131,10 @@
                     {   
                         if (gameObject.checkAndReactToCollisionWith(i))
                         {
+                            if (i.getValue() <= 0)
                             bricks.remove(i);
+                            else
+                            i.setValue(i.getValue()-1);
                             playBreakSound();
                             if(!autonomous)
                             score += 10;
@@ -215,10 +218,19 @@
         g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
         g2.drawString("Angle: " + angle, 0, PREF_H - (PREF_H / 3) + 30);
         g2.drawString("Level: " + level, 0, PREF_H - (PREF_H / 3) + 50);
+        g2.drawString("DX: " + gameObject.getDx(), 200, PREF_H - (PREF_H / 3) + 30);
+        g2.drawString("DY: " + gameObject.getDy(), 200, PREF_H - (PREF_H / 3) + 50);
 
+        font =  new Font("Quicksand", Font.PLAIN, 10);
+        g2.setFont(font);
         for(Brick i : bricks)
+        {
             i.draw(g2);
+            g2.drawString("" + i.getValue() + 1, i.getX() + (i.getW() / 2), (i.getY() + i.getH()) - 3);
+        }
         
+        font = new Font("Quicksand", Font.PLAIN, 25);
+
         //Game States
         g2.setColor(Color.black);
         if(!ballActive && lives == totalLives && !gameOver)
@@ -234,7 +246,7 @@
         if(bricks.size() <= 0)
             {
                 gameOver = true;
-                message = "Congrats, You Win! Press SPACE to play again!";
+                message = "Congrats, You Won Level " + level + "! Press SPACE to play again!";
                 ballActive = false;
                 g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
 
@@ -434,7 +446,7 @@
 
         for (int i = 10; i < 10 + 5 * level; i += 5)
             for (int ii = 0; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f)));
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f), (int) (Math.random() * 2) + 1));
         
         lives = totalLives;
         score = 0;
@@ -482,16 +494,16 @@
         }
     }
 
-    public void setBallDirection()
-    {
-        double pointOfContactX = (gameObject.getX() - paddle.getX());
+    // public void setBallDirection()
+    // {
+    //     double pointOfContactX = (gameObject.getX() - paddle.getX());
         
-        angle = 90 + (90 - (90 * (pointOfContactX / (double) paddle.getW())));
+    //     angle = 45 + (90 - (90 * (pointOfContactX / (double) paddle.getW())));
 
-        gameObject.setDx(speed * Math.cos(Math.toRadians(angle)));
-        gameObject.setDy(-(speed * Math.sin(Math.toRadians(angle))));
+    //     gameObject.setDx(speed * Math.cos(Math.toRadians(angle)));
+    //     gameObject.setDy(-(speed * Math.sin(Math.toRadians(angle))));
 
 
-    }
+    // }
 
 }
