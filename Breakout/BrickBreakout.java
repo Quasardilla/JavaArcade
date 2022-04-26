@@ -43,7 +43,7 @@
     private int mouseX, mouseY;
 
     //Game Booleans
-    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true, autonomous;
+    private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug;
 
     //Player Variables
     private int lives = 3, totalLives = 3, initialLives = 3;
@@ -135,8 +135,10 @@
                             bricks.remove(i);
                             else
                             {
+                                Color rgb = i.getColor();
+                                float[] arr = Color.RGBtoHSB(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), null);
                                 i.setValue(i.getValue()-1);
-                                i.setColor(i.getColor().darker());
+                                i.setColor(Color.getHSBColor(arr[0], (float) (arr[1] - 0.25), arr[2]));
                             }
 
                             playBreakSound();
@@ -220,10 +222,14 @@
         g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
         g2.drawString("Press ESC for settings", 0, PREF_H - 10);
         g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
-        g2.drawString("Angle: " + angle, 0, PREF_H - (PREF_H / 3) + 30);
-        g2.drawString("Level: " + level, 0, PREF_H - (PREF_H / 3) + 50);
-        g2.drawString("DX: " + gameObject.getDx(), 200, PREF_H - (PREF_H / 3) + 30);
-        g2.drawString("DY: " + gameObject.getDy(), 200, PREF_H - (PREF_H / 3) + 50);
+        g2.drawString("Level: " + level, 0, PREF_H - (PREF_H / 3) + 30);
+        
+        if(debug)
+        {
+            g2.drawString("Angle: " + angle, 0, PREF_H - (PREF_H / 3) + 50);
+            g2.drawString("DX: " + gameObject.getDx(), 200, PREF_H - (PREF_H / 3) + 30);
+            g2.drawString("DY: " + gameObject.getDy(), 200, PREF_H - (PREF_H / 3) + 50);
+        }
 
         font =  new Font("Quicksand", Font.PLAIN, 10);
         g2.setFont(font);
@@ -234,6 +240,7 @@
         }
         
         font = new Font("Quicksand", Font.PLAIN, 25);
+        g2.setFont(font);
 
         //Game States
         g2.setColor(Color.black);
@@ -343,6 +350,9 @@
             fullResetGame();
         }
 
+            if(key == KeyEvent.VK_F1)
+                debug = !debug;
+
             if(key == KeyEvent.VK_ESCAPE)
                 settings = !settings;
         }
@@ -450,8 +460,11 @@
 
         for (int i = 10; i < 10 + 5 * level; i += 5)
             for (int ii = 0; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f), (int) (Math.random() * 2) + 1));
-        
+            {
+                int rand = (int) (Math.random() * 3);
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand));
+            }
+
         lives = totalLives;
         score = 0;
         gameOver = false;
@@ -464,10 +477,13 @@
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
 
-        for (int i = 8; i < 5 * level; i += 5)
-            for (int ii = 0; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.75f, 1f)), (int) (Math.random() * 2) + 1);
-        
+            for (int i = 10; i < 10 + 5 * level; i += 5)
+                for (int ii = 0; ii < 120; ii += 10)
+                {
+                    int rand = (int) (Math.random() * 3);
+                    bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand));
+                }
+
         lives = totalLives;
         score = 0;
         level = 0;
