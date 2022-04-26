@@ -134,7 +134,11 @@
                             if (i.getValue() <= 0)
                             bricks.remove(i);
                             else
-                            i.setValue(i.getValue()-1);
+                            {
+                                i.setValue(i.getValue()-1);
+                                i.setColor(i.getColor().darker());
+                            }
+
                             playBreakSound();
                             if(!autonomous)
                             score += 10;
@@ -226,7 +230,7 @@
         for(Brick i : bricks)
         {
             i.draw(g2);
-            g2.drawString("" + i.getValue() + 1, i.getX() + (i.getW() / 2), (i.getY() + i.getH()) - 3);
+            g2.drawString("" + (i.getValue() + 1), i.getX() + (i.getW() / 2), (i.getY() + i.getH()) - 3);
         }
         
         font = new Font("Quicksand", Font.PLAIN, 25);
@@ -462,7 +466,7 @@
 
         for (int i = 8; i < 5 * level; i += 5)
             for (int ii = 0; ii < 120; ii += 10)
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.5f, 1f)));
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), 0.75f, 1f)), (int) (Math.random() * 2) + 1);
         
         lives = totalLives;
         score = 0;
