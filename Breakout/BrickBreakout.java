@@ -474,19 +474,20 @@
 
     public void fullResetGame()
     {
+        level = 1;
+
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
-
-            for (int i = 10; i < 10 + 5 * level; i += 5)
-                for (int ii = 0; ii < 120; ii += 10)
-                {
-                    int rand = (int) (Math.random() * 3);
-                    bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand));
-                }
-
+        
+        for (int i = 10; i < 10 + 5 * level; i += 5)
+            for (int ii = 0; ii < 120; ii += 10)
+            {
+                int rand = (int) (Math.random() * 3);
+                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand));
+            }
+        
         lives = totalLives;
         score = 0;
-        level = 0;
         gameOver = false;
         playOnce = true;
         ballActive = false;
