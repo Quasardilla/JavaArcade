@@ -56,7 +56,7 @@
     //Non-Player Variables
     int level = 1;
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
-    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 10, 10, Color.white, speed, -speed, 0, PREF_W, 0, PREF_H);
+    private GameObject gameObject = new GameObject(paddle.getX() + (paddle.getW() / 2), paddle.getY() - 10, 20, 20, Color.white, speed, -speed, 0, PREF_W, 0, PREF_H);
 
     //Sound
     private Clip break1, break2, levelFinish;
@@ -232,6 +232,8 @@
         } catch (Exception e){}
 
         //Entity Drawing
+        for (Point p: eggs)
+            g2.drawImage(cracked_egg, p.x, p.y-10, null);
         paddle.drawImage(g2);
         gameObject.drawImage(g2);
         
@@ -330,10 +332,6 @@
             } 
         }
 
-        for (Point p: eggs)
-        {
-            g2.drawImage(cracked_egg, p.x, p.y-10, null);
-        }
     }
 
     @Override
@@ -344,13 +342,15 @@
         if(!settings)
             paddle.keyWasPressed(key);
 
-        if(key == KeyEvent.VK_SPACE && gameOver && !settings)
+        if(key == KeyEvent.VK_SPACE && gameOver && !settings && lives > 0)
         {
             ballActive = true;             
             if(level < 7)
             level++;
             resetGame();
         }
+        if(key == KeyEvent.VK_SPACE && gameOver && !settings && lives <= 0)
+            fullResetGame();
         if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
         {
             ballActive = true;
@@ -476,43 +476,29 @@
 
     public void resetGame()
     {
-        for (int i = bricks.size() - 1; i > 0; i--)
-            bricks.remove(i);
+        bricks.removeAll(bricks);
 
-        for (int i = 10; i < 10 + 5 * level; i += 10)
-            for (int ii = 0; ii < 120; ii += 10)
+
+        for (int i = 1; i < 1 + level; i++)
+            for (int ii = 0; ii < PREF_W / 50; ii ++)
             {
                 int rand = (int) (Math.random() * 3);
-                Brick brick = new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand);
+                Brick brick = new Brick(ii * 50, i * 25, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand);
                 brick.img = bacon;
                 bricks.add(brick);
             }
 
-        ballActive = true;
-        gameOver = false;
-        playOnce = true;
-    }
-
-    public void fullResetGame()
-    {
+            gameOver = false;
+            playOnce = true;
+            ballActive = false;
+        }
+        
+        public void fullResetGame()
+        {
+        resetGame();
         level = 1;
-
-        for (int i = bricks.size() - 1; i > 0; i--)
-            bricks.remove(i);
-        
-        for (int i = 10; i < 10 + 5 * level; i += 10)
-            for (int ii = 0; ii < 120; ii += 10)
-            {
-                int rand = (int) (Math.random() * 3);
-                Brick brick = new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand);
-                brick.img = bacon;
-                bricks.add(brick);
-            }
-        
-        lives = totalLives;
         score = 0;
-        gameOver = false;
-        playOnce = true;
+        lives = totalLives;
         ballActive = false;
     }
 
