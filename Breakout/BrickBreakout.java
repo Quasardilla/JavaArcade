@@ -136,6 +136,8 @@
                     gameObject.setY(paddle.getY() - 10);
                 }
 
+                if (gameObject.checkAndReactToCollisionWith(paddle)) playBreakSound();
+
                 gameObject.checkAndReactToCollisionWith(paddle);
                     // setBallDirection();
 
