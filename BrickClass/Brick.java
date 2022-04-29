@@ -14,7 +14,7 @@ public class Brick {
     protected boolean left, right, up, down;
     protected int leftKey, rightKey, upKey, downKey;
     protected int leftKey2, rightKey2, upKey2, downKey2;
-    protected Image img;
+    public Image img;
     protected int value;
     
     public Brick(int x, int y, int width, int height)

@@ -21,11 +21,14 @@
     import javax.sound.sampled.LineUnavailableException;
     import javax.sound.sampled.UnsupportedAudioFileException;
     import java.util.ConcurrentModificationException;
+    import java.awt.Point;
+    import javax.swing.ImageIcon;
     import javax.swing.JFrame;
     import javax.swing.JPanel;
     import javax.swing.SwingUtilities;
     import javax.swing.Timer;
     import javax.swing.event.MouseInputListener;
+    import java.awt.Image;
 
     import BrickClass.Brick;
     import BrickClass.GameObject;
@@ -59,6 +62,10 @@
     private Clip break1, break2, levelFinish;
 
     //UI
+    private Image bacon = null;
+    private Image egg = null;
+    private Image pan = null;
+    private Image cracked_egg = null;
     private int score = 0;
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private Font font = new Font("Quicksand", Font.PLAIN, 25);
@@ -69,7 +76,7 @@
     private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
     private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
     private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
-
+    private ArrayList<Point> eggs = new ArrayList<Point>();
     public double angle;
 
     public BrickBreakout()
@@ -79,6 +86,13 @@
         setFocusable(true);
         requestFocus();
         
+        bacon = new ImageIcon(this.getClass().getResource("bacon.png")).getImage();
+        pan = new ImageIcon(this.getClass().getResource("pan.png")).getImage();
+        egg = new ImageIcon(this.getClass().getResource("egg.png")).getImage();
+        cracked_egg = new ImageIcon(this.getClass().getResource("cracked_egg.png")).getImage();
+        cracked_egg = cracked_egg.getScaledInstance(40, 20, Image.SCALE_DEFAULT);
+        paddle.img = pan;
+        gameObject.img = egg;
             URL file = this.getClass().getResource("break1.wav");
                 AudioInputStream audio;
                 try {
@@ -178,6 +192,7 @@
                 {
                     ballActive = false;
                     lives--;
+                    eggs.add(new Point(gameObject.getX(), gameObject.getY()));
                 }
 
                 repaint();
@@ -215,8 +230,8 @@
         } catch (Exception e){}
 
         //Entity Drawing
-        paddle.draw(g2);
-        gameObject.draw(g2);
+        paddle.drawImage(g2);
+        gameObject.drawImage(g2);
         
         //UI Drawing
         g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
@@ -235,8 +250,8 @@
         g2.setFont(font);
         for(Brick i : bricks)
         {
-            i.draw(g2);
-            g2.drawString("" + (i.getValue() + 1), i.getX() + (i.getW() / 2), (i.getY() + i.getH()) - 3);
+            i.drawImage(g2);
+            g2.drawString("" + (i.getValue() + 1), i.getX() + (i.getW() / 2), (i.getY() + i.getH()) - 15);
         }
         
         font = new Font("Quicksand", Font.PLAIN, 25);
@@ -257,9 +272,9 @@
         if(bricks.size() <= 0)
             {
                 gameOver = true;
-                message = "Congrats, You Won Level " + level + "! Press SPACE to play again!";
+                message = "You Won Level " + level + "! Press SPACE to play!";
                 ballActive = false;
-                g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+                g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 5));
 
                 if (playOnce)
                 {
@@ -313,6 +328,10 @@
             } 
         }
 
+        for (Point p: eggs)
+        {
+            g2.drawImage(cracked_egg, p.x, p.y-10, null);
+        }
     }
 
     @Override
@@ -326,7 +345,7 @@
         if(key == KeyEvent.VK_SPACE && gameOver && !settings)
         {
             ballActive = true;             
-            if(level < 14)
+            if(level < 7)
             level++;
             resetGame();
         }
@@ -458,18 +477,18 @@
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
 
-        for (int i = 10; i < 10 + 5 * level; i += 5)
+        for (int i = 10; i < 10 + 5 * level; i += 10)
             for (int ii = 0; ii < 120; ii += 10)
             {
                 int rand = (int) (Math.random() * 3);
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand));
+                Brick brick = new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand);
+                brick.img = bacon;
+                bricks.add(brick);
             }
 
-        lives = totalLives;
-        score = 0;
+        ballActive = true;
         gameOver = false;
         playOnce = true;
-        ballActive = false;
     }
 
     public void fullResetGame()
@@ -479,11 +498,13 @@
         for (int i = bricks.size() - 1; i > 0; i--)
             bricks.remove(i);
         
-        for (int i = 10; i < 10 + 5 * level; i += 5)
+        for (int i = 10; i < 10 + 5 * level; i += 10)
             for (int ii = 0; ii < 120; ii += 10)
             {
                 int rand = (int) (Math.random() * 3);
-                bricks.add(new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand));
+                Brick brick = new Brick(ii * 5, i * 3, 50, 15, Color.getHSBColor(((ii * 5 + i * 3)/ (float) (PREF_W + 75)), rand * 0.25f + 0.01f, 1f), rand);
+                brick.img = bacon;
+                bricks.add(brick);
             }
         
         lives = totalLives;
