@@ -146,7 +146,7 @@ public class BrickBreakout extends JPanel implements KeyListener, MouseInputList
                     gameObject.setY(paddle.getY() - 10);
                 }
 
-                if (gameObject.checkAndReactToCollisionWith(paddle) && ballActive)
+                if (gameObject.checkAndReactToCollisionWith(paddle) && ballActive && !settings)
                     playBreakSound();
 
                 gameObject.checkAndReactToCollisionWith(paddle);
