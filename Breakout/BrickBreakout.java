@@ -298,7 +298,7 @@ public class BrickBreakout extends JPanel implements KeyListener, MouseInputList
         }
         if (lives <= 0) {
             gameOver = true;
-            message = "Oh No, You Lost! Press SPACE to play again!";
+            message = "You Lost! Press SPACE to play again!";
             g2.drawString(message, ((PREF_W / 2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
         }
 
@@ -365,7 +365,6 @@ public class BrickBreakout extends JPanel implements KeyListener, MouseInputList
             paddle.setDy(speed * 2);
             gameObject.setDx(speed);
             gameObject.setDy(speed);
-            level = 0;
             fullResetGame();
         }
 
@@ -489,6 +488,7 @@ public class BrickBreakout extends JPanel implements KeyListener, MouseInputList
     }
 
     public void fullResetGame() {
+        eggs.clear();
         resetGame();
         level = 1;
         score = 0;

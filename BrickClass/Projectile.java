@@ -1,5 +1,8 @@
 package BrickClass;
 
+import java.awt.Color;
+import java.awt.Image;
+
 public class Projectile extends GameObject {
 
     public Projectile(int x, int y, int width, int height)
