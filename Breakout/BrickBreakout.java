@@ -194,7 +194,7 @@
                 {
                     ballActive = false;
                     lives--;
-                    eggs.add(new Point(gameObject.getX(), gameObject.getY()));
+                    eggs.add(new Point((int) gameObject.getX(), (int) gameObject.getY()));
                 }
 
                 repaint();
@@ -255,7 +255,7 @@
         for(Brick i : bricks)
         {
             i.drawImage(g2);
-            g2.drawString("" + (i.getValue() + 1), i.getX() + (i.getW() / 2), (i.getY() + i.getH()) - 15);
+            g2.drawString("" + (i.getValue() + 1), (int) i.getX() + (i.getW() / 2), (int) (i.getY() + i.getH()) - 15);
         }
         
         font = new Font("Quicksand", Font.PLAIN, 25);

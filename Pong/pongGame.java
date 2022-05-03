@@ -187,7 +187,7 @@ public class pongGame extends JPanel implements KeyListener, MouseInputListener
 
       if (gameObject.hit > 0)
       {
-         g2.drawString("COMBO x"+gameObject.combo, gameObject.getX(), (int) ((gameObject.getY()-10) + Math.sin(gameObject.getY()) * gameObject.combo));
+         g2.drawString("COMBO x"+gameObject.combo, (int) gameObject.getX(), (int) ((gameObject.getY()-10) + Math.sin(gameObject.getY()) * gameObject.combo));
          gameObject.hit--;
       }
 

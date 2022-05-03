@@ -6,8 +6,8 @@ import java.awt.Image;
 
 public class Brick {
     //Variables for the class's objects (Instance Variables)
-    protected int x, y ,width;
-    protected int height;
+    protected double x, y;
+    protected int width, height;
     protected double dx, dy;
     protected int XMin, XMax, YMin, YMax;
     protected Color color;
@@ -17,7 +17,7 @@ public class Brick {
     public Image img;
     protected int value;
     
-    public Brick(int x, int y, int width, int height)
+    public Brick(double x, double y, int width, int height)
     {
         this.x = x;
         this.y = y;
@@ -26,7 +26,7 @@ public class Brick {
         
     }
 
-    public Brick(int x, int y, int width, int height, Color color) //Another constructor with optional values
+    public Brick(double x, double y, int width, int height, Color color) //Another constructor with optional values
     {
         this.x = x;
         this.y = y;
@@ -35,7 +35,7 @@ public class Brick {
         this.color = color;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, int value) //Another constructor with optional values
+    public Brick(double x, double y, int width, int height, Color color, int value) //Another constructor with optional values
     {
         this.x = x;
         this.y = y;
@@ -45,7 +45,7 @@ public class Brick {
         this.value = value;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
+    public Brick(double x, double y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
     {
         this.x = x;
         this.y = y;
@@ -56,7 +56,18 @@ public class Brick {
         this.dy = dy;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
+    public Brick(double x, double y, int width, int height, Color color, double dx, double dy) //Another constructor with optional values
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.dx = dx;
+        this.dy = dy;
+    }
+
+    public Brick(double x, double y, int width, int height, Color color, int dx, int dy,
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         this.x = x;
@@ -72,7 +83,7 @@ public class Brick {
         this.YMin = YMin;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
+    public Brick(double x, double y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         this.x = x;
@@ -88,7 +99,7 @@ public class Brick {
         this.YMin = YMin;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
+    public Brick(double x, double y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax, int value) //Another constructor with all values
     {
         this.x = x;
@@ -105,7 +116,7 @@ public class Brick {
         this.value = value;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, int dx, int dy,
+    public Brick(double x, double y, int width, int height, Color color, int dx, int dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         this.x = x;
@@ -122,7 +133,7 @@ public class Brick {
         this.img = img;
     }
 
-    public Brick(int x, int y, int width, int height, Color color, double dx, double dy,
+    public Brick(double x, double y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         this.x = x;
@@ -140,22 +151,22 @@ public class Brick {
     }
     
     //Standard getter & setter methods
-    public int getX()
+    public double getX()
     {
         return this.x;
     }
     
-    public void setX(int x)
+    public void setX(double x)
     {
         this.x = x;
     }
 
-    public int getY()
+    public double getY()
     {
         return this.y;
     }
     
-    public void setY(int y)
+    public void setY(double y)
     {
         this.y = y;
     }
@@ -346,10 +357,10 @@ public class Brick {
     public void draw(Graphics2D g2)
     {
         g2.setColor(this.color);
-        g2.fillRect(this.x, this.y, this.width, this.height);
+        g2.fillRect((int) this.x, (int) this.y, this.width, this.height);
         g2.setStroke(new BasicStroke(1));
         g2.setColor(Color.BLACK);
-        g2.drawRect(x, y, width, height);
+        g2.drawRect((int) x, (int) y, width, height);
     }
 
     public void draw(Graphics2D g2, boolean outline)
@@ -357,27 +368,27 @@ public class Brick {
         if(outline)
         {
             g2.setColor(this.color);
-            g2.fillRect(this.x, this.y, this.width, this.height);
+            g2.fillRect((int) this.x, (int) this.y, this.width, this.height);
             g2.setStroke(new BasicStroke(1));
             g2.setColor(Color.BLACK);
-            g2.drawRect(x, y, width, height);
+            g2.drawRect((int) x, (int) y, width, height);
         }
         else
         {
             g2.setColor(this.color);
-            g2.fillRect(this.x, this.y, this.width, this.height);
+            g2.fillRect((int) this.x, (int) this.y, this.width, this.height);
         }
     }
 
     public void drawCircle(Graphics2D g2)
     {
         g2.setColor(new Color(230, 230, 230));
-        g2.fillOval(x, y, width, height);
+        g2.fillOval((int) x, (int) y, width, height);
     }
 
     public void drawImage(Graphics2D g2)
     {
-        g2.drawImage(img, x, y, width, height, null);
+        g2.drawImage(img, (int) x, (int) y, width, height, null);
     }
 
     public static Color getRandomColor()
@@ -471,8 +482,8 @@ public class Brick {
 
    public boolean checkAndReactToCollisionWith(Brick r)
 {
-   int xm = x + width/2; //use the center of the moving brick as a reference
-   int ym = y + height/2; //use the center of the moving brick as a reference
+   double xm = x + width/2; //use the center of the moving brick as a reference
+   double ym = y + height/2; //use the center of the moving brick as a reference
    
    int side = getSideForIntersection(r, xm, ym); //get the moving brick in relation to the other brick
    
@@ -494,7 +505,7 @@ public class Brick {
 *    2 = bottom
 *    3 = left
 */
-private int getSideForIntersection(Brick r, int x1, int y1)
+private int getSideForIntersection(Brick r, double x1, double y1)
 {
    double slopeMajor = (double) r.height / r.width;         //major diagonal slope
    double slopeMinor = (double) -r.height / r.width;        //minor diagonal slope
@@ -603,7 +614,7 @@ private boolean checkCollisionTopOfRectangle(Brick r)
 
 // }
 
-// public Color getChangedColor(int x1, int y1)
+// public Color getChangedColor(double x1, double y1)
 // {
 //     if (x1 + y1 > 0 && x1 + y1 < 256)
 //         return new Color(x1+y1, 0, 0);
@@ -619,7 +630,7 @@ private boolean checkCollisionTopOfRectangle(Brick r)
 
 public void colorAdjust(int MAXW, int MAXH)
 {
-    color = Color.getHSBColor(((x + y)/ (float) (MAXW + MAXH)), 1f, 1f);
+    color = Color.getHSBColor((((int) x + (int) y)/ (float) (MAXW + MAXH)), 1f, 1f);
 }
 
 public Color getChangedColor(int x1, int y1, int MAXW, int MAXH)
@@ -644,10 +655,10 @@ public static String asFraction(long a, long b) {
     return (a / gcd) + "/" + (b / gcd);
 }
 
-public boolean isInside(int x1, int y1)
+public boolean isInside(double x1, double y1)
     {
-        int x2 = this.x + this.width;
-        int y2 = this.y + this.height;
+        double x2 = this.x + this.width;
+        double y2 = this.y + this.height;
 
         if(x1 > this.x && y1 > this.y && x1 < x2 && y1 < y2)
         return true;

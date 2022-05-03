@@ -44,17 +44,18 @@ private Timer timer;
 private int mouseX, mouseY;
 
 //Game Booleans
-private boolean ballActive, slowMode, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug;
+private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug;
 
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
-private double speed = 2, initialSpeed = 2;
+private double speed = 10, initialSpeed = speed;
 private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/8, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
 
 //Non-Player Variables
-int level = 10;
+private int level = 10;
+private int alienTimer = 0;
 private ArrayList<Brick> alien = new ArrayList<Brick>();
-private GameObject laser = new GameObject(ship.getX() + (ship.getW() / 2), ship.getY() - 10, 10, 10, Color.white, speed, -speed, 0, PREF_W, 0, PREF_H);
+private GameObject laser = new GameObject((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 10, Color.white, (double) 0, speed, 0, PREF_W, 0, PREF_H);
 
 //Sound
 // private Clip break1, break2, levelFinish;
@@ -100,12 +101,29 @@ public SpaceInvaders()
         @Override
         public void actionPerformed(ActionEvent e) { 
                 
+            alienTimer++;
+
+            if (alienTimer >= 50)
+            {
+                // test();
+                for(Brick i : alien)
+                {
+                    if(i.getX() > PREF_W - i.getW() - 5 || i.getX() < 5)
+                        i.setDx(-i.getDx());
+
+                }
+                alienTimer = 0;
+
+                for(Brick j : alien)
+                    j.setX((int) (j.getX() + j.getDx()));
+            }
+
             //Updating & Collision Checks
             if(autonomous && !ballActive || !autonomous)
                 ship.updateKeyMovement();
 
             if(ballActive && !settings)
-            laser.update();
+                laser.update();
             else
             {
                 laser.setX(ship.getX() + (ship.getW() / 2) - 5);
@@ -113,9 +131,9 @@ public SpaceInvaders()
             }
 
             laser.checkAndReactToCollisionWith(ship);
-                // setBallDirection();
 
-            //Brick Removing
+
+                //Brick Removing
             try {
                 for(Brick i : alien)
                 {   
@@ -132,65 +150,16 @@ public SpaceInvaders()
                         }
                         if(!autonomous)
                         score += 10;
+
+                        ballActive = false; 
                     }
 
-                    if (i.getX() > (PREF_W - i.getW() - 5))
-                    {
-                        for(Brick j : alien)
-                        {
-                            j.setDx(-j.getDx());
-                            j.setX(j.getX() - 10);
-                            // j.setX((int) (j.getX() - Math.abs(j.getDx())));
-                            // j.setY((int) (i.getY() + i.getDy() * 20));
-                        }
-                    }
-
-                    if (i.getX() < 5)
-                    {
-                        for(Brick j : alien)
-                        {
-                            j.setDx(-j.getDx());
-                            j.setX(j.getX() + 10);
-                            // j.setX((int) (j.getX() + Math.abs(j.getDx())));
-                            // j.setY((int) (i.getY() + i.getDy() * 20));
-                        }   
-                    }
-
-                    i.setX((int) (i.getX() + i.getDx() * 10));
                 }
             } catch (ConcurrentModificationException a) {} 
 
-            //Setting Slowmode Speed
-            if(slowMode)
-                {
-                    if (laser.getDx() < 0)
-                    laser.setDx(-speed / 2);
-                    else
-                    laser.setDx(speed / 2);
-                    
-                    if (laser.getDy() < 0)
-                    laser.setDy(-speed / 2);
-                    else
-                    laser.setDy(speed / 2);
-
-                    if (ship.getDx() < 0)
-                    ship.setDx((-speed * 2) / 2);
-                    else
-                    ship.setDx((speed * 2) / 2);
-                }
-                else {}
-
-            if (laser.getX() < laser.getXMin() || laser.getX() > (laser.getXMax() - laser.getW()))
-                laser.setDx(-laser.getDx());
-
-            if (laser.getY() < laser.getYMin())
-                laser.setDy(-laser.getDy());
-            
-            if (laser.getY() > laser.getYMax() - laser.getH())
-            {
+            if (laser.getY() < laser.getYMin() || laser.getY() > laser.getYMax() - laser.getH())
                 ballActive = false;
-                lives--;
-            }
+
 
             repaint();
         }         
@@ -242,9 +211,9 @@ public void paintComponent(Graphics g) {
     
     if(debug)
     {
-        g2.drawString("Angle: " + angle, 0, PREF_H - (PREF_H / 3) + 50);
-        g2.drawString("DX: " + laser.getDx(), 200, PREF_H - (PREF_H / 3) + 30);
-        g2.drawString("DY: " + laser.getDy(), 200, PREF_H - (PREF_H / 3) + 50);
+        g2.drawString("Speed: " + speed, 0, PREF_H - (PREF_H / 3) + 50);
+        g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
+        g2.drawString("X: " + alien.get(1).getX(), 200, PREF_H - (PREF_H / 3) + 50);
     }
 
     for(Brick i : alien)
@@ -340,9 +309,6 @@ public void keyPressed(KeyEvent e)
     {
         ballActive = true;
     }
-        
-    if(key == KeyEvent.VK_SHIFT)
-        slowMode = true;
 
     if(key == KeyEvent.VK_ESCAPE && settings && totalLives != initialLives || speed != initialSpeed)
     {
@@ -369,27 +335,6 @@ public void keyReleased(KeyEvent e){
 
     if(!settings)
         ship.keyWasReleased(key);
-    
-    if(key == KeyEvent.VK_SHIFT && !settings)
-    {
-        slowMode = false;
-
-        //Resetting Speed
-        if (laser.getDx() < 0)
-        laser.setDx(-speed);
-        else
-        laser.setDx(speed);
-        
-        if (laser.getDy() < 0)
-        laser.setDy(-speed);
-        else
-        laser.setDy(speed);
-        
-        if (ship.getDx() < 0)
-        ship.setDx(-speed * 2);
-        else
-        ship.setDx(speed * 2);
-    }
 }
 
 
@@ -475,7 +420,7 @@ public void resetGame()
         {
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
-            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), 1, 1));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), 0.25, 0.25));
         }
 
     lives = totalLives;
@@ -501,7 +446,7 @@ public void fullResetGame()
         {
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
-            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), 1, 1));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), speed, speed));
         }
 
     lives = totalLives;
@@ -523,5 +468,52 @@ public void fullResetGame()
 
 
 // }
+
+    public boolean aliensMoveDirection()
+    {
+        for (Brick i : alien)
+        {
+            if (i.getX() > PREF_W - i.getW() - 5 || i.getX() < 5)
+            {
+                i.setDx(-i.getDx());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void moveAliens(boolean vertical)
+    {
+        if(vertical)
+        {
+            for(Brick i : alien)
+                i.setY((int) (i.getY() + i.getDy()));
+        }
+        else
+        {
+            for(Brick i : alien)
+                i.setX((int) (i.getX() + i.getDx()));
+        }
+    }
+
+    public void test()
+    {
+        for (Brick i : alien)
+        {
+            if (i.getX() > PREF_W - i.getW() - 5 || i.getX() < 5)
+            {
+                for(Brick j : alien)
+                    j.setY((int) (j.getY() + j.getDy()));
+
+                i.setDx(-i.getDx());
+            }
+            else
+            {
+                for(Brick j : alien)
+                    j.setX((int) (j.getX() + j.getDx()));
+            }
+        }  
+    }
 
 }

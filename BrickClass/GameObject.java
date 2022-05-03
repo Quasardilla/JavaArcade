@@ -9,34 +9,39 @@ public class GameObject extends Brick{
    public int hit;
 
 
-    public GameObject(int x, int y, int width, int height)
+    public GameObject(double x, double y, int width, int height)
     {
         super(x, y, width, height);
     }
 
-    public GameObject(int x, int y, int width, int height, Color color) //Another constructor with optional values
+    public GameObject(double x, double y, int width, int height, Color color) //Another constructor with optional values
     {
         super(x, y, width, height, color);
     }
 
-    public GameObject(int x, int y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
+    public GameObject(double x, double y, int width, int height, Color color, int dx, int dy) //Another constructor with optional values
     {
         super(x, y, width, height, color, dx, dy);
     }
 
-    public GameObject(int x, int y, int width, int height, Color color, int dx, int dy,
+    public GameObject(double x, double y, int width, int height, Color color, double dx, double dy) //Another constructor with optional values
+    {
+        super(x, y, width, height, color, dx, dy);
+    }
+
+    public GameObject(double x, double y, int width, int height, Color color, int dx, int dy,
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, null);
     }
 
-    public GameObject(int x, int y, int width, int height, Color color, double dx, double dy,
+    public GameObject(double x, double y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, null);
     }
 
-    public GameObject(int x, int y, int width, int height, Color color, double dx, double dy,
+    public GameObject(double x, double y, int width, int height, Color color, double dx, double dy,
      int XMin, int XMax, int YMin, int YMax, Image img) //Another constructor with all values
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, img);
@@ -44,8 +49,8 @@ public class GameObject extends Brick{
 
 public boolean checkAndReactToCollisionWith(Brick r)
    {
-      int xm = x + width/2; //use the center of the moving brick as a reference
-      int ym = y + height/2; //use the center of the moving brick as a reference
+      int xm = (int) x + width/2; //use the center of the moving brick as a reference
+      int ym = (int) y + height/2; //use the center of the moving brick as a reference
       
       int side = getSideForIntersection(r, xm, ym); //get the moving brick in relation to the other brick
       
@@ -164,8 +169,8 @@ public boolean checkAndReactToCollisionWith(Brick r)
 
    public boolean checkAndReactToCollisionWith(GameObject r)
 {
-   int xm = x + width/2; //use the center of the moving brick as a reference
-   int ym = y + height/2; //use the center of the moving brick as a reference
+   int xm = (int) x + width/2; //use the center of the moving brick as a reference
+   int ym = (int) y + height/2; //use the center of the moving brick as a reference
    
    int side = getSideForIntersection(r, xm, ym); //get the moving brick in relation to the other brick
    
@@ -283,8 +288,8 @@ private boolean checkCollisionTopOfRectangle(GameObject r)
 
 public void update()
 {
-        x += dx;
-        y += dy;
+   x += dx;
+   y += dy;
 }
 
 public boolean checkIfNotPlayer()
