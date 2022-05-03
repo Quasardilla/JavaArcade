@@ -103,21 +103,6 @@ public SpaceInvaders()
                 
             alienTimer++;
 
-            if (alienTimer >= 50)
-            {
-                // test();
-                for(Brick i : alien)
-                {
-                    if(i.getX() > PREF_W - i.getW() - 5 || i.getX() < 5)
-                        i.setDx(-i.getDx());
-
-                }
-                alienTimer = 0;
-
-                for(Brick j : alien)
-                    j.setX((int) (j.getX() + j.getDx()));
-            }
-
             //Updating & Collision Checks
             if(autonomous && !ballActive || !autonomous)
                 ship.updateKeyMovement();
@@ -152,6 +137,34 @@ public SpaceInvaders()
                         score += 10;
 
                         ballActive = false; 
+                    }
+
+                    // if (alienTimer >= 50)
+                    {
+                        if (i.getX() > (PREF_W - i.getW() - 5))
+                        {
+                            for(Brick j : alien)
+                            {
+                                j.setDx(-j.getDx());
+                                j.setX((int) (j.getX() + j.getDx() * 10));
+                                // j.setY((int) (i.getY() + i.getDy() * 20));
+                            }
+                            break;
+                        }
+                        else if (i.getX() < 5)
+                        {
+                            for(Brick j : alien)
+                            {
+                                j.setDx(Math.abs(j.getDx()));
+                                j.setX((int) (j.getX() + j.getDx() * 10));
+                                // j.setY((int) (i.getY() + i.getDy() * 20));
+                            }
+                            break; 
+                        }
+                        else
+                            i.setX((int) (i.getX() + i.getDx() * 10));
+
+                        alienTimer = 0;
                     }
 
                 }
