@@ -139,36 +139,30 @@ public SpaceInvaders()
                         ballActive = false; 
                     }
 
-                    // if (alienTimer >= 50)
-                    {
-                        if (i.getX() > (PREF_W - i.getW() - 5))
-                        {
-                            for(Brick j : alien)
-                            {
-                                j.setDx(-j.getDx());
-                                j.setX((int) (j.getX() + j.getDx() * 10));
-                                // j.setY((int) (i.getY() + i.getDy() * 20));
-                            }
-                            break;
-                        }
-                        else if (i.getX() < 5)
-                        {
-                            for(Brick j : alien)
-                            {
-                                j.setDx(Math.abs(j.getDx()));
-                                j.setX((int) (j.getX() + j.getDx() * 10));
-                                // j.setY((int) (i.getY() + i.getDy() * 20));
-                            }
-                            break; 
-                        }
-                        else
-                            i.setX((int) (i.getX() + i.getDx() * 10));
-
-                        alienTimer = 0;
-                    }
-
                 }
             } catch (ConcurrentModificationException a) {} 
+
+            for (Brick i : alien)
+            {
+                // if (alienTimer >= 50)
+                {
+                    if (i.getX() > (PREF_W - i.getW() - 5) || i.getX() < 5)
+                    {
+                        for(Brick j : alien)
+                        {
+                            j.setDx(-j.getDx());
+                            System.out.println(-j.getDx());
+                            j.setX((int) (j.getX() + (j.getDx() * 10) * 2));
+                            // j.setY((int) (i.getY() + i.getDy() * 20));
+                        }
+                        break;
+                    }
+                    else
+                        i.setX((int) (i.getX() + (i.getDx() * 10)));
+
+                    alienTimer = 0;
+                }
+            }
 
             if (laser.getY() < laser.getYMin() || laser.getY() > laser.getYMax() - laser.getH())
                 ballActive = false;
