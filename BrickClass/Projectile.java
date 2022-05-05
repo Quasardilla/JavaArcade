@@ -3,7 +3,7 @@ package BrickClass;
 import java.awt.Color;
 import java.awt.Image;
 
-public class Projectile extends GameObject {
+public class Projectile extends GameObject {    
 
     public Projectile(int x, int y, int width, int height)
     {
@@ -37,6 +37,12 @@ public class Projectile extends GameObject {
     {
         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax, img);
     }
+
+    public Projectile(double x, double y, int width, int height, Color color, double dx, double dy,
+     int XMin, int XMax, int YMin, int YMax)
+     {
+         super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax);
+     }
     
     
 }
