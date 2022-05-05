@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.ConcurrentModificationException;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -31,6 +34,7 @@ import javax.swing.event.MouseInputListener;
 import BrickClass.Brick;
 import BrickClass.GameObject;
 import BrickClass.Projectile;
+import BrickClass.SpriteSheet;
 import UI.Slider;
 import UI.Switch;
 import UI.Bar;
@@ -57,6 +61,15 @@ private int level = 10;
 private int alienTimer = 0;
 private ArrayList<Brick> alien = new ArrayList<Brick>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 10, Color.white, (double) 0, speed, 0, PREF_W, 0, PREF_H);
+
+//Images
+private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser1.png").getImage(), 3, 7, 4);
+private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser2.png").getImage(), 3, 7, 4);
+private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser3.png").getImage(), 3, 7, 4);
+private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
+private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
+private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
+private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
 
 //Sound
 // private Clip destroy, break2, levelFinish;
