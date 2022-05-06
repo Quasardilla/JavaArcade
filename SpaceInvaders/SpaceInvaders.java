@@ -34,8 +34,8 @@ import javax.swing.event.MouseInputListener;
 import BrickClass.Brick;
 import BrickClass.GameObject;
 import BrickClass.Projectile;
-import BrickClass.SpriteSheet;
 import UI.Slider;
+import UI.SpriteSheet;
 import UI.Switch;
 import UI.Bar;
 import UI.Button;
@@ -66,9 +66,9 @@ private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 10, Color.white, (double) 0, speed, 0, PREF_W, 0, PREF_H);
 
 //Images
-private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser1.png").getImage(), 3, 7, 4);
-private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser2.png").getImage(), 3, 7, 4);
-private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser3.png").getImage(), 3, 7, 4);
+private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
+private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
+private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
 private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
 private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
 private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
@@ -246,7 +246,7 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
-        i.draw(g2);
+        i.drawImage(g2);
 
 
     //Game States
@@ -513,10 +513,10 @@ public void fullResetGame()
                 projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
                 break;
             case 2:
-                projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
+                projectiles.add(new Projectile(x, y, 3, 7, laser2.get(0)));
                 break;
             case 3:
-                projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
+                projectiles.add(new Projectile(x, y, 3, 7, laser3.get(0)));
                 break;
         
             default:

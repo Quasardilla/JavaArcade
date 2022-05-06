@@ -1,4 +1,4 @@
-package BrickClass;
+package UI;
 
 import java.util.ArrayList;
 import java.awt.Image;
