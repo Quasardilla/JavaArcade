@@ -47,6 +47,28 @@ public class Brick {
         this.ss = ss;
     }
 
+    public Brick(double x, double y, int width, int height, SpriteSheet ss, double dx, double dy)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width; 
+        this.height = height;
+        this.ss = ss;
+        this.dx = dx;
+        this.dy = dy;
+    }
+
+    public Brick(double x, double y, int width, int height, SpriteSheet ss, int dx, int dy)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width; 
+        this.height = height;
+        this.ss = ss;
+        this.dx = dx;
+        this.dy = dy;
+    }
+    
     public Brick(double x, double y, int width, int height, Color color) //Another constructor with optional values
     {
         this.x = x;

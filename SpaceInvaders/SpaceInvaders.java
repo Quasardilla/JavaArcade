@@ -176,7 +176,7 @@ public SpaceInvaders()
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
                     }
                     else
-                        i.setX((int) (i.getX() + (i.getDx() * 10)));
+                        i.setX((int) (i.getX() + (i.getDx() * 10)));                    
                 }
                     
             alienAnim += 1;
@@ -190,7 +190,7 @@ public SpaceInvaders()
                 for(Brick j : alien)
                 {
                     j.setDx(-j.getDx());
-                    j.setX((int) (j.getX() + (j.getDx() * 13)));
+                    j.setX((int) (j.getX() + (j.getDx() * 15)));
                     j.setY((int) (j.getY() + j.getDy() * 20));
                 }
                 flipAliens = false;
@@ -462,11 +462,11 @@ public void resetGame()
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
             if(i == 0)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien1));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien1, 1, 1));
             else if(i == 1 || i == 2)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien2));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien2, 1, 1));
             else if(i == 3 || i == 4)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien3));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien3, 1, 1));
         }
 
     lives = totalLives;
