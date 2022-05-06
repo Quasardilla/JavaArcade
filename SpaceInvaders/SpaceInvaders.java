@@ -173,9 +173,12 @@ public SpaceInvaders()
                     }
                     else
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
-
-                    alienTimer = 0;
                 }
+                    
+            alienAnim += 1;
+            if (alienAnim >= 2) alienAnim = 0;
+
+                alienTimer = 0;
             }
 
             if (flipAliens)
@@ -251,9 +254,14 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
+<<<<<<< Updated upstream
         i.drawImage(g2, (int) alienAnim % i.ss.getLength());
     
     alienAnim+=0.03;
+=======
+        i.drawImage(g2, (int) alienAnim);
+
+>>>>>>> Stashed changes
 
 
     //Game States
