@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -25,6 +26,9 @@ import java.awt.Font;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 
+import UI.SpriteSheet;
+import javax.swing.ImageIcon;
+
 public class testGUI extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
@@ -34,6 +38,8 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
     private static int FPSCap = 60;
 
     private static TextBox tb;
+    private SpriteSheet laser = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
+
 
     public testGUI()
     {
@@ -64,7 +70,8 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
 
         tb.draw();
         
-        
+        g2.drawImage(laser.get(1).getScaledInstance(100, 100, Image.SCALE_DEFAULT), 100, 100, null);
+
         //keep this for program to work
         long millis = System.currentTimeMillis();
         try

@@ -34,8 +34,8 @@ import javax.swing.event.MouseInputListener;
 import BrickClass.Brick;
 import BrickClass.GameObject;
 import BrickClass.Projectile;
-import BrickClass.SpriteSheet;
 import UI.Slider;
+import UI.SpriteSheet;
 import UI.Switch;
 import UI.Bar;
 import UI.Button;
@@ -66,9 +66,9 @@ private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 10, Color.white, (double) 0, speed, 0, PREF_W, 0, PREF_H);
 
 //Images
-private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser1.png").getImage(), 3, 7, 4);
-private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser2.png").getImage(), 3, 7, 4);
-private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/laser3.png").getImage(), 3, 7, 4);
+private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
+private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
+private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
 private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
 private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
 private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
@@ -208,7 +208,7 @@ public void paintComponent(Graphics g) {
     //General Drawing Configuration
     g2.setRenderingHints(hints);
     g2.setFont(font);
-    g2.setColor(Color.black);
+    g2.setColor(Color.WHITE);
     g2.fillRect(0, 0, PREF_W, PREF_H);
     metrics = g2.getFontMetrics(font);
     
@@ -227,8 +227,8 @@ public void paintComponent(Graphics g) {
     } catch (Exception e){}
 
     //Entity Drawing
-    ship.draw(g2);
-    laser.draw(g2);
+    ship.drawImage(g2);
+    laser.drawImage(g2);
     
     g2.setColor(Color.white);
 
@@ -246,7 +246,7 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
-        i.draw(g2);
+        i.drawImage(g2);
 
 
     //Game States
@@ -465,23 +465,8 @@ public void resetGame()
 }
 
 public void fullResetGame()
-{
-    for (int i = alien.size() - 1; i > 0; i--)
-        alien.remove(i);
-
-    int alienWidth = 28;
-    int alienHeight = 28;
-    int verticalDist = 60;
-    int horizontalDist = 50;
-    
-    
-    for (int i = 0; i < 5; i += 1) //y
-        for (double ii = 1.2; ii < (PREF_W / horizontalDist) - 1; ii += 1) //x
-        {
-            int x = (int) (ii * horizontalDist);
-            int y = i * verticalDist;
-            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), speed, speed));
-        }
+{    
+    resetGame();
 
     lives = totalLives;
     score = 0;

@@ -1,4 +1,4 @@
-package BrickClass;
+package UI;
 
 import java.util.ArrayList;
 import java.awt.Image;
@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 
 public class SpriteSheet {
     
-    protected Image spriteSheet;
+    public Image spriteSheet;
     protected int width, height, imgCount;
     protected ArrayList<Image> arr = new ArrayList<Image>();
 
@@ -21,7 +21,9 @@ public class SpriteSheet {
         int y = 0;
 		while (y * height < spriteSheet.getHeight(null) - height + 1) {
 			int x = 0;
+			System.out.println("entered y");
 			while (x * width < spriteSheet.getWidth(null) - width + 2) {
+				System.out.println("entered x");
 				BufferedImage bimg = toBufferedImage(spriteSheet).getSubimage(x * width, y * height, width,
 						height);
 				arr.add(bimg);
