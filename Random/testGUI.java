@@ -38,7 +38,6 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
     private static int FPSCap = 60;
 
     private static TextBox tb;
-    private SpriteSheet laser = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
 
 
     public testGUI()
@@ -50,7 +49,7 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
         requestFocus();
 
 
-        tb = new TextBox(/*x*/ 50d, /*y*/ 50d, /*width*/ 5d, /*height*/ 25d, /*prompt*/ "Type hereeeeee: ", /*promptcolor*/ Color.BLACK, /*promptfont*/ new Font("Quicksand", Font.PLAIN, 25), /*promptfontsize*/ 10, /*text*/ "1ahflkjhasdlkjfhalsjdhflas", /*textcolor*/ Color.BLUE, /*textfont*/ new Font("Quicksand", Font.PLAIN, 25), /*textfontsize*/ 10, /*texttopromptoffset*/ 20d, /*prompttobackgroundoffset*/ 10d, /*backgroundcolor*/ Color.LIGHT_GRAY, /*edgecurve*/ 10, /*growboxwithtext*/ true);
+        tb = new TextBox(/*x*/ 50d, /*y*/ 50d, /*height*/ 25d, /*prompt*/ "Type hereeeeee: ", /*promptcolor*/ Color.BLACK, /*promptfont*/ new Font("Quicksand", Font.PLAIN, 25), /*promptfontsize*/ 10, /*text*/ "1ahflkjhasdlkjfhalsjdhflas", /*textcolor*/ Color.BLUE, /*textfont*/ new Font("Quicksand", Font.PLAIN, 25), /*textfontsize*/ 10, /*texttopromptoffset*/ 20d, /*prompttobackgroundoffset*/ 10d, /*backgroundcolor*/ Color.LIGHT_GRAY, /*edgecurve*/ 10);
 
     }
     
@@ -68,9 +67,10 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
         tb.setGraphics(g2);
         
 
+
         tb.draw();
         
-        g2.drawImage(laser.get(1).getScaledInstance(100, 100, Image.SCALE_DEFAULT), 100, 100, null);
+
 
         //keep this for program to work
         long millis = System.currentTimeMillis();

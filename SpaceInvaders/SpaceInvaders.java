@@ -23,7 +23,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.ConcurrentModificationException;
-
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -54,16 +54,14 @@ private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, a
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
 private double speed = 10, initialSpeed = speed;
-private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/8, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
+private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/8, 80, 20, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
 
 //Non-Player Variables
-private int currentAlienFrame;
-private int currentProjectileFrame;
 private int level = 10;
 private int alienTimer = 0;
 private ArrayList<Brick> alien = new ArrayList<Brick>();
 private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 10, Color.white, (double) 0, speed, 0, PREF_W, 0, PREF_H);
+private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 30, Color.white, (double) 0, speed/2, 0, PREF_W, 0, PREF_H);
 
 //Images
 private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
@@ -90,8 +88,9 @@ private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, C
 private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
 private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
-private double alienAnim = 0;
 public double angle;
+private double alienAnim = 0;
+private double shipLaserAnim = 0;
 
 public SpaceInvaders()
 {
@@ -113,7 +112,7 @@ public SpaceInvaders()
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
 
-
+    laser.ss = laser5;
             
     resetGame();
 
@@ -231,8 +230,10 @@ public void paintComponent(Graphics g) {
     } catch (Exception e){}
 
     //Entity Drawing
-    ship.drawImage(g2);
-    laser.drawImage(g2);
+    ship.draw(g2);
+    if (ballActive)
+        laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
+    shipLaserAnim += 0.1;
     
     g2.setColor(Color.white);
 
@@ -250,18 +251,17 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
-        i.drawImage(g2, (int) alienAnim);
+        i.drawImage(g2, (int) alienAnim % i.ss.getLength());
     
-    alienAnim+=0.05;
-
-    if (alienAnim >= 2) alienAnim = 0;
+    alienAnim+=0.03;
 
 
     //Game States
     g2.setColor(Color.white);
     if(!ballActive && lives == totalLives && !gameOver)
         {
-            message = "Press SPACE to play!";
+            // message = "Press SPACE to play!";
+            message = "";
             g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
         }
     if(alien.size() <= 0)

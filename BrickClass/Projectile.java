@@ -5,7 +5,7 @@ import java.awt.Image;
 
 public class Projectile extends GameObject {    
 
-    Image img;
+    public Image img;
 
     public Projectile(int x, int y, int width, int height)
     {

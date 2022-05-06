@@ -5,22 +5,18 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JTable.PrintMode;
-
 public class TextBox extends UIElement implements KeyListener
 {
-    public double width, height, textToPromptOffset, promptToBackgroundOffset;
+    public double height, textToPromptOffset, promptToBackgroundOffset;
     public int promptFontSize, textFontSize, edgeCurve;
     public String prompt, text;
     public Color promptColor, textColor, backgroundcColor;
     public Font promptFont, textFont;
-    public boolean growBoxWithText;
     
-    public TextBox(double x, double y, double width, double height, String prompt, Color promptColor, Font promptFont, int promptFontSize, String text, Color textColor, Font textFont, int textFontSize, double textToPromptOffset, double promptToBackgroundOffset, Color backgroundColor, int edgeCurve, boolean growBoxWithText)
+    public TextBox(double x, double y, double height, String prompt, Color promptColor, Font promptFont, int promptFontSize, String text, Color textColor, Font textFont, int textFontSize, double textToPromptOffset, double promptToBackgroundOffset, Color backgroundColor, int edgeCurve)
     {
         this.x = x;
         this.y = y;
-        this.width = width;
         this.height = height;
         this.textToPromptOffset = textToPromptOffset;
         this.promptToBackgroundOffset = promptToBackgroundOffset;
@@ -36,7 +32,6 @@ public class TextBox extends UIElement implements KeyListener
         this.promptFont = new Font(this.promptFont.getFontName(), Font.PLAIN, promptFontSize);
         this.textFont = textFont;
         this.textFont = new Font(this.textFont.getFontName(), Font.PLAIN, textFontSize);
-        this.growBoxWithText = growBoxWithText;
     }
 
     @Override
@@ -55,7 +50,7 @@ public class TextBox extends UIElement implements KeyListener
                 
         int w = (int) (promptToBackgroundOffset + textToPromptOffset + promptToBackgroundOffset + pw + tw);
 
-        g2.fillRoundRect((int) x, (int) y, (w < width) ? (int) width : w, (int) height, edgeCurve, edgeCurve);
+        g2.fillRoundRect((int) x, (int) y, w, (int) height, edgeCurve, edgeCurve);
 
         //draw prompt
         g2.setColor(promptColor);
