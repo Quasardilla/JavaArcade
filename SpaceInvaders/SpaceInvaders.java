@@ -54,7 +54,7 @@ private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, a
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
 private double speed = 10, initialSpeed = speed;
-private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/8, 80, 20, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
+private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 78, 48, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
 
 //Non-Player Variables
 private int level = 10;
@@ -72,6 +72,7 @@ private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projec
 private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
 private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
 private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
+private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/ship.png").getImage(), 13, 8, 3);
 private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
 
 //Sound
@@ -112,6 +113,7 @@ public SpaceInvaders()
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
 
+    ship.ss = shipShoot;
     laser.ss = laser5;
             
     resetGame();
@@ -230,9 +232,12 @@ public void paintComponent(Graphics g) {
     } catch (Exception e){}
 
     //Entity Drawing
-    ship.draw(g2);
+    ship.drawImage(g2, (ballActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
+
     if (ballActive)
         laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
+    else
+        shipLaserAnim = 0;
     shipLaserAnim += 0.1;
     
     g2.setColor(Color.white);
