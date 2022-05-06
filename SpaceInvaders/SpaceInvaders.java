@@ -34,6 +34,7 @@ import javax.swing.event.MouseInputListener;
 import BrickClass.Brick;
 import BrickClass.GameObject;
 import BrickClass.Projectile;
+import Font.FontInstaller;
 import UI.Slider;
 import UI.SpriteSheet;
 import UI.Switch;
@@ -100,6 +101,8 @@ public SpaceInvaders()
     setFocusable(true);
     requestFocus();
     
+    FontInstaller.installFont();
+
         // URL file = this.getClass().getResource("break1.wav");
         //     AudioInputStream audio;
         //     try {
