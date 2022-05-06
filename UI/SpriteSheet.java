@@ -21,9 +21,7 @@ public class SpriteSheet {
         int y = 0;
 		while (y * height < spriteSheet.getHeight(null) - height + 1) {
 			int x = 0;
-			System.out.println("entered y");
 			while (x * width < spriteSheet.getWidth(null) - width + 2) {
-				System.out.println("entered x");
 				BufferedImage bimg = toBufferedImage(spriteSheet).getSubimage(x * width, y * height, width,
 						height);
 				arr.add(bimg);

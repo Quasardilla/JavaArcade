@@ -208,7 +208,7 @@ public void paintComponent(Graphics g) {
     //General Drawing Configuration
     g2.setRenderingHints(hints);
     g2.setFont(font);
-    g2.setColor(Color.WHITE);
+    g2.setColor(Color.BLACK);
     g2.fillRect(0, 0, PREF_W, PREF_H);
     metrics = g2.getFontMetrics(font);
     
