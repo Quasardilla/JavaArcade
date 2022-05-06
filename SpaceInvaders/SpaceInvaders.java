@@ -254,14 +254,8 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
-<<<<<<< Updated upstream
-        i.drawImage(g2, (int) alienAnim % i.ss.getLength());
-    
-    alienAnim+=0.03;
-=======
         i.drawImage(g2, (int) alienAnim);
 
->>>>>>> Stashed changes
 
 
     //Game States
