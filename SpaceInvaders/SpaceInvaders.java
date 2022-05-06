@@ -139,7 +139,9 @@ public SpaceInvaders()
 
             laser.checkAndReactToCollisionWith(ship);
 
-
+            if(laser.getDy() != Math.abs(laser.getDy()))
+                ballActive = false;
+                
                 //Brick Removing
             try {
                 for(Brick i : alien)
@@ -175,9 +177,12 @@ public SpaceInvaders()
                     }
                     else
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
-
-                    alienTimer = 0;
                 }
+                    
+            alienAnim += 1;
+            if (alienAnim >= 2) alienAnim = 0;
+
+                alienTimer = 0;
             }
 
             if (flipAliens)
@@ -256,9 +261,8 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
-        i.drawImage(g2, (int) alienAnim % i.ss.getLength());
-    
-    alienAnim+=0.03;
+        i.drawImage(g2, (int) alienAnim);
+
 
 
     //Game States
