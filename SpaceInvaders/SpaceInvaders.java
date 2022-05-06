@@ -88,7 +88,7 @@ private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, C
 private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
 private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
-
+private double alienAnim = 0;
 public double angle;
 
 public SpaceInvaders()
@@ -110,6 +110,8 @@ public SpaceInvaders()
     
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
+
+
             
     resetGame();
 
@@ -208,7 +210,7 @@ public void paintComponent(Graphics g) {
     //General Drawing Configuration
     g2.setRenderingHints(hints);
     g2.setFont(font);
-    g2.setColor(Color.WHITE);
+    g2.setColor(Color.BLACK);
     g2.fillRect(0, 0, PREF_W, PREF_H);
     metrics = g2.getFontMetrics(font);
     
@@ -246,7 +248,11 @@ public void paintComponent(Graphics g) {
     }
 
     for(Brick i : alien)
-        i.drawImage(g2);
+        i.drawImage(g2, (int) alienAnim);
+    
+    alienAnim+=0.05;
+
+    if (alienAnim >= 2) alienAnim = 0;
 
 
     //Game States
@@ -450,11 +456,11 @@ public void resetGame()
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
             if(i == 0)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien1.get(0)));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien1));
             else if(i == 1 || i == 2)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien2.get(0)));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien2));
             else if(i == 3 || i == 4)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien3.get(0)));
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien3));
         }
 
     lives = totalLives;

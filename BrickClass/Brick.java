@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
+import UI.SpriteSheet;
+
 public class Brick {
     //Variables for the class's objects (Instance Variables)
     protected double x, y;
@@ -15,6 +17,7 @@ public class Brick {
     protected int leftKey, rightKey, upKey, downKey;
     protected int leftKey2, rightKey2, upKey2, downKey2;
     public Image img;
+    public SpriteSheet ss;
     protected int value;
     
     public Brick(double x, double y, int width, int height)
@@ -33,6 +36,15 @@ public class Brick {
         this.width = width; 
         this.height = height;
         this.img = img;
+    }
+
+    public Brick(double x, double y, int width, int height, SpriteSheet ss)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width; 
+        this.height = height;
+        this.ss = ss;
     }
 
     public Brick(double x, double y, int width, int height, Color color) //Another constructor with optional values
@@ -393,6 +405,11 @@ public class Brick {
     {
         g2.setColor(new Color(230, 230, 230));
         g2.fillOval((int) x, (int) y, width, height);
+    }
+
+    public void drawImage(Graphics2D g2, int anim)
+    {
+        g2.drawImage(ss.get(anim), (int) x, (int) y, width, height, null);
     }
 
     public void drawImage(Graphics2D g2)

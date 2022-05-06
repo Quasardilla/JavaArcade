@@ -10,6 +10,7 @@ public class SpriteSheet {
     public Image spriteSheet;
     protected int width, height, imgCount;
     protected ArrayList<Image> arr = new ArrayList<Image>();
+	protected int anim = 0;
 
     public SpriteSheet(Image spriteSheet, int width, int height, int imgCount)
     {
@@ -21,9 +22,7 @@ public class SpriteSheet {
         int y = 0;
 		while (y * height < spriteSheet.getHeight(null) - height + 1) {
 			int x = 0;
-			System.out.println("entered y");
 			while (x * width < spriteSheet.getWidth(null) - width + 2) {
-				System.out.println("entered x");
 				BufferedImage bimg = toBufferedImage(spriteSheet).getSubimage(x * width, y * height, width,
 						height);
 				arr.add(bimg);
@@ -60,6 +59,12 @@ public class SpriteSheet {
     public Image get(int img)
     {
         return arr.get(img);
+    }
+
+    public Image get()
+    {
+		anim++;
+        return arr.get(anim%arr.size());
     }
 
 }
