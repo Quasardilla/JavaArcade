@@ -208,7 +208,7 @@ public void paintComponent(Graphics g) {
     //General Drawing Configuration
     g2.setRenderingHints(hints);
     g2.setFont(font);
-    g2.setColor(Color.black);
+    g2.setColor(Color.WHITE);
     g2.fillRect(0, 0, PREF_W, PREF_H);
     metrics = g2.getFontMetrics(font);
     
@@ -227,8 +227,8 @@ public void paintComponent(Graphics g) {
     } catch (Exception e){}
 
     //Entity Drawing
-    ship.draw(g2);
-    laser.draw(g2);
+    ship.drawImage(g2);
+    laser.drawImage(g2);
     
     g2.setColor(Color.white);
 
@@ -465,8 +465,7 @@ public void resetGame()
 }
 
 public void fullResetGame()
-{
-
+{    
     resetGame();
 
     lives = totalLives;
