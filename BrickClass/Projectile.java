@@ -5,9 +5,17 @@ import java.awt.Image;
 
 public class Projectile extends GameObject {    
 
+    Image img;
+
     public Projectile(int x, int y, int width, int height)
     {
         super(x, y, width, height);
+    }
+
+    public Projectile(int x, int y, int width, int height, Image img)
+    {
+        super(x, y, width, height);
+        this.img = img;
     }
 
     public Projectile(int x, int y, int width, int height, Color color) //Another constructor with optional values

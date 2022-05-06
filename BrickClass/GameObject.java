@@ -14,6 +14,11 @@ public class GameObject extends Brick{
         super(x, y, width, height);
     }
 
+    public GameObject(double x, double y, int width, int height, Image img)
+    {
+        super(x, y, width, height, img);
+    }
+
     public GameObject(double x, double y, int width, int height, Color color) //Another constructor with optional values
     {
         super(x, y, width, height, color);

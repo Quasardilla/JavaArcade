@@ -49,7 +49,7 @@ private Timer timer;
 private int mouseX, mouseY;
 
 //Game Booleans
-private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug;
+private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
 
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
@@ -57,9 +57,12 @@ private double speed = 10, initialSpeed = speed;
 private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/8, 80, 20, Color.LIGHT_GRAY, speed * 2, speed * 2, 0, PREF_W, 0, PREF_H);
 
 //Non-Player Variables
+private int currentAlienFrame;
+private int currentProjectileFrame;
 private int level = 10;
 private int alienTimer = 0;
 private ArrayList<Brick> alien = new ArrayList<Brick>();
+private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 10, Color.white, (double) 0, speed, 0, PREF_W, 0, PREF_H);
 
 //Images
@@ -162,20 +165,25 @@ public SpaceInvaders()
                 {
                     if (i.getX() > (PREF_W - i.getW() - 5) || i.getX() < 5)
                     {
-                        for(Brick j : alien)
-                        {
-                            j.setDx(-j.getDx());
-                            System.out.println(-j.getDx());
-                            j.setX((int) (j.getX() + (j.getDx() * 20)));
-                            j.setY((int) (j.getY() + j.getDy() * 20));
-                        }
-                        break;
+                        flipAliens = true;
+                        i.setX((int) (i.getX() + (i.getDx() * 10)));
                     }
                     else
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
 
                     alienTimer = 0;
                 }
+            }
+
+            if (flipAliens)
+            {
+                for(Brick j : alien)
+                {
+                    j.setDx(-j.getDx());
+                    j.setX((int) (j.getX() + (j.getDx() * 13)));
+                    j.setY((int) (j.getY() + j.getDy() * 20));
+                }
+                flipAliens = false;
             }
 
             if (laser.getY() < laser.getYMin() || laser.getY() > laser.getYMax() - laser.getH())
@@ -441,7 +449,12 @@ public void resetGame()
         {
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
-            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), 1, 1));
+            if(i == 0)
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien1.get(0)));
+            else if(i == 1 || i == 2)
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien2.get(0)));
+            else if(i == 3 || i == 4)
+            alien.add(new Brick(x, y, alienWidth, alienHeight, alien3.get(0)));
         }
 
     lives = totalLives;
@@ -506,9 +519,23 @@ public void fullResetGame()
         }
     }
 
-    // public void alienShoot(int x, int y)
-    // {
-    //     rand = (int) (Math.random() * 3);
-    // }
+    public void spawnAlienProjectile(int x, int y)
+    {
+        int rand = (int) (Math.random() * 3) + 1;
+        switch (rand) {
+            case 1:
+                projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
+                break;
+            case 2:
+                projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
+                break;
+            case 3:
+                projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
+                break;
+        
+            default:
+                break;
+        }
+    }
 
 }

@@ -26,6 +26,15 @@ public class Brick {
         
     }
 
+    public Brick(double x, double y, int width, int height, Image img)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width; 
+        this.height = height;
+        this.img = img;
+    }
+
     public Brick(double x, double y, int width, int height, Color color) //Another constructor with optional values
     {
         this.x = x;
