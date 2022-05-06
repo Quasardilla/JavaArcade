@@ -69,6 +69,8 @@ private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (sh
 private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
 private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
 private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
+private SpriteSheet laser4 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser4.png").getImage(), 3, 7, 4);
+private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser5.png").getImage(), 3, 7, 4);
 private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
 private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
 private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
@@ -260,11 +262,6 @@ public void paintComponent(Graphics g) {
     if(!ballActive && lives == totalLives && !gameOver)
         {
             message = "Press SPACE to play!";
-            g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
-        }
-    if(!ballActive && lives < totalLives && lives > 0 && !gameOver)
-        {
-            message = "Press SPACE to continue";
             g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
         }
     if(alien.size() <= 0)
@@ -512,7 +509,7 @@ public void fullResetGame()
 
     public void spawnAlienProjectile(int x, int y)
     {
-        int rand = (int) (Math.random() * 3) + 1;
+        int rand = (int) (Math.random() * 6) + 1;
         switch (rand) {
             case 1:
                 projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
@@ -522,6 +519,12 @@ public void fullResetGame()
                 break;
             case 3:
                 projectiles.add(new Projectile(x, y, 3, 7, laser3.get(0)));
+                break;
+            case 4:
+                projectiles.add(new Projectile(x, y, 3, 7, laser4.get(0)));
+                break;
+            case 5:
+                projectiles.add(new Projectile(x, y, 3, 7, laser5.get(0)));
                 break;
         
             default:
