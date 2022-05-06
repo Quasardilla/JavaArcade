@@ -19,6 +19,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import UI.TextBox;
+import java.awt.Font;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 
@@ -30,6 +33,7 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private static int FPSCap = 60;
 
+    private static TextBox tb;
 
     public testGUI()
     {
@@ -40,6 +44,7 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
         requestFocus();
 
 
+        tb = new TextBox(/*x*/ 50d, /*y*/ 50d, /*width*/ 5d, /*height*/ 25d, /*prompt*/ "Type hereeeeee: ", /*promptcolor*/ Color.BLACK, /*promptfont*/ new Font("Quicksand", Font.PLAIN, 25), /*promptfontsize*/ 10, /*text*/ "1ahflkjhasdlkjfhalsjdhflas", /*textcolor*/ Color.BLUE, /*textfont*/ new Font("Quicksand", Font.PLAIN, 25), /*textfontsize*/ 10, /*texttopromptoffset*/ 20d, /*prompttobackgroundoffset*/ 10d, /*backgroundcolor*/ Color.LIGHT_GRAY, /*edgecurve*/ 10, /*growboxwithtext*/ true);
 
     }
     
@@ -54,11 +59,10 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHints(hints);
-        
-        
+        tb.setGraphics(g2);
         
 
-
+        tb.draw();
         
         
         //keep this for program to work
