@@ -466,22 +466,8 @@ public void resetGame()
 
 public void fullResetGame()
 {
-    for (int i = alien.size() - 1; i > 0; i--)
-        alien.remove(i);
 
-    int alienWidth = 28;
-    int alienHeight = 28;
-    int verticalDist = 60;
-    int horizontalDist = 50;
-    
-    
-    for (int i = 0; i < 5; i += 1) //y
-        for (double ii = 1.2; ii < (PREF_W / horizontalDist) - 1; ii += 1) //x
-        {
-            int x = (int) (ii * horizontalDist);
-            int y = i * verticalDist;
-            alien.add(new Brick(x, y, alienWidth, alienHeight, Color.getHSBColor(((x + y) / (float) (PREF_W + 75)), 0.25f, 1f), speed, speed));
-        }
+    resetGame();
 
     lives = totalLives;
     score = 0;
