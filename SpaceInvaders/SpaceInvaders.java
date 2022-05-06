@@ -137,7 +137,9 @@ public SpaceInvaders()
 
             laser.checkAndReactToCollisionWith(ship);
 
-
+            if(laser.getDy() != Math.abs(laser.getDy()))
+                ballActive = false;
+                
                 //Brick Removing
             try {
                 for(Brick i : alien)
