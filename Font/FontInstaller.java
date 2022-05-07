@@ -23,7 +23,6 @@ public class FontInstaller {
                 try {
                     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
                 } catch (FontFormatException e) {} catch (IOException e) {}
-                Font font = new Font("Quicksand", Font.PLAIN, 30);
             }
         }
     }

@@ -153,9 +153,9 @@ public SpaceInvaders()
 
             laser.checkAndReactToCollisionWith(ship);
 
-            if(laser.getDy() == Math.abs(laser.getDy()))
-                ballActive = false;
-                
+            // if(laser.getDy() != Math.abs(laser.getDy()))
+            //     ballActive = false;
+                   
                 //Brick Removing
             try {
                 for(Brick i : alien)
@@ -182,7 +182,6 @@ public SpaceInvaders()
 
                 }
             } catch (ConcurrentModificationException a) {} 
-
             if (alienTimer >= 50)
             {
                 for (Brick i : alien)
@@ -308,8 +307,6 @@ public void paintComponent(Graphics g) {
     for(Brick i : alien)
         i.drawImage(g2, (int) alienAnim);
 
-
-
     //Game States
     g2.setColor(Color.white);
     if(!ballActive && lives == totalLives && !gameOver)
@@ -413,6 +410,7 @@ public void keyPressed(KeyEvent e)
 
         if(key == KeyEvent.VK_ESCAPE)
             settings = !settings;
+
     }
 
 @Override
@@ -495,23 +493,33 @@ public void resetGame()
     for (int i = alien.size() - 1; i > 0; i--)
         alien.remove(i);
 
-    int alienWidth = 20;
-    int alienHeight = 20;
-    int verticalDist = 50;
-    int horizontalDist = 40;
-
-
-    for (int i = 0; i < 5; i += 1) //y
+        int verticalDist = 50;
+        int horizontalDist = 40;
+        
+        
+        for (int i = 0; i < 5; i += 1) //y
         for (double ii = 1.2; ii < (PREF_W / horizontalDist) - 1; ii += 1) //x
         {
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
             if(i == 0)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien1, 1, 1));
+            {
+                int alienWidth = alien1.get().getWidth(null);
+                int alienHeight = alien1.get().getHeight(null);
+                alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien1, 1, 1));
+            }
             else if(i == 1 || i == 2)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien2, 1, 1));
+            {
+                int alienWidth = alien2.get().getWidth(null);
+                int alienHeight = alien2.get().getHeight(null);
+                alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien2, 1, 1));
+            }
             else if(i == 3 || i == 4)
-            alien.add(new Brick(x, y, alienWidth, alienHeight, alien3, 1, 1));
+            {
+                int alienWidth = alien3.get().getWidth(null);
+                int alienHeight = alien3.get().getHeight(null);
+                alien.add(new Brick(x, y, alienWidth* 4, alienHeight * 4, alien3, 1, 1));
+            }
         }
 
     lives = totalLives;
