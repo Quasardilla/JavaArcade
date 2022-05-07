@@ -26,7 +26,11 @@ public class FontInstaller {
                 Font font = new Font("Quicksand", Font.PLAIN, 30);
             }
         }
+    }
+    
+    public static void printAll()
+    {
         for(String s : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
-         System.out.println(s);
+        System.out.println(s);
     }
 }

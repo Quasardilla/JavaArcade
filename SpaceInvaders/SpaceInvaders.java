@@ -8,6 +8,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -45,7 +46,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, MouseInputList
 {
 private static final long serialVersionUID = 1L;
 private static int PREF_W = 800;
-public static int PREF_H = 600;
+public static int PREF_H = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 private Timer timer;
 private int mouseX, mouseY;
 
@@ -74,6 +75,8 @@ private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens
 private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
 private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
 private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/ship.png").getImage(), 13, 8, 3);
+private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
+private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
 private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
 
 //Sound
@@ -91,8 +94,18 @@ private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksan
 private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
 public double angle;
+
+//animations
 private double alienAnim = 0;
 private double shipLaserAnim = 0;
+private double deathAnim = 0;
+private boolean playDeathAnim = false;
+private int daX = 0;
+private int daY = 0;
+private double hitAnim = 0;
+private boolean playHitAnim = false;
+private int haX = 0;
+private int haY = 0;
 
 public SpaceInvaders()
 {
@@ -111,8 +124,6 @@ public SpaceInvaders()
         //         break1.open(audio);
         //     } catch (IOException | LineUnavailableException e1) {} catch (UnsupportedAudioFileException e1) {}
 
-    
-    
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
 
@@ -142,7 +153,7 @@ public SpaceInvaders()
 
             laser.checkAndReactToCollisionWith(ship);
 
-            if(laser.getDy() != Math.abs(laser.getDy()))
+            if(laser.getDy() == Math.abs(laser.getDy()))
                 ballActive = false;
                 
                 //Brick Removing
@@ -151,6 +162,9 @@ public SpaceInvaders()
                 {   
                     if (laser.checkAndReactToCollisionWith(i))
                     {
+                        playDeathAnim = true;
+                        daX = (int) i.getX();
+                        daY = (int) i.getY();
                         if (i.getValue() <= 0)
                         alien.remove(i);
                         else
@@ -200,7 +214,12 @@ public SpaceInvaders()
             }
 
             if (laser.getY() < laser.getYMin() || laser.getY() > laser.getYMax() - laser.getH())
+            {
                 ballActive = false;
+                playHitAnim = true;
+                haX = (int) laser.getX();
+                haY = (int) laser.getY();
+            }
 
 
             repaint();
@@ -247,12 +266,35 @@ public void paintComponent(Graphics g) {
     else
         shipLaserAnim = 0;
     shipLaserAnim += 0.1;
+
+
+    if (playDeathAnim) 
+    {
+        g2.drawImage(alienDeathParticles.get((int) (deathAnim % alienDeathParticles.getLength())).getScaledInstance(alien.get(0).getW(), alien.get(0).getH(), Image.SCALE_DEFAULT), daX, daY, null);
+        deathAnim+=0.1;
+    }
+    if (deathAnim >= alienDeathParticles.getLength())
+    {
+        playDeathAnim = false;
+        deathAnim = 0;
+    }
+
+    if (playHitAnim)
+    {
+        g2.drawImage(projectileCollisionParticles.get((int) (hitAnim % projectileCollisionParticles.getLength())).getScaledInstance(20, 20, Image.SCALE_DEFAULT), haX-(laser.getW()/2), haY, null);
+        hitAnim+=0.1;
+    }
+    if (hitAnim >= projectileCollisionParticles.getLength())
+    {
+        playHitAnim = false;
+        hitAnim = 0;
+    }
     
     g2.setColor(Color.white);
 
     //UI Drawing
     g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
-    g2.drawString("Press ESC for settings", 0, PREF_H - 10);
+    g2.drawString("Press ESC for settings", 0, PREF_H - 50);
     g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
     g2.drawString("Level: " + level, 0, PREF_H - (PREF_H / 3) + 30);
     
