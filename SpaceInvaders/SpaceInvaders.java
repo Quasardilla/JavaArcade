@@ -14,17 +14,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.Image;
-import java.io.IOException;
 import java.net.URL;
+import java.awt.Image;
 import java.util.ArrayList;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.ConcurrentModificationException;
-import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -37,6 +30,7 @@ import BrickClass.GameObject;
 import BrickClass.Projectile;
 import Font.FontInstaller;
 import UI.Slider;
+import UI.SoundLoader;
 import UI.SpriteSheet;
 import UI.Switch;
 import UI.Bar;
@@ -52,6 +46,12 @@ private int mouseX, mouseY;
 
 //Game Booleans
 private boolean ballActive, tempBallActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
+
+//Sounds
+private SoundLoader shoot = new SoundLoader(this.getClass().getResource("sound/shoot.wav"));
+private SoundLoader alienHit = new SoundLoader(this.getClass().getResource("sound/alienHit.wav"));
+private SoundLoader shipHit = new SoundLoader(this.getClass().getResource("sound/shipHit.wav"));
+private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/ufoSound.wav"));
 
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
@@ -78,9 +78,6 @@ private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/shi
 private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
 private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
 private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
-
-//Sound
-// private Clip destroy, break2, levelFinish;
 
 //UI
 private int score = 0;
@@ -115,14 +112,6 @@ public SpaceInvaders()
     requestFocus();
     
     FontInstaller.installFont();
-
-        // URL file = this.getClass().getResource("break1.wav");
-        //     AudioInputStream audio;
-        //     try {
-        //         audio = AudioSystem.getAudioInputStream(file);
-        //         break1 = AudioSystem.getClip();
-        //         break1.open(audio);
-        //     } catch (IOException | LineUnavailableException e1) {} catch (UnsupportedAudioFileException e1) {}
 
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
@@ -163,6 +152,9 @@ public SpaceInvaders()
                     if (laser.checkAndReactToCollisionWith(i))
                     {
                         playDeathAnim = true;
+                        alienHit.get().setFramePosition(0);
+                        alienHit.get().start();
+
                         daX = (int) i.getX();
                         daY = (int) i.getY();
                         if (i.getValue() <= 0)
@@ -390,12 +382,13 @@ public void keyPressed(KeyEvent e)
     if(key == KeyEvent.VK_SPACE && gameOver && !settings)
     {
         ballActive = true;             
-        if(level < 14)
-        level++;
         resetGame();
     }
     if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
     {
+        shoot.get().setFramePosition(0);
+        shoot.get().start();
+        ballActive = true;
         tempBallActive = true;
     }
 
@@ -405,7 +398,6 @@ public void keyPressed(KeyEvent e)
         initialSpeed = speed;
         ship.setDx(speed * 2);
         ship.setDy(speed * 2);
-        laser.setDx(speed);
         laser.setDy(speed);
         level = 0;
         fullResetGame();
@@ -414,8 +406,8 @@ public void keyPressed(KeyEvent e)
         if(key == KeyEvent.VK_F1)
             debug = !debug;
 
-        if(key == KeyEvent.VK_ESCAPE)
-            settings = !settings;
+        // if(key == KeyEvent.VK_ESCAPE)
+        //     settings = !settings;
 
     }
 
