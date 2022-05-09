@@ -153,7 +153,7 @@ public SpaceInvaders()
                     {
                         playDeathAnim = true;
                         alienHit.get().setFramePosition(0);
-                        alienHit.get().start();
+                        alienHit.play();
 
                         daX = (int) i.getX();
                         daY = (int) i.getY();
@@ -387,7 +387,7 @@ public void keyPressed(KeyEvent e)
     if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
     {
         shoot.get().setFramePosition(0);
-        shoot.get().start();
+        shoot.play();
         ballActive = true;
         tempBallActive = true;
     }

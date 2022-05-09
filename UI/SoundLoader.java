@@ -41,6 +41,12 @@ public class SoundLoader {
         return sound;
     }
 
+    public void play()
+    {
+        sound.setFramePosition(0);
+        sound.start();
+    }
+
     public int getPlayAmount()
     {
         return playAmount;
