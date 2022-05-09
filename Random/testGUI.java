@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import Font.FontInstaller;
 import UI.TextBox;
 import java.awt.Font;
 import java.awt.event.MouseMotionListener;
@@ -49,7 +50,7 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
         requestFocus();
 
 
-        tb = new TextBox(/*x*/ 50d, /*y*/ 50d, /*height*/ 25d, /*prompt*/ "Type hereeeeee: ", /*promptcolor*/ Color.BLACK, /*promptfont*/ new Font("Quicksand", Font.PLAIN, 25), /*promptfontsize*/ 10, /*text*/ "1ahflkjhasdlkjfhalsjdhflas", /*textcolor*/ Color.BLUE, /*textfont*/ new Font("Quicksand", Font.PLAIN, 25), /*textfontsize*/ 10, /*texttopromptoffset*/ 20d, /*prompttobackgroundoffset*/ 10d, /*backgroundcolor*/ Color.LIGHT_GRAY, /*edgecurve*/ 10);
+        tb = new TextBox(/*x*/ 50d, /*y*/ 50d, /*height*/ 25d, /*prompt*/ "Type here: ", /*promptcolor*/ Color.BLACK, /*promptfont*/ new Font("Quicksand", Font.PLAIN, 25), /*promptfontsize*/ 10, /*text*/ "text is written here", /*textcolor*/ Color.BLUE, /*textfont*/ new Font("Quicksand", Font.PLAIN, 25), /*textfontsize*/ 10, /*texttopromptoffset*/ 20d, /*prompttobackgroundoffset*/ 10d, /*backgroundcolor*/ Color.LIGHT_GRAY, /*edgecurve*/ 10);
 
     }
     

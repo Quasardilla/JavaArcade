@@ -46,7 +46,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, MouseInputList
 {
 private static final long serialVersionUID = 1L;
 private static int PREF_W = 800;
-public static int PREF_H = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+public static int PREF_H = 600;
 private Timer timer;
 private int mouseX, mouseY;
 
@@ -153,8 +153,8 @@ public SpaceInvaders()
 
             laser.checkAndReactToCollisionWith(ship);
 
-            // if(laser.getDy() != Math.abs(laser.getDy()))
-            //     ballActive = false;
+            if(laser.getDy() == Math.abs(laser.getDy()))
+                ballActive = false;
                    
                 //Brick Removing
             try {
@@ -502,22 +502,23 @@ public void resetGame()
         {
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
+            double alienScale = 1;
             if(i == 0)
             {
-                int alienWidth = alien1.get().getWidth(null);
-                int alienHeight = alien1.get().getHeight(null);
+                int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);
+                int alienHeight = (int) (alien1.get().getHeight(null) * alienScale);
                 alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien1, 1, 1));
             }
             else if(i == 1 || i == 2)
             {
-                int alienWidth = alien2.get().getWidth(null);
-                int alienHeight = alien2.get().getHeight(null);
+                int alienWidth = (int) (alien2.get().getWidth(null) * alienScale);
+                int alienHeight = (int) (alien2.get().getHeight(null) * alienScale);
                 alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien2, 1, 1));
             }
             else if(i == 3 || i == 4)
             {
-                int alienWidth = alien3.get().getWidth(null);
-                int alienHeight = alien3.get().getHeight(null);
+                int alienWidth = (int) (alien3.get().getWidth(null) * alienScale);
+                int alienHeight = (int) (alien3.get().getHeight(null) * alienScale);
                 alien.add(new Brick(x, y, alienWidth* 4, alienHeight * 4, alien3, 1, 1));
             }
         }
