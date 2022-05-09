@@ -186,7 +186,7 @@ public SpaceInvaders()
             {
                 for (Brick i : alien)
                 {
-                    if (i.getX() > (PREF_W - i.getW() - 5) || i.getX() < 5)
+                    if (i.getX() > ((PREF_W - i.getW()) - 5) || i.getX() < 5)
                     {
                         flipAliens = true;
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
