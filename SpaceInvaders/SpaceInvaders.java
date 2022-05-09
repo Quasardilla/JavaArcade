@@ -388,7 +388,6 @@ public void keyPressed(KeyEvent e)
     {
         shoot.get().setFramePosition(0);
         shoot.get().start();
-        ballActive = true;
         tempBallActive = true;
     }
 
