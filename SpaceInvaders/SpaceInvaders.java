@@ -45,7 +45,7 @@ private Timer timer;
 private int mouseX, mouseY;
 
 //Game Booleans
-private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
+private boolean ballActive, tempBallActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
 
 //Sounds
 private SoundLoader shoot = new SoundLoader(this.getClass().getResource("sound/shoot.wav"));
@@ -250,14 +250,20 @@ public void paintComponent(Graphics g) {
     } catch (Exception e){}
 
     //Entity Drawing
-    ship.drawImage(g2, (ballActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
+    ship.drawImage(g2, (tempBallActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
 
     if (ballActive)
         laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
-    else
-        shipLaserAnim = 0;
+
+    if (!tempBallActive && !ballActive) shipLaserAnim = 0;
+    
     shipLaserAnim += 0.1;
 
+    if (shipLaserAnim >= ship.ss.getLength()) 
+    {
+        ballActive = true;
+        tempBallActive = false;
+    }
 
     if (playDeathAnim) 
     {
@@ -383,6 +389,7 @@ public void keyPressed(KeyEvent e)
         shoot.get().setFramePosition(0);
         shoot.get().start();
         ballActive = true;
+        tempBallActive = true;
     }
 
     if(key == KeyEvent.VK_ESCAPE && settings && totalLives != initialLives || speed != initialSpeed)
