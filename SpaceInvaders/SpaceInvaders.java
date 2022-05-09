@@ -39,8 +39,8 @@ import UI.Button;
 public class SpaceInvaders extends JPanel implements KeyListener, MouseInputListener
 {
 private static final long serialVersionUID = 1L;
-private static int PREF_W = 800;
-public static int PREF_H = 600;
+private static int PREF_W = 600;
+public static int PREF_H = 800;
 private Timer timer;
 private int mouseX, mouseY;
 
