@@ -46,7 +46,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, MouseInputList
 {
 private static final long serialVersionUID = 1L;
 private static int PREF_W = 800;
-public static int PREF_H = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+public static int PREF_H = 600;
 private Timer timer;
 private int mouseX, mouseY;
 
@@ -153,8 +153,8 @@ public SpaceInvaders()
 
             laser.checkAndReactToCollisionWith(ship);
 
-            // if(laser.getDy() != Math.abs(laser.getDy()))
-            //     ballActive = false;
+            if(laser.getDy() == Math.abs(laser.getDy()))
+                ballActive = false;
                    
                 //Brick Removing
             try {
@@ -186,7 +186,7 @@ public SpaceInvaders()
             {
                 for (Brick i : alien)
                 {
-                    if (i.getX() > (PREF_W - i.getW() - 5) || i.getX() < 5)
+                    if (i.getX() > ((PREF_W - i.getW()) - 5) || i.getX() < 5)
                     {
                         flipAliens = true;
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
