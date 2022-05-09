@@ -51,7 +51,7 @@ private Timer timer;
 private int mouseX, mouseY;
 
 //Game Booleans
-private boolean ballActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
+private boolean ballActive, tempBallActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
 
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
@@ -258,14 +258,20 @@ public void paintComponent(Graphics g) {
     } catch (Exception e){}
 
     //Entity Drawing
-    ship.drawImage(g2, (ballActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
+    ship.drawImage(g2, (tempBallActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
 
     if (ballActive)
         laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
-    else
-        shipLaserAnim = 0;
+
+    if (!tempBallActive && !ballActive) shipLaserAnim = 0;
+    
     shipLaserAnim += 0.1;
 
+    if (shipLaserAnim >= ship.ss.getLength()) 
+    {
+        ballActive = true;
+        tempBallActive = false;
+    }
 
     if (playDeathAnim) 
     {
@@ -390,7 +396,7 @@ public void keyPressed(KeyEvent e)
     }
     if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
     {
-        ballActive = true;
+        tempBallActive = true;
     }
 
     if(key == KeyEvent.VK_ESCAPE && settings && totalLives != initialLives || speed != initialSpeed)
@@ -502,7 +508,7 @@ public void resetGame()
         {
             int x = (int) (ii * horizontalDist);
             int y = i * verticalDist;
-            double alienScale = 1;
+            double alienScale = 0.6;
             if(i == 0)
             {
                 int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);
