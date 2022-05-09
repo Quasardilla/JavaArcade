@@ -14,6 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundLoader {
     
     protected Clip sound;
+    protected int playAmount;
 
     public SoundLoader(URL fileName)
     {
@@ -38,6 +39,16 @@ public class SoundLoader {
     public Clip get()
     {
         return sound;
+    }
+
+    public int getPlayAmount()
+    {
+        return playAmount;
+    }
+
+    public void setPlayAmount(int playAmount)
+    {
+        this.playAmount = playAmount;
     }
 
 }
