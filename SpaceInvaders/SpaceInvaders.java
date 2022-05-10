@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -59,7 +58,6 @@ private double speed = 10, initialSpeed = speed;
 private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 78, 48, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
 
 //Non-Player Variables
-private int level = 10;
 private int alienTimer = 0;
 private ArrayList<Brick> alien = new ArrayList<Brick>();
 private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -293,7 +291,6 @@ public void paintComponent(Graphics g) {
     g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
     g2.drawString("Press ESC for settings", 0, PREF_H - 50);
     g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
-    g2.drawString("Level: " + level, 0, PREF_H - (PREF_H / 3) + 30);
     
     if(debug)
     {
@@ -316,7 +313,7 @@ public void paintComponent(Graphics g) {
     if(alien.size() <= 0)
         {
             gameOver = true;
-            message = "Congrats, You Won Level " + level + "! Press SPACE to play again!";
+            message = "Congrats, You Won! Press SPACE to play again!";
             ballActive = false;
             g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
 
@@ -388,7 +385,6 @@ public void keyPressed(KeyEvent e)
     {
         shoot.get().setFramePosition(0);
         shoot.play();
-        ballActive = true;
         tempBallActive = true;
     }
 
@@ -399,7 +395,6 @@ public void keyPressed(KeyEvent e)
         ship.setDx(speed * 2);
         ship.setDy(speed * 2);
         laser.setDy(speed);
-        level = 0;
         fullResetGame();
     }
 
@@ -534,7 +529,6 @@ public void fullResetGame()
 
     lives = totalLives;
     score = 0;
-    level = 0;
     gameOver = false;
     playOnce = true;
     ballActive = false;
