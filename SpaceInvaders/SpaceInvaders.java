@@ -398,8 +398,6 @@ public void keyPressed(KeyEvent e)
     }
     if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
     {
-        shoot.get().setFramePosition(0);
-        shoot.play();
         // ballActive = true;
         canShoot = true;
         tempBallActive = true;
