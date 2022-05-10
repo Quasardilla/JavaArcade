@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -104,6 +105,9 @@ private boolean playHitAnim = false;
 private int haX = 0;
 private int haY = 0;
 private boolean canShoot = false;
+
+//alien shooting
+private ArrayList<Brick> lowAliens = new ArrayList<Brick>();
 
 public SpaceInvaders()
 {
@@ -249,6 +253,8 @@ public void paintComponent(Graphics g) {
     mouseX = this.getMousePosition().x;
     mouseY = this.getMousePosition().y;
     } catch (Exception e){}
+
+    setLowAliens();
 
     //Entity Drawing
     ship.drawImage(g2, (tempBallActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
@@ -510,21 +516,21 @@ public void resetGame()
             double alienScale = 0.6;
             if(i == 0)
             {
-                int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);
-                int alienHeight = (int) (alien1.get().getHeight(null) * alienScale);
-                alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien1, 1, 1));
+                int alienWidth = (int) (alien1.get().getWidth(null) * alienScale) * 4;
+                int alienHeight = (int) (alien1.get().getHeight(null) * alienScale) * 4;
+                alien.add(new Brick(x, y, alienWidth, alienHeight, alien1, 1, 1));
             }
             else if(i == 1 || i == 2)
             {
-                int alienWidth = (int) (alien2.get().getWidth(null) * alienScale);
-                int alienHeight = (int) (alien2.get().getHeight(null) * alienScale);
-                alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien2, 1, 1));
+                int alienWidth = (int) (alien2.get().getWidth(null) * alienScale) * 4;
+                int alienHeight = (int) (alien2.get().getHeight(null) * alienScale) * 4;
+                alien.add(new Brick(x, y, alienWidth, alienHeight, alien2, 1, 1));
             }
             else if(i == 3 || i == 4)
             {
-                int alienWidth = (int) (alien3.get().getWidth(null) * alienScale);
-                int alienHeight = (int) (alien3.get().getHeight(null) * alienScale);
-                alien.add(new Brick(x, y, alienWidth* 4, alienHeight * 4, alien3, 1, 1));
+                int alienWidth = (int) (alien3.get().getWidth(null) * alienScale) * 4;
+                int alienHeight = (int) (alien3.get().getHeight(null) * alienScale) * 4;
+                alien.add(new Brick(x, y, alienWidth, alienHeight, alien3, 1, 1));
             }
         }
 
@@ -600,4 +606,53 @@ public void fullResetGame()
         }
     }
 
+    public void setLowAliens()
+    {
+        /*
+        steps:
+        1.) 
+            a.) clear lowaliens
+            b.) sort alien list by x values smallest to biggest
+            c.) put each column (sorted by x val) in a 2d matrix
+        2.)
+            a.) find the brick with the lowest y value in each column
+            b.) add it to the list
+        */
+
+        //1.) a.)
+        lowAliens.clear();
+
+        //1.) b.)
+        Brick.compareX = true;
+        Collections.sort(alien);
+
+        //1.) c.)
+        ArrayList<ArrayList<Brick>> temp = new ArrayList<ArrayList<Brick>>();
+        int lastX = (int) alien.get(0).getX();
+        temp.add(new ArrayList<Brick>());
+        temp.get(0).add(alien.get(0));
+        for (int i = 1; i < alien.size(); i++)
+        {
+            if ((int) alien.get(i).getX() == lastX)
+            {
+                temp.get(temp.size()-1).add(alien.get(i));
+            }
+            else
+            {
+                temp.add(new ArrayList<Brick>());
+                temp.get(temp.size()-1).add(alien.get(i));
+            }
+
+            lastX = (int) alien.get(i).getX();
+        }
+
+        //2.) a.)
+        Brick.compareX = false;
+        for (ArrayList<Brick> a: temp)
+            Collections.sort(a);
+
+        //2.) b.)
+        for (ArrayList<Brick> a: temp)
+            lowAliens.add(a.get(a.size()-1));
+    }
 }

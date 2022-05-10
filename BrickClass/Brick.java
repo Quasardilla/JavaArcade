@@ -6,7 +6,7 @@ import java.awt.Image;
 
 import UI.SpriteSheet;
 
-public class Brick {
+public class Brick implements Comparable<Brick> {
     //Variables for the class's objects (Instance Variables)
     protected double x, y;
     protected int width, height;
@@ -713,5 +713,14 @@ public boolean isInside(double x1, double y1)
         
         return false;
     }
+
+public static boolean compareX;
+@Override
+public int compareTo(Brick o) {
+    if (compareX)
+    return Integer.compare((int) this.getX(), (int) o.getX());
+    else
+    return Integer.compare((int) this.getY(), (int) o.getY());
+}
 
 }
