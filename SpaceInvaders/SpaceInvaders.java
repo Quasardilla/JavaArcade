@@ -256,6 +256,11 @@ public void paintComponent(Graphics g) {
         laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
 
     if (!tempBallActive && !ballActive) shipLaserAnim = 0;
+
+    if (ballActive && shoot.get().getFramePosition() == 0)
+    {
+        shoot.play();
+    }
     
     shipLaserAnim += 0.1;
 
@@ -387,8 +392,7 @@ public void keyPressed(KeyEvent e)
     if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
     {
         shoot.get().setFramePosition(0);
-        shoot.play();
-        ballActive = true;
+        // ballActive = true;
         tempBallActive = true;
     }
 
