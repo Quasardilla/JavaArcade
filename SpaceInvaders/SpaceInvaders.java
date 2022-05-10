@@ -515,19 +515,19 @@ public void resetGame()
             {
                 int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien1.get().getHeight(null) * alienScale);
-                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, alien1, 1, 1));
+                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, 1, alien1, 1, 1));
             }
             else if(i == 1 || i == 2)
             {
                 int alienWidth = (int) (alien2.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien2.get().getHeight(null) * alienScale);
-                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, alien2, 1, 1));
+                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, 1, alien2, 1, 1));
             }
             else if(i == 3 || i == 4)
             {
                 int alienWidth = (int) (alien3.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien3.get().getHeight(null) * alienScale);
-                alien.add(new Alien(x, y, alienWidth* 4, alienHeight * 4, alien3, 1, 1));
+                alien.add(new Alien(x, y, alienWidth* 4, alienHeight * 4, 1, alien3, 1, 1));
             }
         }
 
