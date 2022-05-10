@@ -101,6 +101,7 @@ private double hitAnim = 0;
 private boolean playHitAnim = false;
 private int haX = 0;
 private int haY = 0;
+private boolean canShoot = false;
 
 public SpaceInvaders()
 {
@@ -257,6 +258,13 @@ public void paintComponent(Graphics g) {
     
     shipLaserAnim += 0.1;
 
+    if (ballActive && canShoot) 
+    {
+        shoot.get().setFramePosition(0);
+        shoot.play();
+        canShoot = false;
+    }
+
     if (shipLaserAnim >= ship.ss.getLength()) 
     {
         ballActive = true;
@@ -385,6 +393,8 @@ public void keyPressed(KeyEvent e)
     {
         shoot.get().setFramePosition(0);
         shoot.play();
+        // ballActive = true;
+        canShoot = true;
         tempBallActive = true;
     }
 
