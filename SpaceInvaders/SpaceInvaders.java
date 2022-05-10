@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
 
+import BrickClass.Alien;
 import BrickClass.Brick;
 import BrickClass.GameObject;
 import BrickClass.Projectile;
@@ -59,7 +60,7 @@ private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 78, 48, Color
 
 //Non-Player Variables
 private int alienTimer = 0;
-private ArrayList<Brick> alien = new ArrayList<Brick>();
+private ArrayList<Alien> alien = new ArrayList<Alien>();
 private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 30, Color.white, (double) 0, speed/2, 0, PREF_W, 0, PREF_H);
 
@@ -510,19 +511,19 @@ public void resetGame()
             {
                 int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien1.get().getHeight(null) * alienScale);
-                alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien1, 1, 1));
+                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, alien1, 1, 1));
             }
             else if(i == 1 || i == 2)
             {
                 int alienWidth = (int) (alien2.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien2.get().getHeight(null) * alienScale);
-                alien.add(new Brick(x, y, alienWidth * 4, alienHeight * 4, alien2, 1, 1));
+                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, alien2, 1, 1));
             }
             else if(i == 3 || i == 4)
             {
                 int alienWidth = (int) (alien3.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien3.get().getHeight(null) * alienScale);
-                alien.add(new Brick(x, y, alienWidth* 4, alienHeight * 4, alien3, 1, 1));
+                alien.add(new Alien(x, y, alienWidth* 4, alienHeight * 4, alien3, 1, 1));
             }
         }
 
