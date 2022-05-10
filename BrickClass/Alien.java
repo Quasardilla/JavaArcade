@@ -1,11 +1,16 @@
 package BrickClass;
 
 import java.awt.Image;
+
+import UI.SpriteSheet;
+
 import java.awt.Color;
 
 public class Alien extends Brick{
 
     int variant;
+    boolean canShoot;
+    boolean hasShot;
 
     public Alien(double x, double y, int width, int height)
     {
@@ -15,6 +20,21 @@ public class Alien extends Brick{
     public Alien(double x, double y, int width, int height, Image img)
     {
         super(x, y, width, height, img);
+    }
+
+    public Alien(double x, double y, int width, int height, SpriteSheet ss)
+    {
+        super(x, y, width, height, ss);
+    }
+
+    public Alien(double x, double y, int width, int height, SpriteSheet ss, double dx, double dy)
+    {
+        super(x, y, width, height, ss, dx, dy);
+    }
+
+    public Alien(double x, double y, int width, int height, SpriteSheet ss, int dx, int dy)
+    {
+        super(x, y, width, height, ss, dx, dy);
     }
 
     public Alien(double x, double y, int width, int height, Color color) //Another constructor with optional values
