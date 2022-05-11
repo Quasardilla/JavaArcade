@@ -24,7 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
-
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 import BrickClass.Alien;
 import BrickClass.Brick;
 import BrickClass.GameObject;
@@ -74,10 +75,16 @@ private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projec
 private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
 private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
 private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
-private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/ship.png").getImage(), 13, 8, 3);
+private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/random/ship.png").getImage(), 13, 8, 3);
 private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
 private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
 private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
+//explosions
+private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
+private ArrayList<Point> explosions = new ArrayList<Point>();
+//blockers
+private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
+private ArrayList<Point> blockers = new ArrayList<Point>();
 
 //UI
 private int score = 0;
@@ -91,6 +98,7 @@ private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksan
 private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
 private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
 public double angle;
+
 
 //animations
 private double alienAnim = 0;
@@ -122,6 +130,9 @@ public SpaceInvaders()
 
     ship.ss = shipShoot;
     laser.ss = laser5;
+
+    for (int i = 1; i <= 4; i++)
+        blockers.add(new Point(((PREF_W / 5) * i)-25, PREF_H - 200));
             
     resetGame();
 
@@ -301,7 +312,7 @@ public void paintComponent(Graphics g) {
     }
     
     g2.setColor(Color.white);
-
+    
     //UI Drawing
     g2.drawString("Lives: " + lives, 0, PREF_H - (PREF_H / 3) - 10);
     g2.drawString("Press ESC for settings", 0, PREF_H - 50);
@@ -313,10 +324,32 @@ public void paintComponent(Graphics g) {
         g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
         g2.drawString("X: " + alien.get(1).getX(), 200, PREF_H - (PREF_H / 3) + 50);
     }
-
+    
     for(Brick i : alien)
         i.drawImage(g2, (int) alienAnim);
 
+        
+    BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
+    Graphics2D gg = bi.createGraphics();
+    for (Point p: blockers)
+    {
+        g2.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(50, 50, Image.SCALE_SMOOTH), p.x, p.y, null);
+        gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(50, 50, Image.SCALE_SMOOTH), p.x, p.y, null);
+    }
+    
+    for (Point p: explosions)
+    {
+        g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
+        gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
+    }
+
+    if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
+    {
+        explosions.add(new Point((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())));
+        ballActive = false;
+    }
+    // g2.drawImage((Image) bi, 0, 0, null);
+    
     //Game States
     g2.setColor(Color.white);
     if(!ballActive && lives == totalLives && !gameOver)
@@ -459,6 +492,9 @@ public void mouseClicked(MouseEvent e) {
 
 @Override
 public void mousePressed(MouseEvent e) {
+
+    explosions.add(e.getPoint());
+
     if(auto.isInside(mouseX, mouseY))
     {
         auto.toggleState();
@@ -650,5 +686,13 @@ public void fullResetGame()
         //2.) b.)
         for (ArrayList<Brick> a: temp)
             lowAliens.add(a.get(a.size()-1));
+    }
+
+    public void checkBlockerHit(Brick b, BufferedImage bi)
+    {
+        if (bi.getRGB((int) (b.getX()+(b.getW()/2)), (int) (b.getY()+b.getH())) == Color.GREEN.getRGB())
+        {
+            explosions.add(new Point((int) (b.getX()+(b.getW()/2)), (int) (b.getY()+b.getH())));
+        }
     }
 }

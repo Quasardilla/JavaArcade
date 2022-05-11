@@ -39,7 +39,7 @@ public class SpriteSheet {
 
     }
 
-    private static BufferedImage toBufferedImage(Image img) {
+    public static BufferedImage toBufferedImage(Image img) {
         if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }
