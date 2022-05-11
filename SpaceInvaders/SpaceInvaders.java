@@ -269,26 +269,24 @@ public void paintComponent(Graphics g) {
     //Entity Drawing
     ship.drawImage(g2, (tempBallActive && shipLaserAnim < ship.ss.getLength()) ? ((int) shipLaserAnim % ship.ss.getLength()) : 0);
 
-    if (ballActive)
-        laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
-
+    
     if (!tempBallActive && !ballActive) shipLaserAnim = 0;
     
     shipLaserAnim += 0.1;
-
+    
     if (ballActive && canShoot) 
     {
         shoot.get().setFramePosition(0);
         shoot.play();
         canShoot = false;
     }
-
+    
     if (shipLaserAnim >= ship.ss.getLength()) 
     {
         ballActive = true;
         tempBallActive = false;
     }
-
+    
     if (playDeathAnim) 
     {
         g2.drawImage(alienDeathParticles.get((int) (deathAnim % alienDeathParticles.getLength())).getScaledInstance(alien.get(0).getW(), alien.get(0).getH(), Image.SCALE_DEFAULT), daX, daY, null);
@@ -299,7 +297,7 @@ public void paintComponent(Graphics g) {
         playDeathAnim = false;
         deathAnim = 0;
     }
-
+    
     if (playHitAnim)
     {
         g2.drawImage(projectileCollisionParticles.get((int) (hitAnim % projectileCollisionParticles.getLength())).getScaledInstance(20, 20, Image.SCALE_DEFAULT), haX-(laser.getW()/2), haY, null);
@@ -324,22 +322,11 @@ public void paintComponent(Graphics g) {
         g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
         g2.drawString("X: " + alien.get(1).getX(), 200, PREF_H - (PREF_H / 3) + 50);
     }
-
-    for(Projectile i : projectiles)
-    {
-        i.draw(g2);
-        i.update();
-        if(i.checkAndReactToCollisionWith(ship))
-        {
-            lives--;
-            projectiles.remove(i);
-        }
-    }
     
     for(Alien i : alien)
-        i.drawImage(g2, (int) alienAnim);
-
-        
+    i.drawImage(g2, (int) alienAnim);
+    
+    
     BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
     Graphics2D gg = bi.createGraphics();
     for (Point p: blockers)
@@ -353,13 +340,27 @@ public void paintComponent(Graphics g) {
         g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
         gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
     }
-
+    
     if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
     {
         explosions.add(new Point((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())));
         ballActive = false;
     }
     // g2.drawImage((Image) bi, 0, 0, null);
+    
+    for(Projectile i : projectiles)
+    {
+        i.draw(g2);
+        i.update();
+        if(i.checkAndReactToCollisionWith(ship))
+        {
+            lives--;
+            projectiles.remove(i);
+        }
+    }
+    
+    if (ballActive)
+        laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
     
     //Game States
     g2.setColor(Color.white);
