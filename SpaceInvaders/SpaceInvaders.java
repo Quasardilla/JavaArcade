@@ -82,6 +82,7 @@ private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
 //explosions
 private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
 private ArrayList<Point> explosions = new ArrayList<Point>();
+private int blastradius = 20;
 //blockers
 private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
 private ArrayList<Point> blockers = new ArrayList<Point>();
@@ -337,8 +338,8 @@ public void paintComponent(Graphics g) {
     
     for (Point p: explosions)
     {
-        g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
-        gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
+        g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(blastradius, blastradius, Image.SCALE_SMOOTH), p.x-(blastradius/2), p.y-(blastradius/2), null);
+        gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(blastradius, blastradius, Image.SCALE_SMOOTH), p.x-(blastradius/2), p.y-(blastradius/2), null);
     }
     
     if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
@@ -346,6 +347,24 @@ public void paintComponent(Graphics g) {
         explosions.add(new Point((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())));
         ballActive = false;
     }
+
+    for (int i = projectiles.size()-1; i >= 0; i--)
+    {
+        if ((int) (projectiles.get(i).getY()+projectiles.get(i).getH()) < PREF_H)
+        {
+            if (bi.getRGB((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(projectiles.get(i)))
+            {
+                explosions.add(new Point((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())));
+                projectiles.remove(i);
+            }
+        }
+        else
+        {
+            projectiles.remove(i);
+        }
+    }
+
+
     // g2.drawImage((Image) bi, 0, 0, null);
     
 
@@ -673,14 +692,6 @@ public void fullResetGame()
         //2.) b.)
         for (ArrayList<Brick> a: temp)
             lowAliens.add(a.get(a.size()-1));
-    }
-
-    public void checkBlockerHit(Brick b, BufferedImage bi)
-    {
-        if (bi.getRGB((int) (b.getX()+(b.getW()/2)), (int) (b.getY()+b.getH())) == Color.GREEN.getRGB())
-        {
-            explosions.add(new Point((int) (b.getX()+(b.getW()/2)), (int) (b.getY()+b.getH())));
-        }
     }
 
     public void gameStateCheck(Graphics2D g2)
