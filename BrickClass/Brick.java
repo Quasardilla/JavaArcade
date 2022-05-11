@@ -578,7 +578,7 @@ private boolean checkCollisionLeftSideOfRectangle(Brick r)
    if(y + height > r.y && y < r.y + r.height) {
       if(x + width > r.x) {
         if (checkIfNotPlayer())
-         dx = -dx;
+        //  dx = -dx;
          x = r.x - width;
          if(x <= XMin) {  //don't let the brick get bumped off the panel
             x = XMin;
@@ -597,7 +597,7 @@ private boolean checkCollisionRightSideOfRectangle(Brick r)
    if(y + height > r.y && y < r.y + r.height) {
    if(x < r.x + r.width) {
         if (checkIfNotPlayer())
-         dx = -dx;
+        //  dx = -dx;
          x = r.x + r.width;
          if(x + width >= XMax) {  //don't let the brick get bumped off the panel
             x = XMax - width;
@@ -616,7 +616,7 @@ private boolean checkCollisionBottomOfRectangle(Brick r)
    if(x + width > r.x && x < r.x + r.width) {
       if(y < r.y + r.height) {
         if (checkIfNotPlayer())
-         dy = -dy;
+        //  dy = -dy;
          y = r.y + r.height;
          if(y + height >= YMax) { //don't let the brick get bumped off the panel
             y = YMax - height;
@@ -635,7 +635,7 @@ private boolean checkCollisionTopOfRectangle(Brick r)
    if(x + width > r.x && x < r.x + r.width) {
       if(y + height > r.y) {
         if (checkIfNotPlayer())
-         dy = -dy;
+        //  dy = -dy;
          y = r.y - height;
          if(y <= YMin) {  //don't let the brick get bumped off the panel
             y = YMin;

@@ -52,5 +52,4 @@ public class Projectile extends GameObject {
          super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax);
      }
     
-    
 }

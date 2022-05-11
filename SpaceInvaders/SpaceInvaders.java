@@ -57,14 +57,14 @@ private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("soun
 
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
-private double speed = 10, initialSpeed = speed;
-private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 78, 48, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
+private double speed = 5, initialSpeed = speed;
+private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 39, 24, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
 
 //Non-Player Variables
 private int alienTimer = 0;
 private ArrayList<Alien> alien = new ArrayList<Alien>();
 private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 10, 30, Color.white, (double) 0, speed/2, 0, PREF_W, 0, PREF_H);
+private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
 
 //Images
 private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
@@ -156,13 +156,10 @@ public SpaceInvaders()
             }
 
             laser.checkAndReactToCollisionWith(ship);
-
-            if(laser.getDy() == Math.abs(laser.getDy()))
-                ballActive = false;
                    
                 //Brick Removing
             try {
-                for(Brick i : alien)
+                for(Alien i : alien)
                 {   
                     if (laser.checkAndReactToCollisionWith(i))
                     {
@@ -191,7 +188,7 @@ public SpaceInvaders()
             } catch (ConcurrentModificationException a) {} 
             if (alienTimer >= 50)
             {
-                for (Brick i : alien)
+                for (Alien i : alien)
                 {
                     if (i.getX() > ((PREF_W - i.getW()) - 5) || i.getX() < 5)
                     {
@@ -199,7 +196,10 @@ public SpaceInvaders()
                         i.setX((int) (i.getX() + (i.getDx() * 10)));
                     }
                     else
-                        i.setX((int) (i.getX() + (i.getDx() * 10)));                    
+                        i.setX((int) (i.getX() + (i.getDx() * 10))); 
+                    
+                    if(lowAliens.contains(i))
+                    i.projectileChance(projectiles, new Projectile(0, 0, 3, 7, Color.white, 0, speed/2, 0, PREF_W, 0, PREF_H));
                 }
                     
             alienAnim += 1;
@@ -210,10 +210,10 @@ public SpaceInvaders()
 
             if (flipAliens)
             {
-                for(Brick j : alien)
+                for(Alien j : alien)
                 {
                     j.setDx(-j.getDx());
-                    j.setX((int) (j.getX() + (j.getDx() * 15)));
+                    j.setX((int) (j.getX() + (j.getDx() * 20)));
                     j.setY((int) (j.getY() + j.getDy() * 20));
                 }
                 flipAliens = false;
@@ -324,8 +324,19 @@ public void paintComponent(Graphics g) {
         g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
         g2.drawString("X: " + alien.get(1).getX(), 200, PREF_H - (PREF_H / 3) + 50);
     }
+
+    for(Projectile i : projectiles)
+    {
+        i.draw(g2);
+        i.update();
+        if(i.checkAndReactToCollisionWith(ship))
+        {
+            lives--;
+            projectiles.remove(i);
+        }
+    }
     
-    for(Brick i : alien)
+    for(Alien i : alien)
         i.drawImage(g2, (int) alienAnim);
 
         
@@ -427,7 +438,7 @@ public void keyPressed(KeyEvent e)
     if(key == KeyEvent.VK_SPACE && gameOver && !settings)
     {
         ballActive = true;             
-        resetGame();
+        // resetGame();
     }
     if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
     {
@@ -587,7 +598,7 @@ public void fullResetGame()
 
     public boolean aliensMoveDirection()
     {
-        for (Brick i : alien)
+        for (Alien i : alien)
         {
             if (i.getX() > PREF_W - i.getW() - 5 || i.getX() < 5)
             {
@@ -603,12 +614,12 @@ public void fullResetGame()
     {
         if(vertical)
         {
-            for(Brick i : alien)
+            for(Alien i : alien)
                 i.setY((int) (i.getY() + i.getDy()));
         }
         else
         {
-            for(Brick i : alien)
+            for(Alien i : alien)
                 i.setX((int) (i.getX() + i.getDx()));
         }
     }

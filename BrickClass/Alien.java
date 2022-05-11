@@ -1,6 +1,7 @@
 package BrickClass;
 
 import java.awt.Image;
+import java.util.ArrayList;
 
 import UI.SpriteSheet;
 
@@ -11,6 +12,7 @@ public class Alien extends Brick{
     int variant;
     boolean canShoot;
     boolean hasShot;
+    Projectile projectile;
 
     public Alien(double x, double y, int width, int height, int variant)
     {
@@ -103,5 +105,27 @@ public class Alien extends Brick{
         this.hasShot = hasShot;
     }
 
+    public void projectileChance(ArrayList<Projectile> projList, Projectile projectile)
+    {
+        int rand = (int) (Math.random() * 101 + 1);
+        if (rand <= 10)
+            shootProjectile(projList, projectile);
 
+    }
+
+    public void shootProjectile(ArrayList<Projectile> projList, Projectile proj)
+    {
+        // if(!projList.contains(proj))
+        //     canShoot = true;  
+
+        // if(canShoot)
+        this.projectile = new Projectile(x + width/2, y + height, proj.getW(), proj.getH(), proj.getColor(),
+        proj.getDx(), proj.getDy(), proj.getXMin(),  proj.getXMax(),  
+        proj.getYMin(),  proj.getYMax());
+
+        projList.add(projectile);
+
+        // canShoot = false;
+    }
 }
+
