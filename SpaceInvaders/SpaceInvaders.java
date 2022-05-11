@@ -348,50 +348,25 @@ public void paintComponent(Graphics g) {
     }
     // g2.drawImage((Image) bi, 0, 0, null);
     
-    for(Projectile i : projectiles)
-    {
-        i.draw(g2);
-        i.update();
-        if(i.checkAndReactToCollisionWith(ship))
+
+    try {
+        for(Projectile i : projectiles)
         {
-            lives--;
-            projectiles.remove(i);
+            i.draw(g2);
+            i.update();
+            if(i.checkAndReactToCollisionWith(ship))
+            {
+                lives--;
+                projectiles.remove(i);
+            }
         }
-    }
+    } catch (ConcurrentModificationException e) {}
     
     if (ballActive)
         laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
     
     //Game States
-    g2.setColor(Color.white);
-    if(!ballActive && lives == totalLives && !gameOver)
-        {
-            // message = "Press SPACE to play!";
-            message = "";
-            g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
-        }
-    if(alien.size() <= 0)
-        {
-            gameOver = true;
-            message = "Congrats, You Won! Press SPACE to play again!";
-            ballActive = false;
-            g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
-
-            if (playOnce)
-            {
-                try {
-                    Thread.sleep((long) 500);  
-                } catch (Exception e) {}
-
-                playOnce = false;
-            }
-        }
-    if(lives <= 0)
-        {
-        gameOver = true;
-        message = "Oh No, You Lost! Press SPACE to play again!";
-        g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
-        }
+        gameStateCheck(g2);
 
     //Auto Play
     if(autonomous && ballActive && !((laser.getX() + 5) - ship.getW()/2 < ship.getXMin()) && !((laser.getX() + 5) - ship.getW()/2 > ship.getXMax() - ship.getW()))
@@ -705,6 +680,39 @@ public void fullResetGame()
         if (bi.getRGB((int) (b.getX()+(b.getW()/2)), (int) (b.getY()+b.getH())) == Color.GREEN.getRGB())
         {
             explosions.add(new Point((int) (b.getX()+(b.getW()/2)), (int) (b.getY()+b.getH())));
+        }
+    }
+
+    public void gameStateCheck(Graphics2D g2)
+    {
+        g2.setColor(Color.white);
+    if(!ballActive && lives == totalLives && !gameOver)
+        {
+            // message = "Press SPACE to play!";
+            message = "";
+            g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+        }
+    if(alien.size() <= 0)
+        {
+            gameOver = true;
+            message = "Congrats, You Won! Press SPACE to play again!";
+            ballActive = false;
+            g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
+
+            if (playOnce)
+            {
+                try {
+                    Thread.sleep((long) 500);  
+                } catch (Exception e) {}
+
+                playOnce = false;
+            }
+        }
+    if(lives <= 0)
+        {
+        gameOver = true;
+        message = "Oh No, You Lost! Press SPACE to play again!";
+        g2.drawString(message, ((PREF_W/2) - metrics.stringWidth(message) / 2), PREF_H - (PREF_H / 4));
         }
     }
 }
