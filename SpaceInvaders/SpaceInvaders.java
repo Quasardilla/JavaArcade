@@ -324,15 +324,7 @@ public void paintComponent(Graphics g) {
     }
     
     for(Alien i : alien)
-    {
-        i.drawImage(g2, (int) alienAnim);
-
-        if(i.hasShot)
-        {
-            i.updateProjectile();
-            i.drawProjectile(g2);
-        }
-    }
+    i.drawImage(g2, (int) alienAnim);
     
     
     BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
@@ -354,6 +346,24 @@ public void paintComponent(Graphics g) {
         explosions.add(new Point((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())));
         ballActive = false;
     }
+
+    for (int i = projectiles.size()-1; i >= 0; i--)
+    {
+        if ((int) (projectiles.get(i).getY()+projectiles.get(i).getH()) < PREF_H)
+        {
+            if (bi.getRGB((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(projectiles.get(i)))
+            {
+                explosions.add(new Point((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())));
+                projectiles.remove(i);
+            }
+        }
+        else
+        {
+            projectiles.remove(i);
+        }
+    }
+
+
     // g2.drawImage((Image) bi, 0, 0, null);
     
 
@@ -361,8 +371,7 @@ public void paintComponent(Graphics g) {
         for(Projectile i : projectiles)
         {
             i.draw(g2);
-            if(i.equals(null))
-                projectiles.remove(i);
+            i.update();
             if(i.checkAndReactToCollisionWith(ship))
             {
                 lives--;
