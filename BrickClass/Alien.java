@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import UI.SpriteSheet;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class Alien extends Brick{
 
     int variant;
-    boolean canShoot;
-    boolean hasShot;
+    public boolean canShoot;
+    public boolean hasShot;
     Projectile projectile;
 
     public Alien(double x, double y, int width, int height, int variant)
@@ -115,17 +116,42 @@ public class Alien extends Brick{
 
     public void shootProjectile(ArrayList<Projectile> projList, Projectile proj)
     {
-        // if(!projList.contains(proj))
-        //     canShoot = true;  
+        if(!projList.contains(proj))
+        {
+            canShoot = true;  
+            hasShot = false;
+        }
 
-        // if(canShoot)
+        if(canShoot)
+        {
         this.projectile = new Projectile(x + width/2, y + height, proj.getW(), proj.getH(), proj.getColor(),
         proj.getDx(), proj.getDy(), proj.getXMin(),  proj.getXMax(),  
         proj.getYMin(),  proj.getYMax());
 
         projList.add(projectile);
+        hasShot = true;
+        canShoot = false;
+        }
+    }
 
-        // canShoot = false;
+    public void updateProjectile()
+    {  
+        if(hasShot)
+        projectile.update();
+
+        if(projectile.getX() > projectile.getXMax() || projectile.getX() < projectile.getXMin() ||
+            projectile.getY() > projectile.getYMax() || projectile.getY() < projectile.getYMin())
+        {
+            hasShot = false;
+            projectile = null;
+        }
+    }
+
+    public void drawProjectile(Graphics2D g2)
+    {
+        if(hasShot)
+        projectile.draw(g2);
     }
 }
+
 

@@ -325,7 +325,15 @@ public void paintComponent(Graphics g) {
     }
     
     for(Alien i : alien)
-    i.drawImage(g2, (int) alienAnim);
+    {
+        i.drawImage(g2, (int) alienAnim);
+
+        if(i.hasShot)
+        {
+            i.updateProjectile();
+            i.drawProjectile(g2);
+        }
+    }
     
     
     BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
@@ -364,7 +372,6 @@ public void paintComponent(Graphics g) {
         }
     }
 
-
     // g2.drawImage((Image) bi, 0, 0, null);
     
 
@@ -372,7 +379,8 @@ public void paintComponent(Graphics g) {
         for(Projectile i : projectiles)
         {
             i.draw(g2);
-            i.update();
+            if(i.equals(null))
+                projectiles.remove(i);
             if(i.checkAndReactToCollisionWith(ship))
             {
                 lives--;
