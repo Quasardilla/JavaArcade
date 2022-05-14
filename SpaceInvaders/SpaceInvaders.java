@@ -498,8 +498,6 @@ public void mouseClicked(MouseEvent e) {
 @Override
 public void mousePressed(MouseEvent e) {
 
-    explosions.add(e.getPoint());
-
     if(auto.isInside(mouseX, mouseY))
     {
         auto.toggleState();
