@@ -3,9 +3,12 @@ package BrickClass;
 import java.awt.Color;
 import java.awt.Image;
 
+import UI.SpriteSheet;
+
 public class Projectile extends GameObject {    
 
     public Image img;
+
 
     public Projectile(int x, int y, int width, int height)
     {
@@ -51,5 +54,13 @@ public class Projectile extends GameObject {
      {
          super(x, y, width, height, color, dx, dy, XMin, XMax, YMin, YMax);
      }
+
+
+    public Projectile(double x, double y, int width, int height, double dx, double dy, 
+     int XMin, int XMax, int YMin, int YMax, SpriteSheet ss)
+    {
+        super(x, y, width, height, Color.WHITE, dx, dy, XMin, XMax, YMin, YMax);
+        this.ss = ss;
+    }
     
 }

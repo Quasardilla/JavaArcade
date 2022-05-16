@@ -114,6 +114,7 @@ private boolean playHitAnim = false;
 private int haX = 0;
 private int haY = 0;
 private boolean canShoot = false;
+private double projectileAnim = 0;
 
 //alien shooting
 private ArrayList<Brick> lowAliens = new ArrayList<Brick>();
@@ -199,9 +200,10 @@ public SpaceInvaders()
                     }
                     else
                         i.setX((int) (i.getX() + (i.getDx() * 10))); 
-                    
                     if(lowAliens.contains(i))
-                    i.projectileChance(projectiles, new Projectile(0, 0, 3, 7, Color.white, 0, speed/2, 0, PREF_W, 0, PREF_H));
+                    {
+                        i.projectileChance(projectiles, spawnAlienProjectile(i.variant));
+                    }
                 }
                     
             alienAnim += 1;
@@ -371,7 +373,7 @@ public void paintComponent(Graphics g) {
     try {
         for(Projectile i : projectiles)
         {
-            i.draw(g2);
+            i.drawImage(g2, (int) (projectileAnim % i.ss.getLength()));
             i.update();
             if(i.checkAndReactToCollisionWith(ship))
             {
@@ -380,6 +382,8 @@ public void paintComponent(Graphics g) {
             }
         }
     } catch (ConcurrentModificationException e) {}
+
+    projectileAnim += 0.1;
     
     if (ballActive)
         laser.drawImage(g2, (int) shipLaserAnim % laser.ss.getLength());
@@ -561,13 +565,13 @@ public void resetGame()
             {
                 int alienWidth = (int) (alien2.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien2.get().getHeight(null) * alienScale);
-                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, 1, alien2, 1, 1));
+                alien.add(new Alien(x, y, alienWidth * 4, alienHeight * 4, 2, alien2, 1, 1));
             }
             else if(i == 3 || i == 4)
             {
                 int alienWidth = (int) (alien3.get().getWidth(null) * alienScale);
                 int alienHeight = (int) (alien3.get().getHeight(null) * alienScale);
-                alien.add(new Alien(x, y, alienWidth* 4, alienHeight * 4, 1, alien3, 1, 1));
+                alien.add(new Alien(x, y, alienWidth* 4, alienHeight * 4, 3, alien3, 1, 1));
             }
         }
 
@@ -617,28 +621,19 @@ public void fullResetGame()
         }
     }
 
-    public void spawnAlienProjectile(int x, int y)
+    public Projectile spawnAlienProjectile(int variant)
     {
-        int rand = (int) (Math.random() * 6) + 1;
-        switch (rand) {
+        System.out.println("variant in spawn: "+variant);
+        switch (variant) 
+        {
             case 1:
-                projectiles.add(new Projectile(x, y, 3, 7, laser1.get(0)));
-                break;
+                return (new Projectile(0, 0, 6, 14, 0, speed/2, 0, PREF_W, 0, PREF_H, laser1));
             case 2:
-                projectiles.add(new Projectile(x, y, 3, 7, laser2.get(0)));
-                break;
+                return (new Projectile(0, 0, 6, 14, 0, speed/2, 0, PREF_W, 0, PREF_H, laser3));
             case 3:
-                projectiles.add(new Projectile(x, y, 3, 7, laser3.get(0)));
-                break;
-            case 4:
-                projectiles.add(new Projectile(x, y, 3, 7, laser4.get(0)));
-                break;
-            case 5:
-                projectiles.add(new Projectile(x, y, 3, 7, laser5.get(0)));
-                break;
-        
+                return (new Projectile(0, 0, 6, 14, 0, speed/2, 0, PREF_W, 0, PREF_H, laser4));
             default:
-                break;
+                return null;
         }
     }
 
