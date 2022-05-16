@@ -82,9 +82,11 @@ private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
 //explosions
 private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
 private ArrayList<Point> explosions = new ArrayList<Point>();
+private int explosionRadius = 30;
 //blockers
 private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
 private ArrayList<Point> blockers = new ArrayList<Point>();
+private int blockerSize = 75;
 
 //UI
 private int score = 0;
@@ -132,7 +134,7 @@ public SpaceInvaders()
     laser.ss = laser5;
 
     for (int i = 1; i <= 4; i++)
-        blockers.add(new Point(((PREF_W / 5) * i)-25, PREF_H - 200));
+        blockers.add(new Point(((PREF_W / 5) * i)-(blockerSize/2), PREF_H - (175+(blockerSize/2))));
             
     resetGame();
 
@@ -326,19 +328,18 @@ public void paintComponent(Graphics g) {
     for(Alien i : alien)
     i.drawImage(g2, (int) alienAnim);
     
-    
     BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
     Graphics2D gg = bi.createGraphics();
     for (Point p: blockers)
     {
-        g2.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(50, 50, Image.SCALE_SMOOTH), p.x, p.y, null);
-        gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(50, 50, Image.SCALE_SMOOTH), p.x, p.y, null);
+        g2.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_SMOOTH), p.x, p.y, null);
+        gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_SMOOTH), p.x, p.y, null);
     }
     
     for (Point p: explosions)
     {
-        g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
-        gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(30, 30, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
+        g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
+        gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
     }
     
     if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
