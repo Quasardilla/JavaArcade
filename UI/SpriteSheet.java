@@ -67,6 +67,12 @@ public class SpriteSheet {
         return arr.get(anim%arr.size());
     }
 
+    public Image getPrev()
+    {
+        anim--;
+        return arr.get(anim%arr.size());
+    }
+
     public int getLength()
     {
         return arr.size();
