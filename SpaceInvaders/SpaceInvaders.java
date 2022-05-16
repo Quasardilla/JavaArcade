@@ -349,7 +349,7 @@ public void paintComponent(Graphics g) {
 
     for (int i = projectiles.size()-1; i >= 0; i--)
     {
-        if ((int) (projectiles.get(i).getY()+projectiles.get(i).getH()) < PREF_H)
+        if ((int) (projectiles.get(i).getY()+projectiles.get(i).getH()) < PREF_H && (int) (projectiles.get(i).getY()+projectiles.get(i).getH()) > 0 && (int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)) < PREF_W && (int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)) > 0)
         {
             if (bi.getRGB((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(projectiles.get(i)))
             {
