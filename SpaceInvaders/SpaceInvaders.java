@@ -623,7 +623,6 @@ public void fullResetGame()
 
     public Projectile spawnAlienProjectile(int variant)
     {
-        System.out.println("variant in spawn: "+variant);
         switch (variant) 
         {
             case 1:
