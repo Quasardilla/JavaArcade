@@ -409,6 +409,10 @@ public void paintComponent(Graphics g) {
             if(i.checkAndReactToCollisionWith(ship))
             {
                 lives--;
+
+                shipHit.get().setFramePosition(0);
+                shipHit.play();
+
                 projectiles.remove(i);
             }
         }
