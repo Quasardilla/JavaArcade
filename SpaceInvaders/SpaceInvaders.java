@@ -49,15 +49,19 @@ private int mouseX, mouseY;
 //Game Booleans
 private boolean ballActive, tempBallActive, gameOver, settings, mouseClicked, playOnce = true, autonomous, debug, flipAliens;
 
-//Sounds
-private SoundLoader shoot = new SoundLoader(this.getClass().getResource("sound/shoot.wav"));
-private SoundLoader alienHit = new SoundLoader(this.getClass().getResource("sound/alienHit.wav"));
-private SoundLoader alienShoot1 = new SoundLoader(this.getClass().getResource("sound/alienShoot1.wav"));
-private SoundLoader alienShoot2 = new SoundLoader(this.getClass().getResource("sound/alienShoot2.wav"));
-private SoundLoader alienShoot3 = new SoundLoader(this.getClass().getResource("sound/alienShoot3.wav"));
-private SoundLoader blockerHit = new SoundLoader(this.getClass().getResource("sound/blockerHit.wav"));
-private SoundLoader shipHit = new SoundLoader(this.getClass().getResource("sound/shipHit.wav"));
-private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/ufoSound.wav"));
+/*Sounds*/
+//alien
+private SoundLoader alienHit = new SoundLoader(this.getClass().getResource("sound/alien/alienHit.wav"));
+private SoundLoader alienShoot1 = new SoundLoader(this.getClass().getResource("sound/alien/alienShoot1.wav"));
+private SoundLoader alienShoot2 = new SoundLoader(this.getClass().getResource("sound/alien/alienShoot2.wav"));
+private SoundLoader alienShoot3 = new SoundLoader(this.getClass().getResource("sound/alien/alienShoot3.wav"));
+//ship
+private SoundLoader shoot = new SoundLoader(this.getClass().getResource("sound/ship/shipShoot.wav"));
+private SoundLoader shipHit = new SoundLoader(this.getClass().getResource("sound/ship/shipHit.wav"));
+private SoundLoader shipLaserBreak = new SoundLoader(this.getClass().getResource("sound/ship/shipLaserBreak.wav"));
+//random
+private SoundLoader blockerHit = new SoundLoader(this.getClass().getResource("sound/random/blockerHit.wav"));
+private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/random/ufoSound.wav"));
 
 //Player Variables
 private int lives = 3, totalLives = 3, initialLives = 3;
@@ -252,6 +256,9 @@ public SpaceInvaders()
                 playHitAnim = true;
                 haX = (int) laser.getX();
                 haY = (int) laser.getY();
+
+                shipLaserBreak.get().setFramePosition(0);
+                shipLaserBreak.play();
             }
 
 
