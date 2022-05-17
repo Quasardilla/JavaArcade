@@ -55,6 +55,7 @@ private SoundLoader alienHit = new SoundLoader(this.getClass().getResource("soun
 private SoundLoader alienShoot1 = new SoundLoader(this.getClass().getResource("sound/alienShoot1.wav"));
 private SoundLoader alienShoot2 = new SoundLoader(this.getClass().getResource("sound/alienShoot2.wav"));
 private SoundLoader alienShoot3 = new SoundLoader(this.getClass().getResource("sound/alienShoot3.wav"));
+private SoundLoader blockerHit = new SoundLoader(this.getClass().getResource("sound/blockerHit.wav"));
 private SoundLoader shipHit = new SoundLoader(this.getClass().getResource("sound/shipHit.wav"));
 private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/ufoSound.wav"));
 
@@ -369,9 +370,13 @@ public void paintComponent(Graphics g) {
     if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
     {
         explosions.add(new Point((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())));
+        
+        blockerHit.get().setFramePosition(0);
+        blockerHit.play();
+
         ballActive = false;
     }
-
+    
     for (int i = projectiles.size()-1; i >= 0; i--)
     {
         if ((int) (projectiles.get(i).getY()+projectiles.get(i).getH()) < PREF_H && (int) (projectiles.get(i).getY()+projectiles.get(i).getH()) > 0 && (int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)) < PREF_W && (int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)) > 0)
@@ -379,6 +384,10 @@ public void paintComponent(Graphics g) {
             if (bi.getRGB((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(projectiles.get(i)))
             {
                 explosions.add(new Point((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())));
+                
+                blockerHit.get().setFramePosition(0);
+                blockerHit.play();
+                
                 projectiles.remove(i);
             }
         }
