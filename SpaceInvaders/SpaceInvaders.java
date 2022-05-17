@@ -79,6 +79,7 @@ private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/ran
 private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
 private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
 private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
+
 //explosions
 private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
 private ArrayList<Point> explosions = new ArrayList<Point>();
@@ -100,7 +101,7 @@ private ArrayList<Alien> alien = new ArrayList<Alien>();
 private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
 private boolean ufoActive;
-private Alien UFO = new Alien(0 - (16 * alienScale), (double) 40, (int) (16 * alienScale), (int) (7 * alienScale), 4, ufo, 10, 0);
+private Alien UFO = new Alien(0 - ((16 * alienScale) * 4), (double) 40, (int) (16 * alienScale) * 4, (int) (7 * alienScale) * 4, 4, ufo, 2, 0);
 
 
 //UI
@@ -270,6 +271,28 @@ public SpaceInvaders()
                     shipLaserBreak.play();
                 }
 
+                if(ufoActive)
+                {
+                    if(UFO.getX() > PREF_W)
+                    {
+                        ufoActive = false;
+                        ufoSound.get().stop();
+                    }
+                    else
+                        UFO.setX(UFO.getX() + UFO.getDx());
+                }
+                else
+                {
+                    int rand = (int) (Math.random() * 1000) + 1;
+                    if(rand <= 1)
+                    {
+                        UFO.setX(0 - ((16 * alienScale) * 4));
+                        ufoActive = true;
+                        ufoSound.get().setFramePosition(0);
+                        ufoSound.get().start();
+                    }
+                }
+
 
                 repaint();
             }         
@@ -368,6 +391,8 @@ public SpaceInvaders()
         
         for(Alien i : alien)
         i.drawImage(g2, (int) alienAnim);
+
+        UFO.drawImage(g2);
         
         BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
         Graphics2D gg = bi.createGraphics();
@@ -609,8 +634,7 @@ public SpaceInvaders()
             for (double ii = 1.2; ii < (PREF_W / horizontalDist) - 1; ii += 1) //x
             {
                 int x = (int) (ii * horizontalDist);
-                int y = i * verticalDist;
-                double alienScale = 0.6;
+                int y = i * verticalDist + 75;
                 if(i == 0)
                 {
                     int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);
