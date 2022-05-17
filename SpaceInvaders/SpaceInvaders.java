@@ -55,17 +55,6 @@ private SoundLoader alienHit = new SoundLoader(this.getClass().getResource("soun
 private SoundLoader shipHit = new SoundLoader(this.getClass().getResource("sound/shipHit.wav"));
 private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/ufoSound.wav"));
 
-//Player Variables
-private int lives = 3, totalLives = 3, initialLives = 3;
-private double speed = 5, initialSpeed = speed;
-private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 39, 24, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
-
-//Non-Player Variables
-private int alienTimer = 0;
-private ArrayList<Alien> alien = new ArrayList<Alien>();
-private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
-
 //Images
 private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
 private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
@@ -87,6 +76,21 @@ private int explosionRadius = 30;
 private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
 private ArrayList<Point> blockers = new ArrayList<Point>();
 private int blockerSize = 75;
+
+//Player Variables
+private int lives = 3, totalLives = 3, initialLives = 3;
+private double speed = 5, initialSpeed = speed;
+private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 39, 24, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
+
+//Non-Player Variables
+private double alienScale = 0.6;
+private int alienTimer = 0;
+private ArrayList<Alien> alien = new ArrayList<Alien>();
+private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
+private boolean ufoActive;
+private Alien UFO = new Alien(0 - (16 * alienScale), (double) 40, (int) (16 * alienScale), (int) (7 * alienScale), 4, ufo, 10, 0);
+
 
 //UI
 private int score = 0;
@@ -125,8 +129,10 @@ public SpaceInvaders()
     addMouseListener(this);
     setFocusable(true);
     requestFocus();
-    
+
     FontInstaller.installFont();
+
+    ufoSound.get().loop(ufoSound.get().LOOP_CONTINUOUSLY);
 
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
@@ -231,6 +237,30 @@ public SpaceInvaders()
                 haY = (int) laser.getY();
             }
 
+            if(!ufoActive)
+            {
+                int rand = (int) (Math.random() * 100) + 1;
+                if(rand <= 1)
+                {
+                    UFO.setX(0 - (16 * alienScale));
+                    ufoActive = true;
+                    ufoSound.get().setFramePosition(0);
+                    ufoSound.get().start();
+                }
+            }
+            else
+            {
+                if(UFO.getX() > PREF_W)
+                {
+                    ufoActive = false;
+                    ufoSound.get().stop();
+                }
+                else
+                {
+                    UFO.update();
+                }
+            }
+
 
             repaint();
         }         
@@ -324,11 +354,13 @@ public void paintComponent(Graphics g) {
     {
         g2.drawString("Speed: " + speed, 0, PREF_H - (PREF_H / 3) + 50);
         g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
-        g2.drawString("X: " + alien.get(1).getX(), 200, PREF_H - (PREF_H / 3) + 50);
+        g2.drawString("UFO Active: " + ufoActive, 200, PREF_H - (PREF_H / 3) + 50);
     }
     
     for(Alien i : alien)
     i.drawImage(g2, (int) alienAnim);
+
+    UFO.draw(g2);
     
     BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
     Graphics2D gg = bi.createGraphics();
@@ -549,12 +581,11 @@ public void resetGame()
         int horizontalDist = 40;
         
         
-        for (int i = 0; i < 5; i += 1) //y
+        for (double i = 0; i < 5; i += 1) //y
         for (double ii = 1.2; ii < (PREF_W / horizontalDist) - 1; ii += 1) //x
         {
             int x = (int) (ii * horizontalDist);
-            int y = i * verticalDist;
-            double alienScale = 0.6;
+            int y = (int) (i * verticalDist) + 75;
             if(i == 0)
             {
                 int alienWidth = (int) (alien1.get().getWidth(null) * alienScale);

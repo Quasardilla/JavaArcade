@@ -38,6 +38,12 @@ public class Alien extends Brick{
         this.variant = variant;
     }
     
+    public Alien(double x, double y, int width, int height, int variant, Image img, int dx, int dy)
+    {
+        super(x, y, width, height, img, dx, dy);
+        this.variant = variant;
+    }
+
     public Alien(double x, double y, int width, int height, int variant, SpriteSheet ss, int dx, int dy)
     {
         super(x, y, width, height, ss, dx, dy);
@@ -138,5 +144,5 @@ public class Alien extends Brick{
 
         // canShoot = false;
     }
-}
 
+}

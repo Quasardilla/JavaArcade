@@ -99,6 +99,17 @@ public class Brick implements Comparable<Brick> {
         this.dy = dy;
     }
 
+    public Brick(double x, double y, int width, int height, Image img, int dx, int dy) //Another constructor with optional values
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.img = img;
+        this.dx = dx;
+        this.dy = dy;
+    }
+
     public Brick(double x, double y, int width, int height, Color color, double dx, double dy) //Another constructor with optional values
     {
         this.x = x;
@@ -192,7 +203,7 @@ public class Brick implements Comparable<Brick> {
         this.YMin = YMin;
         this.img = img;
     }
-    
+
     //Standard getter & setter methods
     public double getX()
     {
