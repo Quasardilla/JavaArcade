@@ -52,6 +52,9 @@ private boolean ballActive, tempBallActive, gameOver, settings, mouseClicked, pl
 //Sounds
 private SoundLoader shoot = new SoundLoader(this.getClass().getResource("sound/shoot.wav"));
 private SoundLoader alienHit = new SoundLoader(this.getClass().getResource("sound/alienHit.wav"));
+private SoundLoader alienShoot1 = new SoundLoader(this.getClass().getResource("sound/alienShoot1.wav"));
+private SoundLoader alienShoot2 = new SoundLoader(this.getClass().getResource("sound/alienShoot2.wav"));
+private SoundLoader alienShoot3 = new SoundLoader(this.getClass().getResource("sound/alienShoot3.wav"));
 private SoundLoader shipHit = new SoundLoader(this.getClass().getResource("sound/shipHit.wav"));
 private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/ufoSound.wav"));
 
@@ -202,7 +205,26 @@ public SpaceInvaders()
                         i.setX((int) (i.getX() + (i.getDx() * 10))); 
                     if(lowAliens.contains(i))
                     {
+                        int initialProjCount = projectiles.size();
                         i.projectileChance(projectiles, spawnAlienProjectile(i.variant));
+                        if (initialProjCount != projectiles.size())
+                        {
+                            switch (i.variant)
+                            {
+                                case 1:
+                                    alienShoot1.get().setFramePosition(0);
+                                    alienShoot1.play();;
+                                    break;
+                                case 2:
+                                    alienShoot2.get().setFramePosition(0);
+                                    alienShoot2.play();
+                                    break;
+                                case 3:
+                                    alienShoot3.get().setFramePosition(0);
+                                    alienShoot3.play();
+                                    break;
+                            }
+                        }
                     }
                 }
                     
