@@ -103,6 +103,11 @@ private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (sh
 private boolean ufoActive;
 private Alien UFO = new Alien(0 - ((16 * alienScale) * 4), (double) 40, (int) (16 * alienScale) * 4, (int) (7 * alienScale) * 4, 4, ufo, 2, 0);
 
+// FPS
+private static double FPSCap = 60;
+private static double totalFrames = 0;
+private static double lastFPSCheck = 0;
+private static double currentFPS = 0;
 
 //UI
 private int score = 0;
@@ -279,11 +284,11 @@ public SpaceInvaders()
                         ufoSound.get().stop();
                     }
                     else
-                        UFO.setX(UFO.getX() + UFO.getDx());
+                        UFO.update();
                 }
                 else
                 {
-                    int rand = (int) (Math.random() * 1000) + 1;
+                    int rand = (int) (Math.random() * 1001) + 1;
                     if(rand <= 1)
                     {
                         UFO.setX(0 - ((16 * alienScale) * 4));
@@ -386,7 +391,7 @@ public SpaceInvaders()
         {
             g2.drawString("Speed: " + speed, 0, PREF_H - (PREF_H / 3) + 50);
             g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
-            g2.drawString("X: " + alien.get(1).getX(), 200, PREF_H - (PREF_H / 3) + 50);
+            g2.drawString("FPS: " + currentFPS, 200, PREF_H - (PREF_H / 3) + 50);
         }
         
         for(Alien i : alien)
@@ -398,8 +403,8 @@ public SpaceInvaders()
         Graphics2D gg = bi.createGraphics();
         for (Point p: blockers)
         {
-            g2.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_SMOOTH), p.x, p.y, null);
-            gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_SMOOTH), p.x, p.y, null);
+            g2.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_FAST), p.x, p.y, null);
+            gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_FAST), p.x, p.y, null);
         }
         
         for (Point p: explosions)
@@ -504,6 +509,15 @@ public SpaceInvaders()
                 speed = speedSlider.getValue() + 1;
             } 
         }
+
+        //FPS
+        totalFrames++;
+		if (System.nanoTime() > lastFPSCheck + 1000000000)
+		{
+			lastFPSCheck = System.nanoTime();
+			currentFPS = totalFrames;
+			totalFrames = 0;
+		}
 
     }
 
@@ -738,7 +752,13 @@ public SpaceInvaders()
 
             //1.) c.)
             ArrayList<ArrayList<Brick>> temp = new ArrayList<ArrayList<Brick>>();
-            int lastX = (int) alien.get(0).getX();
+
+            int lastX;
+            if(alien.size() > 0)
+                lastX = (int) alien.get(0).getX();
+            else
+                lastX = 0;
+            
             temp.add(new ArrayList<Brick>());
             temp.get(0).add(alien.get(0));
             for (int i = 1; i < alien.size(); i++)

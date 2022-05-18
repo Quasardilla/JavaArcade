@@ -125,7 +125,7 @@ public class Alien extends Brick{
     public void projectileChance(ArrayList<Projectile> projList, Projectile projectile)
     {
         int rand = (int) (Math.random() * 101 + 1);
-        if (rand <= 10)
+        if (rand <= 5)
             shootProjectile(projList, projectile);
 
     }

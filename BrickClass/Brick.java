@@ -482,10 +482,6 @@ public class Brick implements Comparable<Brick> {
     {
         x += dx;
         y += dy;
-        if (y > YMax - height || y < YMin)
-        dy = -dy;
-        if (x > XMax - width || x < XMin)
-        dx = -dx;
     }  
 
     public void updateGravity(int mousex, int mousey, int screenw, int screenh)
