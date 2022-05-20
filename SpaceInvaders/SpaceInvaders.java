@@ -102,6 +102,7 @@ private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
 private boolean ufoActive;
 private Alien UFO = new Alien(0 - ((16 * alienScale) * 4), (double) 40, (int) (16 * alienScale) * 4, (int) (7 * alienScale) * 4, 4, ufo, 2, 0);
+private int scoreInterval = 10;
 
 // FPS
 private static double FPSCap = 60;
@@ -205,7 +206,7 @@ public SpaceInvaders()
                                 i.setColor(Color.getHSBColor(arr[0], (float) (arr[1] - 0.25), arr[2]));
                             }
                             if(!autonomous)
-                            score += 10;
+                            score += scoreInterval;
 
                             ballActive = false; 
                         }
@@ -285,6 +286,15 @@ public SpaceInvaders()
                     }
                     else
                         UFO.update();
+
+                    if(ballActive)
+                        if(UFO.checkAndReactToCollisionWith(laser))
+                        {
+                            ballActive = false;
+                            ufoActive = false;
+                            UFO.setX(0 - ((16 * alienScale) * 4));
+                            score += scoreInterval * 3;
+                        }
                 }
                 else
                 {
@@ -732,58 +742,60 @@ public SpaceInvaders()
 
         public void setLowAliens()
         {
-            /*
-            steps:
-            1.) 
-                a.) clear lowaliens
-                b.) sort alien list by x values smallest to biggest
-                c.) put each column (sorted by x val) in a 2d matrix
-            2.)
-                a.) find the brick with the lowest y value in each column
-                b.) add it to the list
-            */
 
-            //1.) a.)
-            lowAliens.clear();
-
-            //1.) b.)
-            Brick.compareX = true;
-            Collections.sort(alien);
-
-            //1.) c.)
-            ArrayList<ArrayList<Brick>> temp = new ArrayList<ArrayList<Brick>>();
-
-            int lastX;
             if(alien.size() > 0)
-                lastX = (int) alien.get(0).getX();
-            else
-                lastX = 0;
-            
-            temp.add(new ArrayList<Brick>());
-            temp.get(0).add(alien.get(0));
-            for (int i = 1; i < alien.size(); i++)
             {
-                if ((int) alien.get(i).getX() == lastX)
+                /*
+                steps:
+                1.) 
+                    a.) clear lowaliens
+                    b.) sort alien list by x values smallest to biggest
+                    c.) put each column (sorted by x val) in a 2d matrix
+                2.)
+                    a.) find the brick with the lowest y value in each column
+                    b.) add it to the list
+                */
+
+                //1.) a.)
+                lowAliens.clear();
+
+                //1.) b.)
+                Brick.compareX = true;
+                Collections.sort(alien);
+
+                //1.) c.)
+                ArrayList<ArrayList<Brick>> temp = new ArrayList<ArrayList<Brick>>();
+
+                int lastX;
+                
+                lastX = (int) alien.get(0).getX();
+                
+                temp.add(new ArrayList<Brick>());
+                temp.get(0).add(alien.get(0));
+                for (int i = 1; i < alien.size(); i++)
                 {
-                    temp.get(temp.size()-1).add(alien.get(i));
-                }
-                else
-                {
-                    temp.add(new ArrayList<Brick>());
-                    temp.get(temp.size()-1).add(alien.get(i));
+                    if ((int) alien.get(i).getX() == lastX)
+                    {
+                        temp.get(temp.size()-1).add(alien.get(i));
+                    }
+                    else
+                    {
+                        temp.add(new ArrayList<Brick>());
+                        temp.get(temp.size()-1).add(alien.get(i));
+                    }
+
+                    lastX = (int) alien.get(i).getX();
                 }
 
-                lastX = (int) alien.get(i).getX();
+                //2.) a.)
+                Brick.compareX = false;
+                for (ArrayList<Brick> a: temp)
+                    Collections.sort(a);
+
+                //2.) b.)
+                for (ArrayList<Brick> a: temp)
+                    lowAliens.add(a.get(a.size()-1));
             }
-
-            //2.) a.)
-            Brick.compareX = false;
-            for (ArrayList<Brick> a: temp)
-                Collections.sort(a);
-
-            //2.) b.)
-            for (ArrayList<Brick> a: temp)
-                lowAliens.add(a.get(a.size()-1));
         }
 
         public void checkBlockerHit(Brick b, BufferedImage bi)
