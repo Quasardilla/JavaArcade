@@ -37,6 +37,7 @@ import UI.SpriteSheet;
 import UI.Switch;
 import UI.Bar;
 import UI.Button;
+import UI.FPSCounter;
 
 public class SpaceInvaders extends JPanel implements KeyListener, MouseInputListener
 {
@@ -105,15 +106,12 @@ private Alien UFO = new Alien(0 - ((16 * alienScale) * 4), (double) 40, (int) (1
 private int scoreInterval = 10;
 
 // FPS
-private static double FPSCap = 60;
-private static double totalFrames = 0;
-private static double lastFPSCheck = 0;
-private static double currentFPS = 0;
+FPSCounter fps = new FPSCounter();
 
 //UI
 private int score = 0;
 private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-private Font font = new Font("Quicksand", Font.PLAIN, 25);
+private Font font = new Font("Space Invaders", Font.PLAIN, 18);
 private static FontMetrics metrics;
 private String message;
 private Bar b = new Bar(100, 87, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
@@ -159,7 +157,7 @@ public SpaceInvaders()
         laser.ss = laser5;
 
         for (int i = 1; i <= 4; i++)
-            blockers.add(new Point(((PREF_W / 5) * i)-(blockerSize/2), PREF_H - (175+(blockerSize/2))));
+            blockers.add(new Point(((PREF_W / 5) * i)-(blockerSize/2), PREF_H - (175+((int) (blockerSize/2)))));
                 
         resetGame();
 
@@ -368,7 +366,7 @@ public SpaceInvaders()
             tempBallActive = false;
         }
         
-        if (playDeathAnim) 
+        if (playDeathAnim && alien.size() < 0) 
         {
             g2.drawImage(alienDeathParticles.get((int) (deathAnim % alienDeathParticles.getLength())).getScaledInstance(alien.get(0).getW(), alien.get(0).getH(), Image.SCALE_DEFAULT), daX, daY, null);
             deathAnim+=0.1;
@@ -397,13 +395,6 @@ public SpaceInvaders()
         g2.drawString("Press ESC for settings", 0, PREF_H - 50);
         g2.drawString("Score: " + score, 0, PREF_H - (PREF_H / 3) + 10);
         
-        if(debug)
-        {
-            g2.drawString("Speed: " + speed, 0, PREF_H - (PREF_H / 3) + 50);
-            g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
-            g2.drawString("FPS: " + currentFPS, 200, PREF_H - (PREF_H / 3) + 50);
-        }
-        
         for(Alien i : alien)
         i.drawImage(g2, (int) alienAnim);
 
@@ -419,8 +410,8 @@ public SpaceInvaders()
         
         for (Point p: explosions)
         {
-            g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
-            gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_SMOOTH), p.x-15, p.y-15, null);
+            g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_FAST), p.x-15, p.y-15, null);
+            gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_FAST), p.x-15, p.y-15, null);
         }
         
         if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
@@ -520,14 +511,16 @@ public SpaceInvaders()
             } 
         }
 
+        if(debug)
+        {
+            g2.drawString("Projectiles: " + projectiles.size(), 0, PREF_H - (PREF_H / 3) + 30);
+            g2.drawString("Speed: " + speed, 0, PREF_H - (PREF_H / 3) + 50);
+            g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
+            g2.drawString("FPS: " + fps.getFPS(), 200, PREF_H - (PREF_H / 3) + 50);
+        }
+
         //FPS
-        totalFrames++;
-		if (System.nanoTime() > lastFPSCheck + 1000000000)
-		{
-			lastFPSCheck = System.nanoTime();
-			currentFPS = totalFrames;
-			totalFrames = 0;
-		}
+        fps.frame();
 
     }
 
