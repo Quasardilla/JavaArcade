@@ -18,6 +18,8 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -98,6 +100,8 @@ private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 39, 24, Color
 //Non-Player Variables
 private double alienScale = 0.6;
 private int alienTimer = 0;
+private int alienMaxSpeed = 50;
+private int initialAlienCount;
 private ArrayList<Alien> alien = new ArrayList<Alien>();
 private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
@@ -148,7 +152,7 @@ public SpaceInvaders()
 
     FontInstaller.installFont();
 
-    ufoSound.get().loop(ufoSound.get().LOOP_CONTINUOUSLY);
+    ufoSound.get().loop(Clip.LOOP_CONTINUOUSLY);
     ufoSound.get().stop();
 
     ship.setDirectionKeys(0, 0, 65, 68);
@@ -213,7 +217,8 @@ public SpaceInvaders()
 
                     }
                 } catch (ConcurrentModificationException a) {} 
-                if (alienTimer >= 50 && !gameOver)
+                // System.out.println(alienMaxSpeed * (alien.size()/(double) initialAlienCount));
+                if (alienTimer >= alienMaxSpeed * (alien.size()/(double) initialAlienCount) && !gameOver)
                 {
                     for (Alien i : alien)
                     {
@@ -311,7 +316,8 @@ public SpaceInvaders()
                     }
                 }
 
-
+                stopAllSound();
+                
                 repaint();
             }         
         });
@@ -403,6 +409,13 @@ public SpaceInvaders()
         for(Alien i : alien)
         i.drawImage(g2, (int) alienAnim);
 
+        if(debug)
+        {
+            g2.drawString("Speed: " + speed, 0, PREF_H - (PREF_H / 3) + 50);
+            g2.drawString("Alien Timer: " + alienTimer, 200, PREF_H - (PREF_H / 3) + 30);
+            g2.drawString("FPS: " + fps.getFPS(), 200, PREF_H - (PREF_H / 3) + 50);
+        }
+
         UFO.drawImage(g2);
         
         BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
@@ -454,6 +467,8 @@ public SpaceInvaders()
             }
         }
 
+        for(Alien i : alien)
+        i.drawImage(g2, (int) alienAnim);
 
         // g2.drawImage((Image) bi, 0, 0, null);
         
@@ -534,7 +549,7 @@ public SpaceInvaders()
     {
         int key = e.getKeyCode();
 
-        if(!settings)
+        if(!gameOver)
             ship.keyWasPressed(key);
 
         if(key == KeyEvent.VK_SPACE && gameOver && !settings)
@@ -649,7 +664,7 @@ public SpaceInvaders()
             int verticalDist = 50;
             int horizontalDist = 40;
             
-            
+            initialAlienCount = 0;
             for (int i = 0; i < 5; i += 1) //y
             for (double ii = 1.2; ii < (PREF_W / horizontalDist) - 1; ii += 1) //x
             {
@@ -673,7 +688,9 @@ public SpaceInvaders()
                     int alienHeight = (int) (alien3.get().getHeight(null) * alienScale);
                     alien.add(new Alien(x, y, alienWidth* 4, alienHeight * 4, 3, alien3, 1, 1));
                 }
+                initialAlienCount++;
             }
+            // System.out.println(initialAlienCount);
 
         lives = totalLives;
         score = 0;
@@ -849,5 +866,21 @@ public SpaceInvaders()
             default:
                 return null;
         }
+    }
+
+    private void stopAllSound()
+    {
+        alienHit.stop();
+        alienShoot1.stop();
+        alienShoot2.stop();
+        alienShoot3.stop();
+        alienLaserBreak1.stop();
+        alienLaserBreak2.stop();
+        alienLaserBreak3.stop();
+        shoot.stop();
+        shipHit.stop();
+        shipLaserBreak.stop();
+        blockerHit.stop();
+        ufoSound.stop();
     }
 }

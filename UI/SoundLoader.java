@@ -57,4 +57,13 @@ public class SoundLoader {
         this.playAmount = playAmount;
     }
 
+    public void stop()
+    {
+        if (sound.getFramePosition() >= sound.getFrameLength())
+        {
+            sound.stop();
+            sound.flush();
+        }
+    }
+
 }
