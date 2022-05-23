@@ -180,7 +180,8 @@ public SpaceInvaders()
             @Override
             public void actionPerformed(ActionEvent e) { 
                     
-                alienTimer++;
+                if(!gameOver)
+                    alienTimer++;
 
                 //Updating & Collision Checks
                 if(autonomous && !ballActive || !autonomous)
@@ -293,7 +294,7 @@ public SpaceInvaders()
                     shipLaserBreak.play();
                 }
 
-                if(ufoActive )
+                if(ufoActive)
                 {
                     if(UFO.getX() > PREF_W)
                     {
@@ -314,13 +315,16 @@ public SpaceInvaders()
                 }
                 else
                 {
-                    int rand = (int) (Math.random() * 1001) + 1;
-                    if(rand <= 1)
+                    if(!gameOver)
                     {
-                        UFO.setX(0 - ((16 * alienScale) * 4));
-                        ufoActive = true;
-                        ufoSound.get().setFramePosition(0);
-                        ufoSound.get().start();
+                        int rand = (int) (Math.random() * 1001) + 1;
+                        if(rand <= 1)
+                        {
+                            UFO.setX(0 - ((16 * alienScale) * 4));
+                            ufoActive = true;
+                            ufoSound.get().setFramePosition(0);
+                            ufoSound.get().start();
+                        }
                     }
                 }
 
