@@ -149,6 +149,7 @@ public SpaceInvaders()
     FontInstaller.installFont();
 
     ufoSound.get().loop(ufoSound.get().LOOP_CONTINUOUSLY);
+    ufoSound.get().stop();
 
     ship.setDirectionKeys(0, 0, 65, 68);
     ship.setSecondaryDirectionKeys(0, 0, 37, 39);
@@ -161,6 +162,7 @@ public SpaceInvaders()
                 
         resetGame();
 
+        //maximum FPS is 100
         timer = new Timer(10, new ActionListener(){
 
             @Override
@@ -172,7 +174,7 @@ public SpaceInvaders()
                 if(autonomous && !ballActive || !autonomous)
                     ship.updateKeyMovement();
 
-                if(ballActive && !settings)
+                if(ballActive && !settings && !gameOver)
                     laser.update();
                 else
                 {
@@ -211,7 +213,7 @@ public SpaceInvaders()
 
                     }
                 } catch (ConcurrentModificationException a) {} 
-                if (alienTimer >= 50)
+                if (alienTimer >= 50 && !gameOver)
                 {
                     for (Alien i : alien)
                     {
@@ -244,6 +246,9 @@ public SpaceInvaders()
                                         break;
                                 }
                             }
+
+                            if(i.getY() + i.getH() > ship.getY())
+                                gameOver = true;
                         }
                     }
                         
@@ -275,7 +280,7 @@ public SpaceInvaders()
                     shipLaserBreak.play();
                 }
 
-                if(ufoActive)
+                if(ufoActive )
                 {
                     if(UFO.getX() > PREF_W)
                     {
@@ -534,12 +539,10 @@ public SpaceInvaders()
 
         if(key == KeyEvent.VK_SPACE && gameOver && !settings)
         {
-            ballActive = true;             
-            // resetGame();
+            resetGame();
         }
         if(key == KeyEvent.VK_SPACE && !ballActive && !gameOver && !settings)
         {
-            // ballActive = true;
             canShoot = true;
             tempBallActive = true;
         }
@@ -640,8 +643,8 @@ public SpaceInvaders()
 
     public void resetGame()
     {
-        for (int i = alien.size() - 1; i > 0; i--)
-            alien.remove(i);
+            alien.clear();
+            projectiles.clear();
 
             int verticalDist = 50;
             int horizontalDist = 40;
