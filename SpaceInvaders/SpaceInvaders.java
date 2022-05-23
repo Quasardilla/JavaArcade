@@ -69,61 +69,65 @@ public class SpaceInvaders extends JPanel implements KeyListener, MouseInputList
     private SoundLoader blockerHit = new SoundLoader(this.getClass().getResource("sound/random/blockerHit.wav"));
     private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/random/ufoSound.wav"));
 
-//Images
-private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
-private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
-private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
-private SpriteSheet laser4 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser4.png").getImage(), 3, 7, 4);
-private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser5.png").getImage(), 3, 7, 4);
-private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
-private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
-private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
-private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/random/ship.png").getImage(), 13, 8, 3);
-private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
-private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
-private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
+    //Images
+    private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser4 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser4.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser5.png").getImage(), 3, 7, 4);
+    private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
+    private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
+    private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
+    private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/random/ship.png").getImage(), 13, 8, 3);
+    private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
+    private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
+    private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
 
-//explosions
-private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
-private ArrayList<Point> explosions = new ArrayList<Point>();
-private int explosionRadius = 30;
-//blockers
-private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
-private ArrayList<Point> blockers = new ArrayList<Point>();
-private int blockerSize = 75;
+    //explosions
+    private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
+    private ArrayList<Point> explosions = new ArrayList<Point>();
+    private int explosionRadius = 30;
+    //blockers
+    private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
+    private ArrayList<Point> blockers = new ArrayList<Point>();
+    private int blockerSize = 75;
 
-//Player Variables
-private int lives = 3, totalLives = 3, initialLives = 3;
-private double speed = 5, initialSpeed = speed;
-private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 39, 24, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
+    //drawing blockers
+    BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
+    Graphics2D gg = bi.createGraphics();
 
-//Non-Player Variables
-private double alienScale = 0.6;
-private int alienTimer = 0;
-private int alienMaxSpeed = 50;
-private int initialAlienCount;
-private ArrayList<Alien> alien = new ArrayList<Alien>();
-private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
-private boolean ufoActive;
-private Alien UFO = new Alien(0 - ((16 * alienScale) * 4), (double) 40, (int) (16 * alienScale) * 4, (int) (7 * alienScale) * 4, 4, ufo, 2, 0);
-private int scoreInterval = 10;
+    //Player Variables
+    private int lives = 3, totalLives = 3, initialLives = 3;
+    private double speed = 5, initialSpeed = speed;
+    private Brick ship = new Brick(PREF_W / 2 - 40, PREF_H - PREF_H/7, 39, 24, Color.LIGHT_GRAY, speed, speed, 0, PREF_W, 0, PREF_H);
 
-// FPS
-FPSCounter fps = new FPSCounter();
+    //Non-Player Variables
+    private double alienScale = 0.6;
+    private int alienTimer = 0;
+    private int alienMaxSpeed = 50;
+    private int initialAlienCount;
+    private ArrayList<Alien> alien = new ArrayList<Alien>();
+    private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    private Projectile laser = new Projectile((ship.getX() + (ship.getW() / 2)), (ship.getY() - 10), 5, 15, Color.white, (double) 0, -speed, 0, PREF_W, 0, PREF_H);
+    private boolean ufoActive;
+    private Alien UFO = new Alien(0 - ((16 * alienScale) * 4), (double) 40, (int) (16 * alienScale) * 4, (int) (7 * alienScale) * 4, 4, ufo, 2, 0);
+    private int scoreInterval = 10;
 
-//UI
-private int score = 0;
-private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-private Font font = new Font("Space Invaders", Font.PLAIN, 18);
-private static FontMetrics metrics;
-private String message;
-private Bar b = new Bar(100, 87, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
-private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, Color.BLACK, 10, 10, 10, Color.BLACK);
-private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
-private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
-private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
-public double angle;
+    // FPS
+    FPSCounter fps = new FPSCounter();
+
+    //UI
+    private int score = 0;
+    private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    private Font font = new Font("Space Invaders", Font.PLAIN, 18);
+    private static FontMetrics metrics;
+    private String message;
+    private Bar b = new Bar(100, 87, 100, 20, 90, 10, 5, 5, 10, 13, 10, 50, 100, 0, "Lives: ", Color.GRAY, Color.RED, Color.GREEN, Color.BLACK, new Font("Quicksand", Font.PLAIN, 10));
+    private Slider speedSlider = new Slider(65, 135, 50, new BasicStroke(1), true, Color.BLACK, 10, 10, 10, Color.BLACK);
+    private Button lifeUp = new Button(65, 75, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "+", Color.BLACK, Color.GRAY);
+    private Button lifeDown = new Button(65, 100, 20, 20, 7, 10, 10, new Font("Quicksand", Font.PLAIN, 10), "-", Color.BLACK, Color.GRAY);
+    private Switch auto = new Switch(65, 162, 50, 20, 3, Color.gray, Color.red, Color.green);
+    public double angle;
 
 
     //animations
@@ -162,7 +166,11 @@ public SpaceInvaders()
         laser.ss = laser5;
 
         for (int i = 1; i <= 4; i++)
+        {
             blockers.add(new Point(((PREF_W / 5) * i)-(blockerSize/2), PREF_H - (175+((int) (blockerSize/2)))));
+            Point p = blockers.get(i-1);
+            gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_FAST), p.x, p.y, null);
+        }
                 
         resetGame();
 
@@ -418,24 +426,19 @@ public SpaceInvaders()
 
         UFO.drawImage(g2);
         
-        BufferedImage bi = new BufferedImage(PREF_W, PREF_H, BufferedImage.TYPE_INT_RGB);
-        Graphics2D gg = bi.createGraphics();
         for (Point p: blockers)
-        {
             g2.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_FAST), p.x, p.y, null);
-            gg.drawImage(SpriteSheet.toBufferedImage(blocker).getScaledInstance(blockerSize, blockerSize, Image.SCALE_FAST), p.x, p.y, null);
-        }
-        
+
         for (Point p: explosions)
-        {
             g2.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_FAST), p.x-15, p.y-15, null);
-            gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_FAST), p.x-15, p.y-15, null);
-        }
         
         if (bi.getRGB((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())) == Color.GREEN.getRGB() && !ship.checkAndReactToCollisionWith(laser))
         {
             explosions.add(new Point((int) (laser.getX()+(laser.getW()/2)), (int) (laser.getY()+laser.getH())));
             
+            Point p = explosions.get(explosions.size()-1);
+            gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_FAST), p.x-15, p.y-15, null);
+
             blockerHit.get().setFramePosition(0);
             blockerHit.play();
 
@@ -450,6 +453,9 @@ public SpaceInvaders()
                 {
                     explosions.add(new Point((int) (projectiles.get(i).getX()+(projectiles.get(i).getW()/2)), (int) (projectiles.get(i).getY()+projectiles.get(i).getH())));
                     
+                    Point p = explosions.get(explosions.size()-1);
+                    gg.drawImage(SpriteSheet.toBufferedImage(explosion).getScaledInstance(explosionRadius, explosionRadius, Image.SCALE_FAST), p.x-15, p.y-15, null);        
+
                     blockerHit.get().setFramePosition(0);
                     blockerHit.play();
 
