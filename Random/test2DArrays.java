@@ -54,19 +54,7 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
                 this.add(b[row][col]);
             }
         }
-
-        /*
-        b.addActionListener(new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("clicked");
-            }
-
-        });
-
-        this.add(b);
-        */
+        
     }
     
     public Dimension getPreferredSize() {
