@@ -5,9 +5,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.BasicStroke;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -22,6 +26,7 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private static int FPSCap = 60;
 
+    JButton[][] b;
 
     public test2DArrays()
     {
@@ -31,8 +36,37 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
         setFocusable(true);
         requestFocus();
 
+        b = new JButton[5][5];
 
+        for (int row = 0; row < b.length; row++)
+        {
+            for (int col = 0; col < b[row].length; col++)
+            {
+                b[row][col] = new JButton();
+                b[row][col].addActionListener(new ActionListener(){
 
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("button");
+                    }
+        
+                });
+                this.add(b[row][col]);
+            }
+        }
+
+        /*
+        b.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("clicked");
+            }
+
+        });
+
+        this.add(b);
+        */
     }
     
     public Dimension getPreferredSize() {
@@ -47,8 +81,6 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
         g2.setRenderingHints(hints);
         
         
-        
-
 
         
         
@@ -72,7 +104,7 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
     public void keyTyped(KeyEvent e){}
 
     private static void createAndShowGUI() {
-        GUI gamePanel = new GUI();
+        test2DArrays gamePanel = new test2DArrays();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
