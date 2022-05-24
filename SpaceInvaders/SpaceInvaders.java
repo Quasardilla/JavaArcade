@@ -70,25 +70,25 @@ public class SpaceInvaders extends JPanel implements KeyListener, MouseInputList
     private SoundLoader ufoSound = new SoundLoader(this.getClass().getResource("sound/random/ufoSound.wav"));
 
     //Images
-    private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
-    private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
-    private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
-    private SpriteSheet laser4 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser4.png").getImage(), 3, 7, 4);
-    private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser5.png").getImage(), 3, 7, 4);
-    private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien1.png").getImage(), 8, 8, 2);
-    private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien2.png").getImage(), 11, 8, 2);
-    private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/aliens/alien3.png").getImage(), 12, 8, 2);
-    private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/random/ship.png").getImage(), 13, 8, 3);
-    private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/alienDeath.png").getImage(), 16, 11, 6);
-    private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/particles/projectileCollision.png").getImage(), 8, 8, 5);
-    private Image ufo = new ImageIcon("SpaceInvaders/aliens/ufo.png").getImage();
+    private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/projectiles/laser1.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/projectiles/laser2.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/projectiles/laser3.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser4 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/projectiles/laser4.png").getImage(), 3, 7, 4);
+    private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/projectiles/laser5.png").getImage(), 3, 7, 4);
+    private SpriteSheet alien1 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/aliens/alien1.png").getImage(), 8, 8, 2);
+    private SpriteSheet alien2 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/aliens/alien2.png").getImage(), 11, 8, 2);
+    private SpriteSheet alien3 = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/aliens/alien3.png").getImage(), 12, 8, 2);
+    private SpriteSheet shipShoot = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/random/ship.png").getImage(), 13, 8, 3);
+    private SpriteSheet alienDeathParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/particles/alienDeath.png").getImage(), 16, 11, 6);
+    private SpriteSheet projectileCollisionParticles = new SpriteSheet(new ImageIcon("SpaceInvaders/spritesheets/particles/projectileCollision.png").getImage(), 8, 8, 5);
+    private Image ufo = new ImageIcon("SpaceInvaders/spritesheets/aliens/ufo.png").getImage();
 
     //explosions
-    private Image explosion = new ImageIcon("SpaceInvaders/random/explosion.png").getImage();
+    private Image explosion = new ImageIcon("SpaceInvaders/spritesheets/random/explosion.png").getImage();
     private ArrayList<Point> explosions = new ArrayList<Point>();
     private int explosionRadius = 30;
     //blockers
-    private Image blocker = new ImageIcon("SpaceInvaders/random/blocker.png").getImage();
+    private Image blocker = new ImageIcon("SpaceInvaders/spritesheets/random/blocker.png").getImage();
     private ArrayList<Point> blockers = new ArrayList<Point>();
     private int blockerSize = 75;
 
