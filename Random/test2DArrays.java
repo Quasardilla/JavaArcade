@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
+import java.awt.GridLayout;
 
 public class test2DArrays extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
@@ -27,6 +28,8 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
     private static int FPSCap = 60;
 
     JButton[][] b;
+    int rows = 10;
+    int cols = 10;
 
     public test2DArrays()
     {
@@ -36,7 +39,9 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
         setFocusable(true);
         requestFocus();
 
-        b = new JButton[5][5];
+
+        this.setLayout(new GridLayout(rows, cols));
+        b = new JButton[rows][cols];
 
         for (int row = 0; row < b.length; row++)
         {
@@ -54,7 +59,7 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
                 this.add(b[row][col]);
             }
         }
-        
+
     }
     
     public Dimension getPreferredSize() {
