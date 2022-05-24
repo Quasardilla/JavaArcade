@@ -14,7 +14,9 @@ import java.awt.BasicStroke;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
+import java.awt.GridLayout;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 import java.awt.GridLayout;
@@ -22,44 +24,39 @@ import java.awt.GridLayout;
 public class test2DArrays extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
-    private static final int PREF_W = 600;
-    private static final int PREF_H = 400;
+    private static final int PREF_W = 500;
+    private static final int PREF_H = 500;
+    private static final int rows = 100;
+    private static final int cols = 100;
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    private static int FPSCap = 60;
-
-    JButton[][] b;
-    int rows = 10;
-    int cols = 10;
-
+    private JButton[][] b = new JButton[rows][cols];
+    
     public test2DArrays()
     {
+        this.setLayout(new GridLayout(rows, cols));
+        for(int r = 0; r < b.length; r++)
+        {
+            for(int c = 0; c < b.length; c++)
+            {
+                b[r][c] = new JButton("AUGHH");
+                b[r][c].addActionListener(new ActionListener() {
+        
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("AUGHH");                
+                    }
+                    
+                });
+                this.add(b[r][c]);
+            }
+        }
+
+
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
         setFocusable(true);
         requestFocus();
-
-
-        this.setLayout(new GridLayout(rows, cols));
-        b = new JButton[rows][cols];
-
-        for (int row = 0; row < b.length; row++)
-        {
-            for (int col = 0; col < b[row].length; col++)
-            {
-                b[row][col] = new JButton();
-                b[row][col].addActionListener(new ActionListener(){
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("button");
-                    }
-        
-                });
-                this.add(b[row][col]);
-            }
-        }
-
     }
     
     public Dimension getPreferredSize() {
@@ -78,13 +75,13 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
         
         
         //keep this for program to work
-        long millis = System.currentTimeMillis();
-        try
-        {
-        Thread.sleep((long) ((1000/FPSCap) - millis % (1000/FPSCap)));
-        this.repaint();
-        return;
-        } catch (InterruptedException e) {System.out.println(e);}
+        // long millis = System.currentTimeMillis();
+        // try
+        // {
+        // Thread.sleep((long) ((1000/FPSCap) - millis % (1000/FPSCap)));
+        // this.repaint();
+        // return;
+        // } catch (InterruptedException e) {System.out.println(e);}
     }
 
     @Override
