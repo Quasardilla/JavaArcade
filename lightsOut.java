@@ -33,6 +33,9 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
+    private JButton quit = new JButton();
+    private JButton settings = new JButton();
+    private JButton restart = new JButton();
     
     public lightsOut()
     {
@@ -46,8 +49,14 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
                 b[r][c] = new JButton();
                 b[row][col].setBorderPainted(false);
-                b[row][col].setOpaque(true);            
-                b[row][col].setBackground(colorOff);              
+                b[row][col].setOpaque(true);   
+                
+                int rand = (int) (Math.random() * 2 + 1);
+
+                if(rand == 1)
+                b[row][col].setBackground(colorOff);
+                else
+                b[row][col].setBackground(colorOn);
 
                 b[r][c].addActionListener(new ActionListener() {
         
@@ -55,37 +64,22 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
                     public void actionPerformed(ActionEvent e) {
 
                         try { 
-                            if (b[row + 1][col].getBackground().equals(colorOn))
-                                b[row + 1][col].setBackground(colorOff);              
-                            else
-                                b[row + 1][col].setBackground(colorOn);   
+                            switchLight(row + 1, col); 
                         } catch (IndexOutOfBoundsException a) {}
                              
                         try { 
-                            if (b[row - 1][col].getBackground().equals(colorOn))
-                                b[row - 1][col].setBackground(colorOff);              
-                            else
-                                b[row - 1][col].setBackground(colorOn);              
+                            switchLight(row - 1, col);            
                         } catch (IndexOutOfBoundsException a) {}    
 
                         try {    
-                            if (b[row][col].getBackground().equals(colorOn))
-                                b[row][col].setBackground(colorOff);              
-                            else
-                                b[row][col].setBackground(colorOn);              
+                            switchLight(row, col);            
                         } catch (IndexOutOfBoundsException a) {}
 
                         try { 
-                            if (b[row][col + 1].getBackground().equals(colorOn))
-                                b[row][col + 1].setBackground(colorOff);              
-                            else
-                                b[row][col + 1].setBackground(colorOn);              
+                            switchLight(row, col + 1);             
                         } catch (IndexOutOfBoundsException a) {}
                         try { 
-                            if (b[row][col - 1].getBackground().equals(colorOn))
-                                b[row][col - 1].setBackground(colorOff);              
-                            else
-                                b[row][col - 1].setBackground(colorOn);    
+                            switchLight(row, col - 1);   
                         } catch (IndexOutOfBoundsException a) {}        
                     }
                     
@@ -176,4 +170,12 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    public void switchLight(int row, int col)
+    {
+        if(b[row][col].getBackground().equals(colorOn))
+            b[row][col].setBackground(colorOff);              
+        else
+            b[row][col].setBackground(colorOn);  
+    }
 }
