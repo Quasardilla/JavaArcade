@@ -48,8 +48,9 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
 
                 b[r][c] = new JButton();
                 b[row][col].setBorderPainted(false);
-                b[row][col].setOpaque(true);            
-                b[row][col].setBackground(colorOff);              
+                b[row][col].setOpaque(true);    
+
+                b[row][col].setBackground((Math.random() > 0.5) ? colorOn : colorOff);   
 
                 b[r][c].addActionListener(new ActionListener() {
         
