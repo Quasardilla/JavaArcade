@@ -24,10 +24,10 @@ import java.awt.GridLayout;
 public class lightsOut extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
-    private static final int PREF_W = 500;
-    private static final int PREF_H = 500;
-    private static final int rows = 5;
-    private static final int cols = 5;
+    private static final int rows = 9;
+    private static final int cols = 9;
+    private static final int PREF_W = rows * 50;
+    private static final int PREF_H = cols * 50;
     private static final Color colorOn = Color.WHITE;
     private static final Color colorOff = Color.LIGHT_GRAY;
 
@@ -39,56 +39,41 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
     
     public lightsOut()
     {
-        this.setLayout(new GridLayout(rows, cols));
+        this.setBackground(Color.GRAY);
+
+        this.setLayout(new GridLayout(rows, cols, 2, 2));
         for(int r = 0; r < b.length; r++)
         {
             for(int c = 0; c < b.length; c++)
             {
                 int row = r;
                 int col = c;
-
+                
                 b[r][c] = new JButton();
                 b[row][col].setBorderPainted(false);
                 b[row][col].setOpaque(true);   
                 
-                int rand = (int) (Math.random() * 2 + 1);
-
-                if(rand == 1)
                 b[row][col].setBackground(colorOff);
-                else
-                b[row][col].setBackground(colorOn);
-
+                
                 b[r][c].addActionListener(new ActionListener() {
-        
+                    
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
-                        try { 
-                            switchLight(row + 1, col); 
-                        } catch (IndexOutOfBoundsException a) {}
-                             
-                        try { 
-                            switchLight(row - 1, col);            
-                        } catch (IndexOutOfBoundsException a) {}    
-
-                        try {    
-                            switchLight(row, col);            
-                        } catch (IndexOutOfBoundsException a) {}
-
-                        try { 
-                            switchLight(row, col + 1);             
-                        } catch (IndexOutOfBoundsException a) {}
-                        try { 
-                            switchLight(row, col - 1);   
-                        } catch (IndexOutOfBoundsException a) {}        
+                        
+                        runMove(row, col);       
                     }
                     
                 });
                 this.add(b[r][c]);
-
+                
             }
         }
 
+        initializeBoard();
+        
+        // this.add(quit);
+        // this.add(settings);
+        // this.add(restart);
 
         addKeyListener(this);
         addMouseMotionListener(this);
@@ -96,6 +81,7 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
         setFocusable(true);
         requestFocus();
     }
+    
     
     public Dimension getPreferredSize() {
         return new Dimension(PREF_W, PREF_H);
@@ -171,11 +157,46 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
     @Override
     public void mouseExited(MouseEvent e) {}
 
+    public void runMove(int row, int col)
+    {
+        try { 
+            switchLight(row + 1, col); 
+        } catch (IndexOutOfBoundsException a) {}
+             
+        try { 
+            switchLight(row - 1, col);            
+        } catch (IndexOutOfBoundsException a) {}    
+
+        try {    
+            switchLight(row, col);            
+        } catch (IndexOutOfBoundsException a) {}
+
+        try { 
+            switchLight(row, col + 1);             
+        } catch (IndexOutOfBoundsException a) {}
+        try { 
+            switchLight(row, col - 1);   
+        } catch (IndexOutOfBoundsException a) {} 
+    }
+
     public void switchLight(int row, int col)
     {
         if(b[row][col].getBackground().equals(colorOn))
             b[row][col].setBackground(colorOff);              
         else
             b[row][col].setBackground(colorOn);  
+    }
+
+    public void initializeBoard()
+    {
+        int rand = (int) (Math.random() * 7) + 4;
+
+        for(int i = 0; i < rand; i++)
+            {
+                int row = (int) (Math.random() * (rows - 1) + 1);
+                int col = (int) (Math.random() * (cols - 1) + 1);
+
+                runMove(row, col);
+            }
     }
 }
