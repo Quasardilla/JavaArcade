@@ -42,45 +42,20 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
 
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
-    private JButton quit;
-    private JButton settings;
-    private JButton restart;
+    private JButton quit = new JButton();
+    private JButton settings = new JButton();
+    private JButton restart = new JButton();
     
     public lightsOutMulti()
     {
         
+
         game = new JPanel(new GridLayout(rows, cols, 2, 2)) {
             @Override
             protected void paintComponent(Graphics g) {
 
                 this.setBackground(Color.GRAY);
 
-                for(int r = 0; r < b.length; r++)
-                {
-                    for(int c = 0; c < b.length; c++)
-                    {
-                            int row = r;
-                            int col = c;
-                            
-                            b[r][c] = new JButton();
-                            b[row][col].setBorderPainted(false);
-                            b[row][col].setOpaque(true);   
-                            
-                            b[row][col].setBackground(colorOn);
-                            
-                            b[r][c].addActionListener(new ActionListener() {
-                                
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    
-                                    runMove(row, col);       
-                                }
-                                
-                            });
-                            this.add(b[r][c]);
-                            
-                        }
-                    }
 
             }
 
@@ -91,20 +66,47 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
 
         };
 
-        other = new JPanel() {
+        other = new JPanel(new GridLayout(1, 3, 2, 0)) {
             @Override
             protected void paintComponent(Graphics g) {
-                // this.add(quit);
-                // this.add(settings);
-                // this.add(restart);
+                this.add(quit);
+                this.add(settings);
+                this.add(restart);
             }
 
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(PREF_W, 100);
+                return new Dimension(PREF_W, 25);
             }
 
         };
+
+        for(int r = 0; r < b.length; r++)
+        {
+            for(int c = 0; c < b.length; c++)
+            {
+                int row = r;
+                int col = c;
+                
+                b[r][c] = new JButton();
+                b[row][col].setBorderPainted(false);
+                b[row][col].setOpaque(true);   
+                
+                b[row][col].setBackground(colorOn);
+                
+                b[r][c].addActionListener(new ActionListener() {
+                    
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        
+                        runMove(row, col);       
+                    }
+                    
+                });
+                game.add(b[r][c]);
+                    
+            }
+        }
 
         this.setLayout(new BorderLayout());
         this.add(game, BorderLayout.CENTER);
