@@ -38,15 +38,12 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
-    private JButton quit;
-    private JButton settings;
-    private JButton restart;
     
     public lightsOut()
     {
         this.setBackground(Color.GRAY);
-
         this.setLayout(new GridLayout(rows, cols, 2, 2));
+        
         for(int r = 0; r < b.length; r++)
         {
             for(int c = 0; c < b.length; c++)

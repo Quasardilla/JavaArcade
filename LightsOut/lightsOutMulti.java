@@ -37,8 +37,8 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
     private static final Color colorOff = Color.LIGHT_GRAY;
 
     private JPanel bigPanel;
-    private JPanel panelOne;
-    private JPanel panelTwo;
+    private JPanel other;
+    private JPanel game;
 
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
@@ -51,7 +51,12 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
         this.setBackground(Color.GRAY);
 
         this.setLayout(new GridLayout(rows, cols, 2, 2));
-        for(int r = 0; r < b.length; r++)
+
+        game = new JPanel() {
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                for(int r = 0; r < b.length; r++)
         {
             for(int c = 0; c < b.length; c++)
             {
@@ -77,6 +82,31 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
                 
             }
         }
+
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(100, 100);
+            }
+
+        };
+
+        other = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.black);
+                g.drawString("writing something", 10, 10);
+                g.drawRect(10, 10, 50, 50);
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(100, 100);
+            }
+
+        };
 
         randomizeBoard();
         
