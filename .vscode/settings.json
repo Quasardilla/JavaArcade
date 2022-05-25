@@ -1,4 +1,2 @@
 {
-    "java.jdt.ls.java.home": "/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home",
-    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m"
 }
