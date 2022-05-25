@@ -48,46 +48,45 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
     
     public lightsOutMulti()
     {
-        this.setBackground(Color.GRAY);
-
-        this.setLayout(new GridLayout(rows, cols, 2, 2));
-
-        game = new JPanel() {
-
+        
+        game = new JPanel(new GridLayout(rows, cols, 2, 2)) {
             @Override
             protected void paintComponent(Graphics g) {
+
+                this.setBackground(Color.GRAY);
+
                 for(int r = 0; r < b.length; r++)
-        {
-            for(int c = 0; c < b.length; c++)
-            {
-                int row = r;
-                int col = c;
-                
-                b[r][c] = new JButton();
-                b[row][col].setBorderPainted(false);
-                b[row][col].setOpaque(true);   
-                
-                b[row][col].setBackground(colorOn);
-                
-                b[r][c].addActionListener(new ActionListener() {
-                    
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        
-                        runMove(row, col);       
+                {
+                    for(int c = 0; c < b.length; c++)
+                    {
+                            int row = r;
+                            int col = c;
+                            
+                            b[r][c] = new JButton();
+                            b[row][col].setBorderPainted(false);
+                            b[row][col].setOpaque(true);   
+                            
+                            b[row][col].setBackground(colorOn);
+                            
+                            b[r][c].addActionListener(new ActionListener() {
+                                
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    
+                                    runMove(row, col);       
+                                }
+                                
+                            });
+                            this.add(b[r][c]);
+                            
+                        }
                     }
-                    
-                });
-                this.add(b[r][c]);
-                
-            }
-        }
 
             }
 
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(100, 100);
+                return new Dimension(PREF_W, PREF_H);
             }
 
         };
@@ -95,56 +94,29 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
         other = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.black);
-                g.drawString("writing something", 10, 10);
-                g.drawRect(10, 10, 50, 50);
+                // this.add(quit);
+                // this.add(settings);
+                // this.add(restart);
             }
 
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(100, 100);
+                return new Dimension(PREF_W, 100);
             }
 
         };
 
+        this.setLayout(new BorderLayout());
+        this.add(game, BorderLayout.CENTER);
+        this.add(other, BorderLayout.SOUTH);
+
         randomizeBoard();
-        
-        // this.add(quit);
-        // this.add(settings);
-        // this.add(restart);
 
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
         setFocusable(true);
         requestFocus();
-    }
-    
-    
-    public Dimension getPreferredSize() {
-        return new Dimension(PREF_W, PREF_H);
-    }
-    
-    @Override
-    public void paintComponent(Graphics g) {
-        //keep this for program to work
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHints(hints);
-        
-        
-
-        
-        
-        //keep this for program to work
-        // long millis = System.currentTimeMillis();
-        // try
-        // {
-        // Thread.sleep((long) ((1000/FPSCap) - millis % (1000/FPSCap)));
-        // this.repaint();
-        // return;
-        // } catch (InterruptedException e) {System.out.println(e);}
     }
 
     @Override
@@ -157,7 +129,7 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
     public void keyTyped(KeyEvent e){}
 
     private static void createAndShowGUI() {
-        lightsOut gamePanel = new lightsOut();
+        lightsOutMulti gamePanel = new lightsOutMulti();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
