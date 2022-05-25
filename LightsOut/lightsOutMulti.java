@@ -26,7 +26,7 @@ import java.awt.event.MouseListener;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
-public class lightsOut extends JPanel implements KeyListener, MouseMotionListener, MouseListener
+public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
     private static final int rows = 5;
@@ -36,13 +36,17 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
     private static final Color colorOn = Color.WHITE;
     private static final Color colorOff = Color.LIGHT_GRAY;
 
+    private JPanel bigPanel;
+    private JPanel panelOne;
+    private JPanel panelTwo;
+
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
     private JButton quit;
     private JButton settings;
     private JButton restart;
     
-    public lightsOut()
+    public lightsOutMulti()
     {
         this.setBackground(Color.GRAY);
 
