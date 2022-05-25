@@ -1,3 +1,5 @@
+package LightsOut;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,6 +24,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 public class lightsOut extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
@@ -35,9 +38,9 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
-    private JButton quit = new JButton();
-    private JButton settings = new JButton();
-    private JButton restart = new JButton();
+    private JButton quit;
+    private JButton settings;
+    private JButton restart;
     
     public lightsOut()
     {
@@ -121,11 +124,9 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
     private static void createAndShowGUI() {
         lightsOut gamePanel = new lightsOut();
-        lightsOut gamePanel2 = new lightsOut();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
-        frame.getContentPane().add(gamePanel2);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.WHITE);
