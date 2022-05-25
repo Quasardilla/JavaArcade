@@ -1,4 +1,3 @@
-package LightsOut;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+
 import java.awt.GridLayout;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
@@ -25,8 +26,8 @@ import java.awt.GridLayout;
 public class lightsOut extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
-    private static final int rows = 9;
-    private static final int cols = 9;
+    private static final int rows = 5;
+    private static final int cols = 5;
     private static final int PREF_W = rows * 50;
     private static final int PREF_H = cols * 50;
     private static final Color colorOn = Color.WHITE;
@@ -70,7 +71,7 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
             }
         }
 
-        initializeBoard();
+        randomizeBoard();
         
         // this.add(quit);
         // this.add(settings);
@@ -120,9 +121,11 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
     private static void createAndShowGUI() {
         lightsOut gamePanel = new lightsOut();
+        lightsOut gamePanel2 = new lightsOut();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
+        frame.getContentPane().add(gamePanel2);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.WHITE);
@@ -188,9 +191,9 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
             b[row][col].setBackground(colorOn);  
     }
 
-    public void initializeBoard()
+    public void randomizeBoard()
     {
-        int rand = (int) (Math.random() * 7) + 4;
+        int rand = (int) (Math.random() * 7) + 5;
 
         for(int i = 0; i < rand; i++)
             {
@@ -199,5 +202,20 @@ public class lightsOut extends JPanel implements KeyListener, MouseMotionListene
 
                 runMove(row, col);
             }
+    }
+
+    public void resetBoard()
+    {
+        for(int r = 0; r < b.length; r++)
+        {
+            for(int c = 0; c < b.length; c++)
+            {
+                b[r][c].setOpaque(true);   
+                
+                b[r][c].setBackground(colorOff);
+            }
+        }
+
+        randomizeBoard();
     }
 }
