@@ -1,5 +1,3 @@
-package Random;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -23,7 +21,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 import java.awt.GridLayout;
 
-public class test2DArrays extends JPanel implements KeyListener, MouseMotionListener, MouseListener
+public class lightsOut extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
     private static final int PREF_W = 500;
@@ -36,7 +34,7 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
     
-    public test2DArrays()
+    public lightsOut()
     {
         this.setLayout(new GridLayout(rows, cols));
         for(int r = 0; r < b.length; r++)
@@ -140,7 +138,7 @@ public class test2DArrays extends JPanel implements KeyListener, MouseMotionList
     public void keyTyped(KeyEvent e){}
 
     private static void createAndShowGUI() {
-        test2DArrays gamePanel = new test2DArrays();
+        lightsOut gamePanel = new lightsOut();
         JFrame frame = new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
