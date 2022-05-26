@@ -36,26 +36,53 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
     private static final Color colorOn = Color.WHITE;
     private static final Color colorOff = Color.LIGHT_GRAY;
 
-    private JPanel bigPanel;
     private JPanel other;
     private JPanel game;
 
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
-    private JButton quit = new JButton();
-    private JButton settings = new JButton();
-    private JButton restart = new JButton();
+    private JButton quit = new JButton("Quit");
+    private JButton settings = new JButton("Settings");
+    private JButton restart = new JButton("Restart");
     
     public lightsOutMulti()
     {
-        
+        quit.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runtime.getRuntime().exit(0);
+            }
+            
+        });
+
+        restart.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetBoard();
+            }
+            
+        });
+
+        quit.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runtime.getRuntime().exit(0);
+            }
+            
+        });
+
 
         game = new JPanel(new GridLayout(rows, cols, 2, 2)) {
             @Override
             protected void paintComponent(Graphics g) {
 
                 this.setBackground(Color.GRAY);
-
 
             }
 

@@ -10,21 +10,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.BasicStroke;
 
-import javax.lang.model.util.ElementScanner14;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 import java.awt.GridLayout;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
 
 public class lightsOut extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {

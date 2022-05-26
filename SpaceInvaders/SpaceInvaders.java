@@ -8,7 +8,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,7 +29,6 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import BrickClass.Alien;
 import BrickClass.Brick;
-import BrickClass.GameObject;
 import BrickClass.Projectile;
 import Font.FontInstaller;
 import UI.Slider;
@@ -71,7 +69,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, MouseInputList
 
     //Images
     private SpriteSheet laser1 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser1.png").getImage(), 3, 7, 4);
-    private SpriteSheet laser2 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser2.png").getImage(), 3, 7, 4);
     private SpriteSheet laser3 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser3.png").getImage(), 3, 7, 4);
     private SpriteSheet laser4 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser4.png").getImage(), 3, 7, 4);
     private SpriteSheet laser5 = new SpriteSheet(new ImageIcon("SpaceInvaders/projectiles/laser5.png").getImage(), 3, 7, 4);
