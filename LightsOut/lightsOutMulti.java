@@ -47,6 +47,7 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
     
     public lightsOutMulti()
     {
+        quit.setBackground(Color.RED);
         quit.addActionListener(new ActionListener()
         {
 
@@ -57,6 +58,7 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
             
         });
 
+        restart.setBackground(Color.BLUE);
         restart.addActionListener(new ActionListener()
         {
 
@@ -67,12 +69,12 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
             
         });
 
-        quit.addActionListener(new ActionListener()
+        settings.setBackground(Color.GREEN);
+        settings.addActionListener(new ActionListener()
         {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Runtime.getRuntime().exit(0);
             }
             
         });
