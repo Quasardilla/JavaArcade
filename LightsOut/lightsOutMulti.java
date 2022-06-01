@@ -97,11 +97,7 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
 
         other = new JPanel(new GridLayout(1, 3, 2, 0)) {
             @Override
-            protected void paintComponent(Graphics g) {
-                this.add(quit);
-                this.add(settings);
-                this.add(restart);
-            }
+            protected void paintComponent(Graphics g) {}
 
             @Override
             public Dimension getPreferredSize() {
@@ -136,6 +132,10 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
                     
             }
         }
+
+        other.add(quit);
+        other.add(settings);
+        other.add(restart);
 
         this.setLayout(new BorderLayout());
         this.add(game, BorderLayout.CENTER);
