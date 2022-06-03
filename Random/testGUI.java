@@ -7,12 +7,13 @@ please return it to how it was before you started.
 */
 
 
-
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -20,9 +21,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import Font.FontInstaller;
 import UI.TextBox;
+import UI.Trail;
+
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
@@ -38,20 +45,41 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private static int FPSCap = 60;
 
+    private Trail trail = new Trail(0, 100, true);
+
+    private Image img = new ImageIcon("").getImage();
+
+    private Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(img, new Point(0, 0), "customcusrsor");
+
+    private boolean mouseOnPanel = false;
+    private int mouseX;
+    private int mouseY;
+
+    Timer timer;
+
     private static TextBox tb;
 
 
     public testGUI()
     {
+        this.setCursor(c);
         addKeyListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
         setFocusable(true);
         requestFocus();
 
-
         tb = new TextBox(/*x*/ 50d, /*y*/ 50d, /*height*/ 25d, /*prompt*/ "Type here: ", /*promptcolor*/ Color.BLACK, /*promptfont*/ new Font("Quicksand", Font.PLAIN, 25), /*promptfontsize*/ 10, /*text*/ "text is written here", /*textcolor*/ Color.BLUE, /*textfont*/ new Font("Quicksand", Font.PLAIN, 25), /*textfontsize*/ 10, /*texttopromptoffset*/ 20d, /*prompttobackgroundoffset*/ 10d, /*backgroundcolor*/ Color.LIGHT_GRAY, /*edgecurve*/ 10);
 
+
+        timer = new Timer(1, new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            { 
+                trail.trailCounter(mouseX, mouseY);
+            }
+        });
     }
     
     public Dimension getPreferredSize() {
@@ -67,10 +95,15 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
         g2.setRenderingHints(hints);
         tb.setGraphics(g2);
         
-
-
         tb.draw();
         
+        trail.trailCounter(mouseX, mouseY);
+
+            for(int i = 0; i < trail.getPoints().size(); i++)
+            {
+                g2.setColor(new Color(255, 0, 0, trail.getOpactiy().get(i)));
+                g2.fillOval((int) trail.getPoints().get(i).getX(), (int) trail.getPoints().get(i).getY(), 7, 7);
+            }
 
 
         //keep this for program to work
@@ -115,7 +148,11 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
     public void mouseDragged(MouseEvent e) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {
+
+        mouseX = e.getX();
+        mouseY = e.getY();
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {}
@@ -127,8 +164,13 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
     public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+        mouseOnPanel = true;
+        this.setCursor(c);
+    }
 
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+        mouseOnPanel = false;
+    }
 }

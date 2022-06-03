@@ -10,11 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.BasicStroke;
+import java.awt.Stroke;
 
 import javax.lang.model.util.ElementScanner14;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
@@ -42,8 +43,9 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
     private JButton quit = new JButton("Quit");
-    private JButton settings = new JButton("Settings");
+    private JLabel gameStatus = new JLabel("Good Luck!");
     private JButton restart = new JButton("Restart");
+
     
     public lightsOutMulti()
     {
@@ -65,16 +67,6 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetBoard();
-            }
-            
-        });
-
-        settings.setBackground(Color.GREEN);
-        settings.addActionListener(new ActionListener()
-        {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
             }
             
         });
@@ -117,7 +109,7 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
                 b[row][col].setBorderPainted(false);
                 b[row][col].setOpaque(true);   
                 
-                b[row][col].setBackground(colorOn);
+                b[row][col].setBackground(colorOff);
                 
                 b[r][c].addActionListener(new ActionListener() {
                     
@@ -125,6 +117,7 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
                     public void actionPerformed(ActionEvent e) {
                         
                         runMove(row, col);       
+                        checkWin();
                     }
                     
                 });
@@ -134,14 +127,14 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
         }
 
         other.add(quit);
-        other.add(settings);
+        other.add(gameStatus);
         other.add(restart);
 
         this.setLayout(new BorderLayout());
         this.add(game, BorderLayout.CENTER);
         this.add(other, BorderLayout.SOUTH);
 
-        randomizeBoard();
+        resetBoard();
 
         addKeyListener(this);
         addMouseMotionListener(this);
@@ -244,6 +237,9 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
 
     public void resetBoard()
     {
+        gameStatus.setText("Good Luck!");
+        gameStatus.setForeground(Color.BLACK);
+
         for(int r = 0; r < b.length; r++)
         {
             for(int c = 0; c < b.length; c++)
@@ -255,5 +251,25 @@ public class lightsOutMulti extends JPanel implements KeyListener, MouseMotionLi
         }
 
         randomizeBoard();
+    }
+
+    public void checkWin()
+    {
+        int count = 0;
+
+        for(int r = 0; r < b.length; r++)
+        {
+            for(int c = 0; c < b.length; c++)
+            {
+                if(b[r][c].getBackground().equals(colorOn))
+                    count++;
+            }
+        }
+
+        if(count == 0)
+        {
+            gameStatus.setText("You Win!");
+            gameStatus.setForeground(Color.GREEN);
+        }
     }
 }
