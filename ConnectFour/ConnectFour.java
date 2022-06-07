@@ -35,7 +35,7 @@ public class ConnectFour extends JPanel implements KeyListener, MouseMotionListe
     private static final int PREF_H = cols * 100;
     private static final Color emptycolor = Color.WHITE;
     private static final Color xcolor = Color.RED;
-    private static final Color ocolor = Color.BLUE;
+    private static final Color ocolor = Color.YELLOW;
     private static boolean xTurn = true;
     private static boolean gameOver = false;
 
@@ -152,6 +152,8 @@ public class ConnectFour extends JPanel implements KeyListener, MouseMotionListe
                                 b[highestrow][col].setBackground(ocolor);
                                 xTurn = true;
                             }
+
+                            checkWin(row, col);
                         }
                     }
                     
@@ -271,9 +273,9 @@ public class ConnectFour extends JPanel implements KeyListener, MouseMotionListe
     public void resetBoard()
     {
         gameOver = false;
-        for(int r = 0; r < b.length; r++)
+        for(int r = 0; r < rows; r++)
         {
-            for(int c = 0; c < b.length; c++)
+            for(int c = 0; c < cols; c++)
             {
                 b[r][c].setOpaque(true);   
                 
@@ -282,5 +284,74 @@ public class ConnectFour extends JPanel implements KeyListener, MouseMotionListe
         }
 
         // randomizeBoard();
+    }
+
+    public void checkWin(int row, int col)
+    {
+        //check horizontal
+        int count = 0;
+        for(int c = 0; c < cols; c++)
+        {
+            if(b[row][c].getBackground().equals(b[row][col].getBackground()))
+                count++;
+            else
+                count = 0;
+            if(count == 4)
+            {
+                gameOver = true;
+                return;
+            }
+        }
+
+        //check vertical
+        count = 0;
+        for(int r = 0; r < rows; r++)
+        {
+            if(b[r][col].getBackground().equals(b[row][col].getBackground()))
+                count++;
+            else
+                count = 0;
+            if(count == 4)
+            {
+                gameOver = true;
+                return;
+            }
+        }
+
+        //check diagonal
+        count = 0;
+        for(int r = 0; r < rows; r++)
+        {
+            for(int c = 0; c < cols; c++)
+            {
+                if(b[r][c].getBackground().equals(b[row][col].getBackground()))
+                    count++;
+                else
+                    count = 0;
+                if(count == 4)
+                {
+                    gameOver = true;
+                    return;
+                }
+            }
+        }
+
+        //check diagonal
+        count = 0;
+        for(int r = 0; r < rows; r++)
+        {
+            for(int c = 0; c < cols; c++)
+            {
+                if(b[r][c].getBackground().equals(b[row][col].getBackground()))
+                    count++;
+                else
+                    count = 0;
+                if(count == 4)
+                {
+                    gameOver = true;
+                    return;
+                }
+            }
+        }
     }
 }

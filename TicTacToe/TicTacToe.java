@@ -38,6 +38,7 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
     private static final Color emptycolor = Color.WHITE;
     private static final Color xcolor = Color.RED;
     private static final Color ocolor = Color.BLUE;
+    private static int moves = 0;
     private static boolean xTurn = true;
     private static boolean gameOver = false;
 
@@ -123,6 +124,10 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                         else
                         label.setText("O's Turn");
                         
+                        moves++;
+
+                        
+                        
                         //if it is x's turn and the button is empty, set the color to xcolor. if it is not x's turn and the button is empty, set the color to ocolor.
                         if (!gameOver)
                         {
@@ -137,7 +142,7 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                                 xTurn = true;
                             }
                         }
-
+                        
                         //most of this was done by github copilot thank god T_T
                         if (b[0][0].getBackground() == b[0][1].getBackground() && b[0][0].getBackground() == b[0][2].getBackground() && b[0][0].getBackground() != emptycolor)
                         {   
@@ -178,6 +183,12 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                         {    
                             checkWinner(b[0][2].getBackground());
                             gameOver = true;
+                        }
+
+                        if(moves >= rows * cols)
+                        {
+                            gameOver = true;
+                            label.setText("Tie Game!");
                         }
                     }
                     
@@ -297,6 +308,8 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
     public void resetBoard()
     {
         gameOver = false;
+        moves = 0;
+
         for(int r = 0; r < b.length; r++)
         {
             for(int c = 0; c < b.length; c++)
