@@ -273,7 +273,7 @@ public class ConnectFour extends JPanel implements KeyListener, MouseMotionListe
         gameOver = false;
         for(int r = 0; r < b.length; r++)
         {
-            for(int c = 0; c < b.length; c++)
+            for(int c = 0; c < b[r].length; c++)
             {
                 b[r][c].setOpaque(true);   
                 
