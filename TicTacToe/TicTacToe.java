@@ -15,9 +15,11 @@ import java.awt.BasicStroke;
 import javax.lang.model.util.ElementScanner14;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults.LazyValue;
 import javax.swing.border.Border;
 
 import java.awt.GridLayout;
@@ -45,7 +47,7 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
     private JButton quit = new JButton("Quit");
-    private JButton settings = new JButton("Settings");
+    private JLabel label = new JLabel("TicTacToe");
     private JButton restart = new JButton("Restart");
     
     public TicTacToe()
@@ -71,17 +73,6 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
             }
             
         });
-
-        settings.setBackground(Color.GREEN);
-        settings.addActionListener(new ActionListener()
-        {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-            
-        });
-
 
         game = new JPanel(new GridLayout(rows, cols, 2, 2)) {
             @Override
@@ -127,26 +118,11 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
-                        //most of this was done by github copilot thank god T_T
-                        if (b[0][0].getBackground() == b[0][1].getBackground() && b[0][0].getBackground() == b[0][2].getBackground() && b[0][0].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[1][0].getBackground() == b[1][1].getBackground() && b[1][0].getBackground() == b[1][2].getBackground() && b[1][0].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[2][0].getBackground() == b[2][1].getBackground() && b[2][0].getBackground() == b[2][2].getBackground() && b[2][0].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[0][0].getBackground() == b[1][0].getBackground() && b[0][0].getBackground() == b[2][0].getBackground() && b[0][0].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[0][1].getBackground() == b[1][1].getBackground() && b[0][1].getBackground() == b[2][1].getBackground() && b[0][1].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[0][2].getBackground() == b[1][2].getBackground() && b[0][2].getBackground() == b[2][2].getBackground() && b[0][2].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[0][0].getBackground() == b[1][1].getBackground() && b[0][0].getBackground() == b[2][2].getBackground() && b[0][0].getBackground() != emptycolor)
-                            gameOver = true;
-                        else if (b[0][2].getBackground() == b[1][1].getBackground() && b[0][2].getBackground() == b[2][0].getBackground() && b[0][2].getBackground() != emptycolor)
-                            gameOver = true;
+                        if(xTurn)
+                        label.setText("X's Turn");
+                        else
+                        label.setText("O's Turn");
                         
-
-
                         //if it is x's turn and the button is empty, set the color to xcolor. if it is not x's turn and the button is empty, set the color to ocolor.
                         if (!gameOver)
                         {
@@ -161,6 +137,48 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                                 xTurn = true;
                             }
                         }
+
+                        //most of this was done by github copilot thank god T_T
+                        if (b[0][0].getBackground() == b[0][1].getBackground() && b[0][0].getBackground() == b[0][2].getBackground() && b[0][0].getBackground() != emptycolor)
+                        {   
+                            checkWinner(b[0][0].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[1][0].getBackground() == b[1][1].getBackground() && b[1][0].getBackground() == b[1][2].getBackground() && b[1][0].getBackground() != emptycolor)
+                        {    
+                            checkWinner(b[1][0].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[2][0].getBackground() == b[2][1].getBackground() && b[2][0].getBackground() == b[2][2].getBackground() && b[2][0].getBackground() != emptycolor)
+                        {
+                            checkWinner(b[2][0].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[0][0].getBackground() == b[1][0].getBackground() && b[0][0].getBackground() == b[2][0].getBackground() && b[0][0].getBackground() != emptycolor)
+                        {    
+                            checkWinner(b[0][0].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[0][1].getBackground() == b[1][1].getBackground() && b[0][1].getBackground() == b[2][1].getBackground() && b[0][1].getBackground() != emptycolor)
+                        {    
+                            checkWinner(b[0][1].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[0][2].getBackground() == b[1][2].getBackground() && b[0][2].getBackground() == b[2][2].getBackground() && b[0][2].getBackground() != emptycolor)
+                        {    
+                            checkWinner(b[0][2].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[0][0].getBackground() == b[1][1].getBackground() && b[0][0].getBackground() == b[2][2].getBackground() && b[0][0].getBackground() != emptycolor)
+                        {    
+                            checkWinner(b[0][0].getBackground());
+                            gameOver = true;
+                        }
+                        else if (b[0][2].getBackground() == b[1][1].getBackground() && b[0][2].getBackground() == b[2][0].getBackground() && b[0][2].getBackground() != emptycolor)
+                        {    
+                            checkWinner(b[0][2].getBackground());
+                            gameOver = true;
+                        }
                     }
                     
                 });
@@ -170,7 +188,7 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
         }
 
         other.add(quit);
-        other.add(settings);
+        other.add(label);
         other.add(restart);
 
         this.setLayout(new BorderLayout());
@@ -290,5 +308,15 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
         }
 
         // randomizeBoard();
+    }
+
+    public void checkWinner(Color clr)
+    {
+        if(clr == xcolor)
+            label.setText("X Wins!");
+        else
+            label.setText("O Wins!");
+
+        gameOver = true;
     }
 }
