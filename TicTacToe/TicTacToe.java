@@ -21,7 +21,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
 import javax.swing.UIDefaults.LazyValue;
 import javax.swing.border.Border;
-
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
@@ -31,6 +31,7 @@ import java.awt.BorderLayout;
 public class TicTacToe extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
+    private Font font = new Font("Quicksand", Font.PLAIN, 35);
     private static final int rows = 3;
     private static final int cols = 3;
     private static final int PREF_W = rows * 100;
@@ -134,11 +135,15 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                             if(xTurn && b[row][col].getBackground() == emptycolor)
                             {
                                 b[row][col].setBackground(xcolor);
+                                b[row][col].setFont(font);
+                                b[row][col].setText("X");
                                 xTurn = false;
                             }
                             else if(!xTurn && b[row][col].getBackground() == emptycolor)
                             {
                                 b[row][col].setBackground(ocolor);
+                                b[row][col].setFont(font);
+                                b[row][col].setText("O");
                                 xTurn = true;
                             }
                         }
@@ -315,7 +320,7 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
             for(int c = 0; c < b.length; c++)
             {
                 b[r][c].setOpaque(true);   
-                
+                b[r][c].setText("");
                 b[r][c].setBackground(emptycolor);
             }
         }
