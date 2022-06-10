@@ -53,7 +53,6 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
     
     public TicTacToe()
     {
-        quit.setBackground(Color.RED);
         quit.addActionListener(new ActionListener()
         {
 
@@ -64,7 +63,6 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
             
         });
 
-        restart.setBackground(Color.BLUE);
         restart.addActionListener(new ActionListener()
         {
 
@@ -124,7 +122,8 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
                         else
                         label.setText("O's Turn");
                         
-                        moves++;
+                        if(b[row][col].getBackground() == emptycolor)
+                            moves++;
 
                         
                         
