@@ -8,7 +8,7 @@ import java.awt.FontFormatException;
 
 public class FontInstaller {
 
-    private static File file = new File("Font/");
+    private static File file = new File("/");
 
     public static void installFont() 
     {
@@ -25,6 +25,14 @@ public class FontInstaller {
                 } catch (FontFormatException e) {} catch (IOException e) {}
             }
         }
+    }
+    public static void installFont(String fontfilename) 
+    {
+        File fontFile = new File("Font/" + fontfilename);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try {
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
+        } catch (FontFormatException e) {} catch (IOException e) {}
     }
     
     public static void printAll()
