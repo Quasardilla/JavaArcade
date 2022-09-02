@@ -28,41 +28,41 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
     private static double currentFPS = 0;
 
     //other
-    int approximation;
-    int CSpeed;
-    int CameraXPosition;
-    int CameraYPosition;
-    int CameraZPosition;
+    double approximation;
+    double CSpeed;
+    double CameraXPosition;
+    double CameraYPosition;
+    double CameraZPosition;
     double CosineX;
     double CosineY;
-    int DFC;
-    int FOV;
-    int lastBlockHeight;
-    int lastX;
-    int lastY;
-    int lastZ;
-    int mousePosition;
-    int renderX;
-    int renderY;
-    int renderZ;
-    int RotationX;
-    int RotationY;
-    int Shape;
-    int Short;
+    double DFC;
+    double FOV;
+    double lastBlockHeight;
+    double lastX;
+    double lastY;
+    double lastZ;
+    double mousePosition;
+    double renderX;
+    double renderY;
+    double renderZ;
+    double RotationX;
+    double RotationY;
+    double Shape;
+    double Short;
     double SineX;
     double SineY;
-    int SpeedX;
-    int SpeedY;
-    int Started;
-    int ViewDistance;
-    int WorldLoadingPercentage;
-    int WorldSizeChunks;
-    int x1;
-    int x2;
-    int y1;
-    int y2;
-    int z1;
-    int z2;
+    double SpeedX;
+    double SpeedY;
+    double Started;
+    double ViewDistance;
+    double WorldLoadingPercentage;
+    double WorldSizeChunks;
+    double x1;
+    double x2;
+    double y1;
+    double y2;
+    double z1;
+    double z2;
 
     //keys
     boolean moveLeft;
@@ -80,7 +80,7 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
     int answer = 9;
 
 
-    ArrayList<Integer> BlockHeights = new ArrayList<Integer>();
+    ArrayList<Double> BlockHeights = new ArrayList<Double>();
 
 
     public VoxelEngine()
@@ -106,6 +106,7 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
         Shape = 0;
         SpeedX = -3;
         SpeedY = 3;
+        FOV = 205;
 
         //third flag
         lastBlockHeight = 1;
@@ -135,7 +136,7 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
         ConLook();
 
 
-        calculateCubePosition();
+        calculateCubePosition(g2);
 
 
 
@@ -156,24 +157,54 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
 
     void approximation()
     {
+        approximation = (double) (y2 - y1) / (double) (x2 - x1);
 
+        if (x1 > this.getWidth())
+        {
+            if (x2 > this.getWidth()) return;
+            else SetSecondaryPoint(this.getWidth(), y1 + ((this.getWidth() - x1) * approximation));
+        }
+        if (y1 > this.getHeight())
+        {
+            if (y2 > this.getHeight()) return;
+            else SetSecondaryPoint(x1 + ((double) (this.getHeight() - y1) / approximation), this.getHeight());
+        }
+
+        if (x1 < 0)
+        {
+            if (x2 < 0) return;
+            else SetSecondaryPoint(0, y1 + ((0 - x1) * approximation));
+        }
+        if (y1 < 0)
+        {
+            if (y2 < 0) return;
+            else SetSecondaryPoint(x1 + ((double) (0 - y1) / approximation), 0);
+        }
+
+        if (x2 > this.getWidth()) SetSecondaryPointAgain(this.getWidth(), y1 + ((this.getWidth() - x1) * approximation));
+        if (y2 > this.getHeight()) SetSecondaryPointAgain(x1 + ((double) (this.getHeight() - y1) / approximation), this.getHeight());
+        if (x2 < 0) SetSecondaryPointAgain(0, y1 + ((0 - x1) * approximation));
+        if (y2 < 0) SetSecondaryPointAgain(x1 + ((double) (0 - y1) / approximation), 0);
     }
 
     void Calculate()
     {
         SineX = Math.sin(Math.toRadians(RotationX));
+        CosineX = Math.cos(Math.toRadians(RotationX));
+        SineY = Math.sin(Math.toRadians(RotationY));
+        CosineY = Math.cos(Math.toRadians(RotationY));
     }
 
-    void calculateCubePosition()
+    void calculateCubePosition(Graphics2D g2)
     {
         lastY = 0;
         lastX = 0;
         lastZ = 0;
         for (int i = 0; i < Math.sqrt(answer) * 3; i++)
         {
-            for (int ii = 0; ii < Math.sqrt(BlockHeights.size()); i++)
+            for (int ii = 0; ii < Math.sqrt(BlockHeights.size()); ii++)
             {
-                MakeCubeAt(lastX, 40*BlockHeights.get(lastY / 40), lastZ);
+                MakeCubeAt(lastX, 40*BlockHeights.get((int) (lastY / 40)), lastZ, g2);
                 lastX += 40;
                 lastY += 40;
             }
@@ -184,7 +215,13 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
 
     void Clip()
     {
+        if (z1 < DFC || z2 < DFC)
+        {
+            Short = (double) (DFC - z1) / (double) (z2 - z1);
 
+            if (z1 < DFC) SetPoint(x1 + ((x2-x1) * Short), y1 + ((y2-y1) * Short), DFC);
+            else SetPoint2(x1 + ((x2 - x1) * Short), y1 + ((y2-y1) * Short), DFC);
+        }
     }
 
     void ConLook()
@@ -196,16 +233,39 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
         if (moveUp) CameraYPosition += 4;
         if (moveDown) CameraYPosition -= 4;
 
+        if (lookRight || lookLeft || lookUp || lookDown)
+        System.out.println("look right: "+lookRight+" look left: "+lookLeft+" lookup: "+lookUp+" lookDown: "+lookDown);
+
         if (RotationX > 90) RotationX = 90;
         if (RotationX < -90) RotationX = -90;
     }
 
-    void DrawLine(int x1, int y1, int z1, int x2, int y2, int z2, int x, int y, int z)
+    void DrawLine(double x1, double y1, double z1, double x2, double y2, double z2, Graphics2D g2)
     {
+        SetPoint(x1-CameraXPosition, y1-CameraYPosition, z1-CameraZPosition);
+        SetPoint2(x2-CameraXPosition, y2-CameraYPosition, z2-CameraZPosition);
+        SetPoint((z1 * SineY) + (x1 * CosineY), y1, (z1*CosineY) - (x1 * SineY));
+        SetPoint2((z2 * SineY) + (x2 * CosineY), y2, (z2 * CosineY) - (x2 * SineY));
+        SetPoint(x1, (y1 * CosineX) - (z1 * SineX), (y1 * SineX) + (z1 * CosineX));
+        SetPoint2(x2, (y2 * CosineX) - (z2 * SineX), (y2 * SineX) + (z1 * CosineX));
+    
+        if (!(z1 < DFC && z2 < DFC))
+        {
+            Clip();
 
+            SetSecondaryPoint(FOV * ((double) x1/(double) z1), FOV * ((double) y1 / (double) z1));
+            SetSecondaryPointAgain(FOV * ((double) x2/(double) z2), FOV * ((double) y2 / (double) z2));
+            
+            approximation();
+        
+            if (Started == 1)
+            {
+                g2.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
+            }
+        }
     }
 
-    void MakeCubeAt(int x1, int y1, int z1)
+    void MakeCubeAt(double x1, double y1, double z1, Graphics2D g2)
     {
         Calculate();
 
@@ -213,39 +273,45 @@ public class VoxelEngine extends JPanel implements KeyListener, MouseMotionListe
         renderY = y1;
         renderZ = z1;
 
-        DrawLine(20 + x1, 20+y1, -20+z1, 20+x1, 20+y1, 20+z1, 1, 1, 1);
-        DrawLine(20 + x1, 20+y1, -20+z1, -20+x1, 20+y1, -20+z1, 1, 1, 1);
-        DrawLine(-20 + x1, 20+y1, 20+z1, 20+x1, 20+y1, 20+z1, 1, 1, 1);
-        DrawLine(-20 + x1, 20+y1, -20+z1, -20+x1, 20+y1, 20+z1, 1, 1, 1);
+        DrawLine(20 + x1, 20+y1, -20+z1, 20+x1, 20+y1, 20+z1, g2);
+        DrawLine(20 + x1, 20+y1, -20+z1, -20+x1, 20+y1, -20+z1, g2);
+        DrawLine(-20 + x1, 20+y1, 20+z1, 20+x1, 20+y1, 20+z1, g2);
+        DrawLine(-20 + x1, 20+y1, -20+z1, -20+x1, 20+y1, 20+z1, g2);
         
-        DrawLine(20 + x1, -20+y1, -20+z1, 20+x1, 20+y1, -20+z1, 1, 1, 1);
-        DrawLine(-20 + x1, -20+y1, 20+z1, -20+x1, 20+y1, 20+z1, 1, 1, 1);
-        DrawLine(-20 + x1, -20+y1, -20+z1, -20+x1, 20+y1, -20+z1, 1, 1, 1);
-        DrawLine(20 + x1, -20+y1, 20+z1, 20+x1, 20+y1, 20+z1, 1, 1, 1);
-        DrawLine(20 + x1, -20+y1, -20+z1, 20+x1, -20+y1, 20+z1, 1, 1, 1);
-        DrawLine(20 + x1, -20+y1, -20+z1, -20+x1, -20+y1, -20+z1, 1, 1, 1);
-        DrawLine(-20 + x1, -20+y1, 20+z1, 20+x1, -20+y1, 20+z1, 1, 1, 1);
-        DrawLine(-20 + x1, -20+y1, -20+z1, -20+x1, -20+y1, 20+z1, 1, 1, 1);
+        DrawLine(20 + x1, -20+y1, -20+z1, 20+x1, 20+y1, -20+z1, g2);
+        DrawLine(-20 + x1, -20+y1, 20+z1, -20+x1, 20+y1, 20+z1, g2);
+        DrawLine(-20 + x1, -20+y1, -20+z1, -20+x1, 20+y1, -20+z1, g2);
+        DrawLine(20 + x1, -20+y1, 20+z1, 20+x1, 20+y1, 20+z1, g2);
+        DrawLine(20 + x1, -20+y1, -20+z1, 20+x1, -20+y1, 20+z1, g2);
+        DrawLine(20 + x1, -20+y1, -20+z1, -20+x1, -20+y1, -20+z1, g2);
+        DrawLine(-20 + x1, -20+y1, 20+z1, 20+x1, -20+y1, 20+z1, g2);
+        DrawLine(-20 + x1, -20+y1, -20+z1, -20+x1, -20+y1, 20+z1, g2);
     }
 
-    void SetPoint(int x1, int y1, int z1)
+    void SetPoint(double x1, double y1, double z1)
     {
-
+        this.x1 = x1;
+        this.y1 = y1;
+        this.z1 = z1;
     }
 
-    void SetPoint2(int x2, int y2, int z2)
+    void SetPoint2(double x2, double y2, double z2)
     {
-
+        this.x2 = x2;
+        this.y2 = y2;
+        this.z2 = z2;
     }
 
-    void SetSecondaryPointAgain(int x2, int y2)
+    void SetSecondaryPointAgain(double x2, double y2)
     {
-
+        this.x2 = x2;
+        this.y2 = y2;
     }
 
-    void SetSecondaryPoint(int x1, int y1)
+    void SetSecondaryPoint(double x1, double y1)
     {
-
+        this.x1 = x1;
+        this.y1 = y1;
     }
 
     @Override
