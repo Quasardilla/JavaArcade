@@ -1,11 +1,5 @@
 package Random;
 
-
-/*
-please keep this as is, and do not change. 
-this is supposed to be a blank class that you can use to create your own classes.
-*/
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,7 +20,12 @@ public class GUI extends JPanel implements KeyListener, MouseMotionListener, Mou
     private static final int PREF_W = 600;
     private static final int PREF_H = 400;
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    
     private static int FPSCap = 60;
+    private static boolean unlimited = true;
+    private static double totalFrames = 0;
+    private static double lastFPSCheck = 0;
+    private static double currentFPS = 0;
 
 
     public GUI()
@@ -57,15 +56,32 @@ public class GUI extends JPanel implements KeyListener, MouseMotionListener, Mou
 
 
         
-        
         //keep this for program to work
-        long millis = System.currentTimeMillis();
-        try
+        if (!unlimited)
         {
-        Thread.sleep((long) ((1000/FPSCap) - millis % (1000/FPSCap)));
-        this.repaint();
-        return;
-        } catch (InterruptedException e) {System.out.println(e);}
+            long millis = System.currentTimeMillis();
+            try
+            {
+            Thread.sleep((long) ((1000/FPSCap) - millis % (1000/FPSCap)));
+            this.repaint();
+            return;
+            } catch (InterruptedException e) {System.out.println(e);}
+        }
+        else
+        {
+            totalFrames++;
+            if (System.nanoTime() > lastFPSCheck + 1000000000)
+            {
+                lastFPSCheck = System.nanoTime();
+                currentFPS = totalFrames;
+                totalFrames = 0;
+            }
+            g2.setColor(Color.WHITE);
+            g2.fillRect(90, 80, 100, 27);
+            g2.setColor(Color.BLACK);
+            g2.drawString("FPS: "+currentFPS, 100, 100);
+            this.repaint();
+        }
     }
 
     @Override
