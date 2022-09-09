@@ -21,11 +21,5 @@ public class Intro {
 
         // System.out.println((x1 + x2) / 2);
 
-        //Type git --version, which will prompt an install
-        //Change directory to target directory
-        //Paste these 2 lines in console and run
-        //git clone --recurse-submodules git://jogamp.org/srv/scm/gluegen.git gluegen
-        //git clone --recurse-submodules git://jogamp.org/srv/scm/jogl.git jogl
-
     }
 }
