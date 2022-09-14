@@ -15,11 +15,16 @@ public class Product {
 
     public Product()
     {
-        name = "";
-        price = 0;
+        name = ""+(char)+getRandomNumber(65, 91);
+        price = getRandomNumber(0, 101) + ((double) getRandomNumber(0, 100)/100.0);
     }
 
     //METHODS
+
+    //get random number between a min and max
+    public static int getRandomNumber(int min, int max) {
+        return (int) (Math.random() * (max - min) + min);
+    }
 
     public String getName() {
         return name;

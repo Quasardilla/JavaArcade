@@ -20,6 +20,9 @@ public class Intro {
         // double x2 = 8.0;
 
         // System.out.println((x1 + x2) / 2);
-
+        
+        Product p = new Product();
+        System.out.println(p);
+        
     }
 }
