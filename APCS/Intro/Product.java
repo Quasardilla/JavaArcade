@@ -43,4 +43,11 @@ public class Product {
     {
         return "Product[name=" +name + ", price=" + price + "]";
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        Product p = (Product) obj;
+        return p.name.equals(this.name) && p.price == this.price;
+    }
 }

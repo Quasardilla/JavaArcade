@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Intro {
     public static void main(String[] args) {
 
-        ArrayList<Product> products1 = new ArrayList<Product>(20);
+        ArrayList<Product> products1 = new ArrayList<Product>();
         // System.out.println("Hexxllo World!");
 
         // System.out.println("AB\nCD\n\"E\"");
@@ -20,17 +20,25 @@ public class Intro {
         // sc.close();
 
         // double x1 = 5.0;
-        // double x2 = 8.0;
+                // double x2 = 8.0;
 
         // System.out.println((x1 + x2) / 2);
         
-        for(int i = 0; i < 20; i++)
-        {
-            products1.add(new Product());
-        }
 
-        for (Product p : products1)
-            System.out.println(p);
+        // for(int i = 0; i < 20; i++)
+        // {
+        //     products1.add(new Product());
+        // }
+        // products1.set(products1.size() - 1, new Product("Tablet", 200));
+
+        // for (Product p : products1)
+        //     System.out.println(p);
+
+        Product p1 = new Product("S22", 1200);
+        Product p2 = new Product("S22", 1200);
+        Product p3 = new Product("S22", 1200);
+        
+        System.out.println(p1.equals(p2));
         
     }
 }
