@@ -1,10 +1,13 @@
 package APCS.Intro;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Intro {
     public static void main(String[] args) {
-        // System.out.println("Hello World!");
+
+        ArrayList<Product> products1 = new ArrayList<Product>(20);
+        // System.out.println("Hexxllo World!");
 
         // System.out.println("AB\nCD\n\"E\"");
 
@@ -21,8 +24,13 @@ public class Intro {
 
         // System.out.println((x1 + x2) / 2);
         
-        Product p = new Product();
-        System.out.println(p);
+        for(int i = 0; i < 20; i++)
+        {
+            products1.add(new Product());
+        }
+
+        for (Product p : products1)
+            System.out.println(p);
         
     }
 }
