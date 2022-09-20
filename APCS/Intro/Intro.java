@@ -35,10 +35,16 @@ public class Intro {
         //     System.out.println(p);
 
         Product p1 = new Product("S22", 1200);
+        System.out.println(p1);
         Product p2 = new Product("S22", 1200);
-        Product p3 = new Product("S22", 1200);
-        
-        System.out.println(p1.equals(p2));
+        System.out.println(p2);
+        // Product p3 = new Product("S22", 1200);
+        //sets p1 to p2's exact memory location
+        p1 = p2;
+        p2.reducePrice(500);
+        System.out.println(p1 + "\n" + p2);
+
+
         
     }
 }
