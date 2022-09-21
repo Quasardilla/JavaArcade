@@ -1,4 +1,4 @@
-package APCS.Intro.Survivorio;
+package Intro.Survivorio;
 
 public class Enemy {
     

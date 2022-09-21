@@ -1,4 +1,4 @@
-package APCS.Intro;
+package Intro;
 
 public class Product {
     //INSTANCE FIELDS
@@ -50,5 +50,14 @@ public class Product {
     {
         Product p = (Product) obj;
         return p.name.equals(this.name) && p.price == this.price;
+    }
+
+    public int compareTo(Product other)
+    {
+        if (this.price < other.price)
+            return -1;
+        if (this.price > other.price)
+            return 1;
+        return 0;
     }
 }
