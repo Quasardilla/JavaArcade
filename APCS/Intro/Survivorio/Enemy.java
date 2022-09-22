@@ -1,5 +1,11 @@
 package Intro.Survivorio;
 
-public class Enemy {
+public class Enemy extends Entity{
+
+    protected boolean isBoss;
     
+    public Enemy()
+    {
+
+    }
 }
