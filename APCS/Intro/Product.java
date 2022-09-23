@@ -1,6 +1,9 @@
 package Intro;
 
-public class Product {
+import java.lang.Comparable;
+
+public class Product implements Comparable<Product>
+{
     //INSTANCE FIELDS
     
     private String name;
@@ -52,12 +55,24 @@ public class Product {
         return p.name.equals(this.name) && p.price == this.price;
     }
 
+    @Override
     public int compareTo(Product other)
     {
+        //or str.compareTo();
+        /*
+         * if(name.compareTo(other.name))
+         * return price - (int) other.price;
+         * 
+         * return name.compareTo(other.name);
+         * 
+         */
+
         if (this.price < other.price)
             return -1;
         if (this.price > other.price)
             return 1;
         return 0;
+
+    
     }
 }
