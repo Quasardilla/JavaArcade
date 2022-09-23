@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-import UI.SpriteSheet;
+import UNIVERSAL.UI.SpriteSheet;
 
 public class Brick implements Comparable<Brick> {
     //Variables for the class's objects (Instance Variables)

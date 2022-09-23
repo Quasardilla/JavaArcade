@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.util.ArrayList;
 import java.awt.Point;

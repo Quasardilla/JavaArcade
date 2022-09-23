@@ -1,4 +1,4 @@
-package APCS.GoofyFPS;
+package GoofyFPS;
 
 import java.awt.Color;
 import java.awt.Dimension;

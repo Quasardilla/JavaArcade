@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.io.File;
 import java.io.IOException;

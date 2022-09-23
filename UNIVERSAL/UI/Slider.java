@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -144,7 +144,7 @@ protected boolean line;
     
 
     @Override
-    void drawElement()
+    public void drawElement()
     {
         // if(line)
         // {

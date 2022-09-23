@@ -31,13 +31,13 @@ import BrickClass.Alien;
 import BrickClass.Brick;
 import BrickClass.Projectile;
 import Font.FontInstaller;
-import UI.Slider;
-import UI.SoundLoader;
-import UI.SpriteSheet;
-import UI.Switch;
-import UI.Bar;
-import UI.Button;
-import UI.FPSCounter;
+import UNIVERSAL.UI.Bar;
+import UNIVERSAL.UI.Button;
+import UNIVERSAL.UI.FPSCounter;
+import UNIVERSAL.UI.Slider;
+import UNIVERSAL.UI.SoundLoader;
+import UNIVERSAL.UI.SpriteSheet;
+import UNIVERSAL.UI.Switch;
 
 public class SpaceInvaders extends JPanel implements KeyListener, MouseInputListener
 {

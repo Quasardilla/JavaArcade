@@ -3,29 +3,21 @@ package TicTacToe;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.BasicStroke;
 
-import javax.lang.model.util.ElementScanner14;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults.LazyValue;
-import javax.swing.border.Border;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 public class TicTacToe extends JPanel implements KeyListener, MouseMotionListener, MouseListener
@@ -46,7 +38,6 @@ public class TicTacToe extends JPanel implements KeyListener, MouseMotionListene
     private JPanel other;
     private JPanel game;
 
-    private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private JButton[][] b = new JButton[rows][cols];
     private JButton quit = new JButton("Quit");
     private JLabel label = new JLabel("TicTacToe");

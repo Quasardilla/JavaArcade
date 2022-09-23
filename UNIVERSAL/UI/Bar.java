@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.awt.Color;
 import java.awt.Font;

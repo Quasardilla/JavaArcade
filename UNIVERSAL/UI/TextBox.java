@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -35,7 +35,7 @@ public class TextBox extends UIElement implements KeyListener
     }
 
     @Override
-    void drawElement() 
+    public void drawElement() 
     {
         //draw background
         g2.setColor(backgroundcColor);

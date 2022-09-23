@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -31,7 +31,7 @@ public class Button extends UIElement{
     }
 
     @Override
-    void drawElement() 
+    public void drawElement() 
     {
         //draw background
         g2.setColor(backColor);

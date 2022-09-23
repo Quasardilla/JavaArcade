@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.awt.Color;
 
@@ -26,7 +26,7 @@ public class Switch extends UIElement{
     }
 
     @Override
-    void drawElement() {
+    public void drawElement() {
         g2.setColor(bgClr);
         g2.fillRect(x, y, width, height);
 

@@ -1,4 +1,4 @@
-package APCS.GoofyFPS;
+package GoofyFPS;
 
 public class player {
     

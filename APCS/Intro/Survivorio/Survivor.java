@@ -13,18 +13,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
-import UI.FPSCounter;
-
 import Font.FontInstaller;
+import UNIVERSAL.UI.FPSCounter;
 
 public class Survivor extends JPanel implements KeyListener, MouseInputListener {
 
     private static final long serialVersionUID = 1L;
     private static final int PREF_W = 600;
     private static final int PREF_H = 400;
-    protected RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    protected RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+    RenderingHints.VALUE_ANTIALIAS_ON);
     
-    protected FPSCounter FPS = new FPSCounter();
+    protected FPSCounter FPS = new FPSCounter(60);
     protected FontInstaller Font = new FontInstaller();
     
     public Survivor()
@@ -70,9 +70,11 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHints(hints);
         
-        
+        g2.drawRect((PREF_W / 2) - 25, (PREF_H / 2) - 25, 50, 50);
         
         FPS.frame();
+
+        FPS.FPSLimitPause();
     }
 
     @Override

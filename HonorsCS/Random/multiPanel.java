@@ -1,10 +1,8 @@
 package Random;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
@@ -17,7 +15,6 @@ public class multiPanel extends JPanel {
     private JPanel bigPanel;
     private JPanel panelOne;
     private JPanel panelTwo;
-    private JPanel panelThree;
 
     public multiPanel() {
 

@@ -33,10 +33,10 @@ import java.awt.Image;
 
 import BrickClass.Brick;
 import BrickClass.GameObject;
-import UI.Slider;
-import UI.Switch;
-import UI.Bar;
-import UI.Button;
+import UNIVERSAL.UI.Bar;
+import UNIVERSAL.UI.Button;
+import UNIVERSAL.UI.Slider;
+import UNIVERSAL.UI.Switch;
 
 public class BrickBreakout extends JPanel implements KeyListener, MouseInputListener {
     private static final long serialVersionUID = 1L;

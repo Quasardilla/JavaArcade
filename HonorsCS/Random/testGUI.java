@@ -23,9 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import Font.FontInstaller;
-import UI.TextBox;
-import UI.Trail;
+import UNIVERSAL.UI.TextBox;
+import UNIVERSAL.UI.Trail;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -34,7 +33,6 @@ import java.awt.Font;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 
-import UI.SpriteSheet;
 import javax.swing.ImageIcon;
 
 public class testGUI extends JPanel implements KeyListener, MouseMotionListener, MouseListener
@@ -51,7 +49,6 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
 
     private Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(img, new Point(0, 0), "customcusrsor");
 
-    private boolean mouseOnPanel = false;
     private int mouseX;
     private int mouseY;
 
@@ -165,12 +162,10 @@ public class testGUI extends JPanel implements KeyListener, MouseMotionListener,
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        mouseOnPanel = true;
         this.setCursor(c);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        mouseOnPanel = false;
     }
 }

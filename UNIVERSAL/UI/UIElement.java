@@ -1,4 +1,4 @@
-package UI;
+package UNIVERSAL.UI;
 
 import java.awt.Graphics2D;
 
@@ -17,7 +17,7 @@ public abstract class UIElement {
         }
     }
 
-    protected abstract void drawElement();
+    public abstract void drawElement();
 
     public void setGraphics(Graphics2D g2)
     {

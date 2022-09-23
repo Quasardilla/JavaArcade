@@ -2,7 +2,7 @@ package Intro.Survivorio;
 
 import java.awt.Image;
 
-import UI.UIElement;
+import UNIVERSAL.UI.UIElement;
 
 abstract class Entity extends UIElement{
     
@@ -11,7 +11,6 @@ abstract class Entity extends UIElement{
     // protected int resistance;
     protected String name;
     protected Image img;
-
 
     @Override
     public void drawElement()
