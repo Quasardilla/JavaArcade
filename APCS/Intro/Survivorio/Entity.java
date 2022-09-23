@@ -1,5 +1,7 @@
 package Intro.Survivorio;
 
+import java.awt.Image;
+
 import UI.UIElement;
 
 abstract class Entity extends UIElement{
@@ -8,7 +10,14 @@ abstract class Entity extends UIElement{
     protected int damage;
     // protected int resistance;
     protected String name;
+    protected Image img;
 
+
+    @Override
+    public void drawElement()
+    {
+
+    }
 
     public int getHealth() {
         return this.health;

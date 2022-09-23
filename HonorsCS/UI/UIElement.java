@@ -2,7 +2,7 @@ package UI;
 
 import java.awt.Graphics2D;
 
-abstract class UIElement {
+public abstract class UIElement {
     public double x;
     public double y;
     protected Graphics2D g2;
@@ -17,7 +17,7 @@ abstract class UIElement {
         }
     }
 
-    abstract void drawElement();
+    protected abstract void drawElement();
 
     public void setGraphics(Graphics2D g2)
     {
