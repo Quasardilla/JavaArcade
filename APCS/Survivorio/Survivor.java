@@ -1,13 +1,17 @@
-package Intro.Survivorio;
+package Survivorio;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.io.File;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -17,7 +21,7 @@ import Font.FontInstaller;
 import UNIVERSAL.UI.FPSCounter;
 
 public class Survivor extends JPanel implements KeyListener, MouseInputListener {
-
+    
     private static final long serialVersionUID = 1L;
     private static final int PREF_W = 600;
     private static final int PREF_H = 400;
@@ -26,6 +30,14 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     
     protected FPSCounter FPS = new FPSCounter(60);
     protected FontInstaller Font = new FontInstaller();
+
+    private boolean upPressed;
+    private boolean downPressed;
+    private boolean leftPressed;
+    private boolean rightPressed;
+
+    private Image playerIcon = new ImageIcon("APCS/Survivorio/Images/missingTexture.png").getImage().getScaledInstance(50, 50, Image.SCALE_REPLICATE);
+    private Player player = new Player(10, 1, 1, "", playerIcon);
     
     public Survivor()
     {
@@ -69,24 +81,47 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHints(hints);
+        //Attach g2 to UIElements
+        player.setGraphics(g2);
+                
+        updatePosition();
         
-        g2.drawRect((PREF_W / 2) - 25, (PREF_H / 2) - 25, 50, 50);
-        
-        FPS.frame();
+        player.drawElement();
 
+        System.out.println("x: " + player.x + "y: " + player.y);
+
+        FPS.frame();
+        //Has to be on the bottom
         FPS.FPSLimitPause();
+        this.repaint();
     }
 
     @Override
-    public void keyPressed(KeyEvent e){}
+    public void keyPressed(KeyEvent e){
+        if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
+            upPressed = true;
+        if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
+            downPressed = true;
+        if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)
+            leftPressed = true;
+        if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
+            rightPressed = true;
+    }
 
     @Override
-    public void keyReleased(KeyEvent e){}
+    public void keyReleased(KeyEvent e){
+        if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
+            upPressed = false;
+        if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
+            downPressed = false;
+        if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)
+            leftPressed = false;
+        if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
+            rightPressed = false;
+    }
 
     @Override
     public void keyTyped(KeyEvent e){}
-
-
 
     @Override
     public void mouseDragged(MouseEvent e) {}
@@ -108,4 +143,17 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
 
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    public void updatePosition()
+    {
+        if (upPressed)
+            player.setY(player.getY() - player.getSpeed());
+        if (downPressed)
+            player.setY(player.getY() + player.getSpeed());
+        if (leftPressed)
+            player.setX(player.getX() - player.getSpeed());
+        if (rightPressed)
+            player.setX(player.getX() + player.getSpeed());
+
+    }
 }

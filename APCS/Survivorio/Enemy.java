@@ -1,4 +1,4 @@
-package Intro.Survivorio;
+package Survivorio;
 
 public class Enemy extends Entity{
 
