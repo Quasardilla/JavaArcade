@@ -19,7 +19,8 @@ public class Product implements Comparable<Product>
     public Product()
     {
         name = ""+(char)+getRandomNumber(65, 91);
-        price = getRandomNumber(0, 101) + ((double) getRandomNumber(0, 100)/100.0);
+        // price = getRandomNumber(0, 101) + ((double) getRandomNumber(0, 100)/100.0);
+        price = 100;
     }
 
     //METHODS
@@ -67,11 +68,16 @@ public class Product implements Comparable<Product>
          * 
          */
 
-        if (this.price < other.price)
-            return -1;
-        if (this.price > other.price)
-            return 1;
-        return 0;
+        if(name.compareTo(other.name) == 0)
+            return (int) price - (int) other.price;
+         
+        return name.compareTo(other.name);
+
+        // if (this.price < other.price)
+        //     return -1;
+        // if (this.price > other.price)
+        //     return 1;
+        // return 0;
 
     
     }
