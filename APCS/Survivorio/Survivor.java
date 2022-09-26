@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -23,22 +24,38 @@ import UNIVERSAL.UI.FPSCounter;
 public class Survivor extends JPanel implements KeyListener, MouseInputListener {
     
     private static final long serialVersionUID = 1L;
-    private static final int PREF_W = 600;
+    private static final int PREF_W = 400;
     private static final int PREF_H = 400;
     protected RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
     RenderingHints.VALUE_ANTIALIAS_ON);
     
+    
     protected FPSCounter FPS = new FPSCounter(60);
     protected FontInstaller Font = new FontInstaller();
-
+    
     private boolean upPressed;
     private boolean downPressed;
     private boolean leftPressed;
     private boolean rightPressed;
-
-    private Image playerIcon = new ImageIcon("APCS/Survivorio/Images/missingTexture.png").getImage().getScaledInstance(50, 50, Image.SCALE_REPLICATE);
-    private Player player = new Player(10, 1, 1, "", playerIcon);
     
+    private int playerWidth = 50;
+    private int playerHeight = 50;
+    private Image playerIcon = new ImageIcon("APCS/Survivorio/Images/missingTexture.png").getImage().getScaledInstance(playerWidth, playerHeight, Image.SCALE_REPLICATE);
+    private Player player = new Player(10, 1, 10, "", playerIcon);
+
+    private int camLimitUp = -400 + (int) player.getSpeed();
+    private int camLimitDown = 400 - (int) player.getSpeed();
+    private int camLimitLeft = -400 + (int) player.getSpeed();
+    private int camLimitRight = 400 - (int) player.getSpeed();
+
+    private final int centerX = ((PREF_W / 2) - (playerWidth / 2));
+    private final int centerY = ((PREF_H / 2) - (playerHeight / 2));
+    
+    protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+    protected int cameraOffsetX = 0;
+    protected int cameraOffsetY = 0;
+
     public Survivor()
     {
         addKeyListener(this);
@@ -49,7 +66,9 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         
         //Install all fonts in the Font folder
         FontInstaller.installFont();
-        
+
+        player.setX(centerX);
+        player.setY(centerY);
     }
     
     private static void createAndShowGUI() {
@@ -83,12 +102,15 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         g2.setRenderingHints(hints);
         //Attach g2 to UIElements
         player.setGraphics(g2);
-                
-        updatePosition();
+        
         
         player.drawElement();
+        
+        System.out.println("x: " + player.x + "y: " + player.y + " cameraXoffset: " + cameraOffsetX + " cameraYoffset: " + cameraOffsetY) ;
+        System.out.println("Centered: " + (player.getY() == centerY));
 
-        System.out.println("x: " + player.x + "y: " + player.y);
+        // updatePosition();
+        moveCamera();
 
         FPS.frame();
         //Has to be on the bottom
@@ -144,16 +166,39 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     @Override
     public void mouseExited(MouseEvent e) {}
 
-    public void updatePosition()
+    /*
+     * In this use case, the camera is the opposite of everything.
+     * When the camera moves right, everything but the background moves left, etc.
+     */
+    public void moveCamera()
     {
-        if (upPressed)
+        if (upPressed && cameraOffsetY >= camLimitUp && player.getY() <= centerY)
+        {
+            cameraOffsetY -= player.speed;
+        }
+        else if (upPressed && player.getY() >= 0)
             player.setY(player.getY() - player.getSpeed());
-        if (downPressed)
-            player.setY(player.getY() + player.getSpeed());
-        if (leftPressed)
-            player.setX(player.getX() - player.getSpeed());
-        if (rightPressed)
-            player.setX(player.getX() + player.getSpeed());
 
+        if (downPressed && cameraOffsetY <= camLimitDown && player.getY() >= centerY)
+        {
+            cameraOffsetY += player.speed;
+        }
+        else if (downPressed && player.getY() + playerHeight <= PREF_H)
+            player.setY(player.getY() + player.getSpeed());
+
+        if (leftPressed && cameraOffsetX >= camLimitLeft && player.getX() <= centerX)
+        {
+            cameraOffsetX -= player.speed;
+        }
+        else if (leftPressed && player.getX() >= 0)
+            player.setX(player.getX() - player.getSpeed());
+
+        if (rightPressed && cameraOffsetX <= camLimitRight && player.getX() >= centerX)
+        {
+            cameraOffsetX += player.speed;
+        }
+        else if (rightPressed && player.getX() + playerWidth <= PREF_W)
+            player.setX(player.getX() + player.getSpeed());
+            
     }
 }
