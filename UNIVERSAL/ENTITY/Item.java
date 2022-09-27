@@ -1,13 +1,13 @@
-package Survivorio;
+package UNIVERSAL.ENTITY;
 
 import java.awt.Image;
 
 public class Item extends Entity{
 
-    int originX;
-    int originY;
+    protected int originX;
+    protected int originY;
     
-    Item(int originX, int originY)
+    public Item(int originX, int originY)
     {
         this.x = 0;
         this.y = 0;
@@ -15,7 +15,7 @@ public class Item extends Entity{
         this.img = null;
     }
 
-    Item(int x, int y, String name, Image img, int originX, int originY)
+    public Item(int x, int y, String name, Image img, int originX, int originY)
     {
         this.x = x;
         this.y = y;

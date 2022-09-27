@@ -1,4 +1,4 @@
-package Survivorio;
+package UNIVERSAL.ENTITY;
 
 public class Enemy extends Entity{
 

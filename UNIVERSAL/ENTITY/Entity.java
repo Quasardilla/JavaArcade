@@ -1,4 +1,4 @@
-package Survivorio;
+package UNIVERSAL.ENTITY;
 
 import java.awt.Image;
 
