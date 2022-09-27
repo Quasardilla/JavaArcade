@@ -12,6 +12,7 @@ public class Enemy extends Entity{
     @Override
     public void drawElement()
     {
-        
+        g2.drawImage(img, (int) x, (int) y, null);
     }
+
 }

@@ -42,6 +42,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     private int playerHeight = 50;
     private Image playerIcon = new ImageIcon("APCS/Survivorio/Images/missingTexture.png").getImage().getScaledInstance(playerWidth, playerHeight, Image.SCALE_REPLICATE);
     private Player player = new Player(10, 1, 10, "", playerIcon);
+    private Item temp = new Item(0, 0, "temp", new ImageIcon("APCS/Survivorio/Images/missingTexture.png").getImage().getScaledInstance(15, 15, Image.SCALE_REPLICATE), 0, 0);
 
     private int camLimitUp = -400 + (int) player.getSpeed();
     private int camLimitDown = 400 - (int) player.getSpeed();
@@ -102,11 +103,12 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         g2.setRenderingHints(hints);
         //Attach g2 to UIElements
         player.setGraphics(g2);
+        temp.setGraphics(g2);
         
-        
+        temp.drawElement();
         player.drawElement();
         
-        System.out.println("x: " + player.x + "y: " + player.y + " cameraXoffset: " + cameraOffsetX + " cameraYoffset: " + cameraOffsetY) ;
+        System.out.println("x: " + (player.x + cameraOffsetX) + "y: " + (player.y + cameraOffsetY));
         System.out.println("Centered: " + (player.getY() == centerY));
 
         // updatePosition();
@@ -175,6 +177,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (upPressed && cameraOffsetY >= camLimitUp && player.getY() <= centerY)
         {
             cameraOffsetY -= player.speed;
+            temp.setY(temp.getOriginY() - cameraOffsetY);
         }
         else if (upPressed && player.getY() >= 0)
             player.setY(player.getY() - player.getSpeed());
@@ -182,6 +185,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (downPressed && cameraOffsetY <= camLimitDown && player.getY() >= centerY)
         {
             cameraOffsetY += player.speed;
+            temp.setY(temp.getOriginY() - cameraOffsetY);
         }
         else if (downPressed && player.getY() + playerHeight <= PREF_H)
             player.setY(player.getY() + player.getSpeed());
@@ -189,6 +193,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (leftPressed && cameraOffsetX >= camLimitLeft && player.getX() <= centerX)
         {
             cameraOffsetX -= player.speed;
+            temp.setX(temp.getOriginX() - cameraOffsetX);
         }
         else if (leftPressed && player.getX() >= 0)
             player.setX(player.getX() - player.getSpeed());
@@ -196,6 +201,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (rightPressed && cameraOffsetX <= camLimitRight && player.getX() >= centerX)
         {
             cameraOffsetX += player.speed;
+            temp.setX(temp.getOriginX() - cameraOffsetX);
         }
         else if (rightPressed && player.getX() + playerWidth <= PREF_W)
             player.setX(player.getX() + player.getSpeed());
