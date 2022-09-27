@@ -105,8 +105,8 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         player.setGraphics(g2);
         temp.setGraphics(g2);
         
-        temp.drawElement();
-        player.drawElement();
+        temp.draw();
+        player.draw();
         
         System.out.println("x: " + (player.x + cameraOffsetX) + "y: " + (player.y + cameraOffsetY));
         System.out.println("Centered: " + (player.getY() == centerY));
