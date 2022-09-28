@@ -1,4 +1,4 @@
-package UNIVERSAL.UI;
+package UNIVERSAL.RANDOM;
 
 import java.util.ArrayList;
 import java.awt.Image;

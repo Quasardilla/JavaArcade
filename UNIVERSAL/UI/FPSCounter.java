@@ -1,10 +1,12 @@
 package UNIVERSAL.UI;
 
+import java.awt.Color;
+
 /**
  * Simple FPS class
  */
 
-public class FPSCounter {
+public class FPSCounter extends UIElement{
     
     private double totalFrames = 0;
     private double lastFPSCheck = 0;
@@ -60,6 +62,15 @@ public class FPSCounter {
     public int getFPSLimit()
     {
         return FPSLimit;
+    }
+
+    @Override
+    public void drawElement() 
+    {
+        g2.setColor(Color.WHITE);
+        g2.fillRect(90, 80, 100, 27);
+        g2.setColor(Color.BLACK);
+        g2.drawString("FPS: "+currentFPS, 100, 100);
     }
 
 

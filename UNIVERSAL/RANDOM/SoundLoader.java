@@ -1,4 +1,4 @@
-package UNIVERSAL.UI;
+package UNIVERSAL.RANDOM;
 
 import java.io.File;
 import java.io.IOException;

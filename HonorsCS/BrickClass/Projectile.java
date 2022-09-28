@@ -3,7 +3,7 @@ package BrickClass;
 import java.awt.Color;
 import java.awt.Image;
 
-import UNIVERSAL.UI.SpriteSheet;
+import UNIVERSAL.RANDOM.SpriteSheet;
 
 public class Projectile extends GameObject {    
 

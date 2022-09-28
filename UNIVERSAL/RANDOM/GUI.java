@@ -1,4 +1,4 @@
-package Random;
+package UNIVERSAL.RANDOM;
 
 import java.awt.Color;
 import java.awt.Dimension;

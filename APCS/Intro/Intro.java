@@ -2,7 +2,6 @@ package Intro;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class Intro {
     public static void main(String[] args) {
@@ -69,7 +68,7 @@ public class Intro {
         
         for (int i = 0; i < arr.size()-1; i++)
         {
-            if (arr.get(i).equals(arr.get(i+1))) arr.remove(ia);
+            if (arr.get(i).equals(arr.get(i+1))) arr.remove(i);
         }
         return arr;
     }

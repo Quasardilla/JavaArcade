@@ -3,7 +3,7 @@ package BrickClass;
 import java.awt.Image;
 import java.util.ArrayList;
 
-import UNIVERSAL.UI.SpriteSheet;
+import UNIVERSAL.RANDOM.SpriteSheet;
 
 import java.awt.Color;
 

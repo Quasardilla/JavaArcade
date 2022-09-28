@@ -106,6 +106,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         //Attach g2 to UIElements
         player.setGraphics(g2);
         temp.setGraphics(g2);
+        FPS.setGraphics(g2);
         
         temp.draw();
         player.draw();
@@ -116,9 +117,10 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         // updatePosition();
         moveCamera();
 
-        FPS.frame();
         //Has to be on the bottom
+        FPS.frame();
         FPS.FPSLimitPause();
+        FPS.draw();
         this.repaint();
     }
 
