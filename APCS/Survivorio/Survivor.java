@@ -35,6 +35,9 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     
     protected FPSCounter FPS = new FPSCounter(60);
     
+    private int mouseX;
+    private int mouseY;
+
     private boolean upPressed;
     private boolean downPressed;
     private boolean leftPressed;
@@ -117,6 +120,13 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         moveCamera();
         
         
+        try {
+            mouseX = this.getMousePosition().x;
+            mouseY = this.getMousePosition().y;
+        } catch (Exception e) {}
+
+        Double angle = Math.atan2(mouseY - (player.getY() + (playerHeight / 2)), mouseX - (player.getX() + (playerWidth / 2)));
+
         temp.draw();
         for (Enemy e: enemies) e.draw();
         player.draw();
@@ -124,10 +134,11 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
 
         for (Enemy e: enemies) e.moveToward(new Point((int) player.getX(), (int) player.getY()), cameraOffsetX, cameraOffsetY);
         
-        // System.out.println("x: " + (player.getX() + cameraOffsetX) + "y: " + (player.getY() + cameraOffsetY));
-        // System.out.println("Centered: " + (player.getY() == centerY));
-
+        System.out.println("x: " + (player.getX() + cameraOffsetX) + "y: " + (player.getY() + cameraOffsetY));
+        System.out.println("Centered: " + (player.getY() == centerY));
         // updatePosition();
+        System.out.println("Angle: " + Math.toDegrees(angle));
+        moveCamera();
 
         //Has to be on the bottom
         FPS.frame();
