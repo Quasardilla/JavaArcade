@@ -6,7 +6,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Font;
 import java.awt.FontFormatException;
 
-public class FontInstaller{
+public class EasyFontInstaller{
     
     private static File file = new File("/");
 

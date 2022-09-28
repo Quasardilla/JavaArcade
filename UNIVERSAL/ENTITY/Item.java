@@ -6,7 +6,8 @@ public class Item extends Entity{
 
     protected int originX;
     protected int originY;
-    
+    protected double speed;
+
     public Item(int originX, int originY)
     {
         this.x = 0;
@@ -15,12 +16,23 @@ public class Item extends Entity{
         this.img = null;
     }
 
-    public Item(int x, int y, String name, Image img, int originX, int originY)
+    public Item(int x, int y, String name, Image img, double speed)
     {
         this.x = x;
         this.y = y;
         this.name = name;
         this.img = img;
+        this.originX = x;
+        this.originY = y;
+        this.speed = speed;
+    }
+
+    public void moveByCamera(int cameraOffsetX, int cameraOffsetY)
+    {
+        if (cameraOffsetX != 0)
+            x = originX - cameraOffsetX;
+        if (cameraOffsetY != 0)
+            y = originY - cameraOffsetY;
     }
 
     @Override
