@@ -1,6 +1,7 @@
 package Intro;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Intro {
@@ -51,9 +52,26 @@ public class Intro {
         // System.out.println(p3.compareTo(p1));
         // System.out.println("D".compareTo("A"));
 
-        // Collections.sort(products1);
-        products1 = removeDuplicates(products1);
+        
+        System.out.println("arraylist");
+        removeDuplicates(products1);
+        Collections.sort(products1);
         printLst(products1);
+
+        System.out.println("standard");
+
+        Product[] products2 = new Product[1000];
+        for(int i = 0; i < products2.length; i++)
+        {
+            products2[i] = new Product();
+        }
+
+        removeDuplicates(products2);
+        sortStandardArray(products2);
+
+        for (Product product : products2) {
+            if (product != null) System.out.println(product);
+        }
     }
 
     static void printLst(ArrayList<Product> arr)
@@ -62,14 +80,46 @@ public class Intro {
             System.out.println(p);
     }
 
-    static ArrayList<Product> removeDuplicates(ArrayList<Product> arr)
+    static void removeDuplicates(ArrayList<Product> arr)
     {
-        Collections.sort(arr);
-        
-        for (int i = 0; i < arr.size()-1; i++)
+        for (int i = 0; i < arr.size(); i++)
         {
-            if (arr.get(i).equals(arr.get(i+1))) arr.remove(i);
+            for (int j = i + 1; j < arr.size(); j++)
+            {
+                if (arr.get(i).equals(arr.get(j)))
+                {
+                    arr.remove(j);
+                    j--;
+                }
+            }
         }
-        return arr;
+    }
+
+    public static void removeDuplicates(Product[] arr)
+    {
+        //set all duplicate items to null
+        for (int i = 0; i < arr.length; i++)
+        {
+            for (int j = i+1; j < arr.length; j++)
+            {
+                if (arr[i] != null && arr[j] != null && arr[i].equals(arr[j])) arr[j] = null;
+            }
+        }
+    }
+
+    public static void sortStandardArray(Product[] arr)
+    {
+        for (int i = 0; i < arr.length; i++)
+        {
+            for (int j = i+1; j < arr.length; j++)
+            {
+                if (arr[i] != null && arr[j] != null && arr[i].compareTo(arr[j]) > 0)
+                {
+                    Product temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
     }
 }
