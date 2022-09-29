@@ -124,7 +124,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         System.out.println("x: " + (player.getX() + cameraOffsetX) + "y: " + (player.getY() + cameraOffsetY));
         System.out.println("Centered: " + (player.getY() == centerY));
         // updatePosition();
-        System.out.println("Angle: " + Math.toDegrees(angle));
+        System.out.println("Angle: " + (int) Math.toDegrees(angle));
         moveCamera();
 
         //Has to be on the bottom
