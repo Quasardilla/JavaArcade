@@ -53,10 +53,10 @@ public class Intro {
         // System.out.println("D".compareTo("A"));
 
         
-        System.out.println("arraylist");
-        removeDuplicates(products1);
-        Collections.sort(products1);
-        printLst(products1);
+        // System.out.println("arraylist");
+        // removeDuplicates(products1);
+        // Collections.sort(products1);
+        // printLst(products1);
 
         System.out.println("standard");
 
@@ -70,7 +70,7 @@ public class Intro {
         sortStandardArray(products2);
 
         for (Product product : products2) {
-            if (product != null) System.out.println(product);
+            System.out.println(product);
         }
     }
 
@@ -105,6 +105,24 @@ public class Intro {
                 if (arr[i] != null && arr[j] != null && arr[i].equals(arr[j])) arr[j] = null;
             }
         }
+            
+        Product[] temp = new Product[arr.length];
+        
+        int lastTempI = 0;
+        for (int i = 0; i < arr.length; i++)
+        {
+            if (arr[i] != null)
+            {
+                temp[lastTempI] = arr[i];
+                lastTempI++;
+            }
+        }
+        
+        for (int i = 0; i < arr.length; i++)
+        {
+            arr[i] = temp[i];
+        }
+
     }
 
     public static void sortStandardArray(Product[] arr)
