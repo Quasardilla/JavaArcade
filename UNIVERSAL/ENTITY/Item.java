@@ -58,5 +58,31 @@ public class Item extends Entity{
         this.originY = originY;
     }
 
+    public void moveToward(int x, int y, int cameraOffsetX, int cameraOffsetY)
+    {
+        int directionX;
+        int directionY;
+
+        if (this.x - x > 0)
+            directionX = 1;
+        else if (this.x - x < 0)
+            directionX = -1;
+        else
+            directionX = 0;
+
+        if (this.y - y > 0)
+            directionY = 1;
+        else if (this.y - y < 0)
+            directionY = -1;
+        else
+            directionY = 0;
+
+        this.originX -= 1 * directionX;
+        this.originY -= 1 * directionY;
+
+        moveByCamera(cameraOffsetX, cameraOffsetY);
+
+        
+    }
 
 }
