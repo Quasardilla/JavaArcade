@@ -1,4 +1,4 @@
-package Intro;
+package Intro.product;
 
 import java.lang.Comparable;
 
