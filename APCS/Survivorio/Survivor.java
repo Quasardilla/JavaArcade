@@ -38,10 +38,10 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     private int mouseX;
     private int mouseY;
 
-    private boolean upPressed;
-    private boolean downPressed;
-    private boolean leftPressed;
-    private boolean rightPressed;
+    private boolean upPressed = false;
+    private boolean downPressed = false;
+    private boolean leftPressed = false;
+    private boolean rightPressed = false;
     
     private int playerWidth = 50;
     private int playerHeight = 50;
@@ -62,6 +62,8 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     protected int cameraOffsetX = 0;
     protected int cameraOffsetY = 0;
 
+    private boolean start = true;
+
     public Survivor()
     {
         addKeyListener(this);
@@ -78,10 +80,16 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         
         temp.setSpeed(10);
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 10; i++)
         {
             enemies.add(new Enemy(i * 10, i * 10, "enemy"+i, new ImageIcon("APCS/Survivorio/Images/missingTexture.png").getImage().getScaledInstance(15, 15, Image.SCALE_REPLICATE), 0.01));
         }
+
+        upPressed = true;
+        downPressed = true;
+        leftPressed = true;
+        rightPressed = true;
+        moveCamera();
     }
     
     private static void createAndShowGUI() {
@@ -136,14 +144,13 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
 
 
         for (Enemy e: enemies) e.moveToward(new Point((int) player.getX(), (int) player.getY()), cameraOffsetX, cameraOffsetY);
+        temp.moveToward((int) player.getX(), (int) player.getY(), cameraOffsetX, cameraOffsetY);
         
+        System.out.println((upPressed || downPressed || leftPressed || rightPressed) ? "Moving" : "Not Moving");
         System.out.println("x: " + (player.getX() + cameraOffsetX) + "y: " + (player.getY() + cameraOffsetY));
         System.out.println("Centered: " + (player.getY() == centerY));
-        // updatePosition();
         System.out.println("Angle: " + (int) Math.toDegrees(angle));
-        moveCamera();
 
-        temp.moveToward((int) player.getX(), (int) player.getY(), cameraOffsetX, cameraOffsetY);
 
         //Has to be on the bottom
         FPS.frame();
@@ -155,13 +162,26 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
     @Override
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP)
+        {
             upPressed = true;
+        }
+        if (start) downPressed = false;
         if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
+        {
             downPressed = true;
+        }
+        if (start) upPressed = false;
         if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT)
+        {
             leftPressed = true;
+        }
+        if (start) rightPressed = false;
         if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
+        {
             rightPressed = true;
+        }
+        if (start) leftPressed = false;
+        if (start) start = false;
     }
 
     @Override
@@ -209,7 +229,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (upPressed && cameraOffsetY >= camLimitUp && player.getY() <= centerY)
         {
             cameraOffsetY -= player.getSpeed();
-            // temp.moveByCamera(0, cameraOffsetY);
+            temp.moveByCamera(0, cameraOffsetY);
             for (Enemy e: enemies) e.moveByCamera(0, cameraOffsetY);
         }
         
@@ -219,7 +239,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (downPressed && cameraOffsetY <= camLimitDown && player.getY() >= centerY)
         {
             cameraOffsetY += player.getSpeed();
-            // temp.moveByCamera(0, cameraOffsetY);
+            temp.moveByCamera(0, cameraOffsetY);
             for (Enemy e: enemies) e.moveByCamera(0, cameraOffsetY);
         }
         else if (downPressed && player.getY() + playerHeight <= PREF_H)
@@ -228,7 +248,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (leftPressed && cameraOffsetX >= camLimitLeft && player.getX() <= centerX)
         {
             cameraOffsetX -= player.getSpeed();
-            // temp.moveByCamera(cameraOffsetX, 0);
+            temp.moveByCamera(cameraOffsetX, 0);
             for (Enemy e: enemies) e.moveByCamera(cameraOffsetX, 0);
         }
         else if (leftPressed && player.getX() >= 0)
@@ -237,7 +257,7 @@ public class Survivor extends JPanel implements KeyListener, MouseInputListener 
         if (rightPressed && cameraOffsetX <= camLimitRight && player.getX() >= centerX)
         {
             cameraOffsetX += player.getSpeed();
-            // temp.moveByCamera(cameraOffsetX, 0);
+            temp.moveByCamera(cameraOffsetX, 0);
             for (Enemy e: enemies) e.moveByCamera(cameraOffsetX, 0);
         }
         else if (rightPressed && player.getX() + playerWidth <= PREF_W)
