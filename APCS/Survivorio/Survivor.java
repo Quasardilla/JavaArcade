@@ -18,10 +18,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 import java.awt.Point;
 
-import Font.EasyFontInstaller;
 import UNIVERSAL.ENTITY.Enemy;
 import UNIVERSAL.ENTITY.Item;
 import UNIVERSAL.ENTITY.Player;
+import UNIVERSAL.Font.EasyFontInstaller;
 import UNIVERSAL.UI.FPSCounter;
 
 public class Survivor extends JPanel implements KeyListener, MouseInputListener {
