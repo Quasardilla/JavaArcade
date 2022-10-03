@@ -39,5 +39,48 @@ public class CourseTester
         
         //6.b) report result
         System.out.println(c1Equal);
+
+        System.out.println("Min: "+getMinEnrollment(courses));
+        System.out.println("Max: "+getMaxEnrollment(courses));
+    }
+
+    public static Course getMinEnrollment(ArrayList<Course> arr)
+    {
+        int index = 0;
+        int min = arr.get(0).getNumStudents();
+        for (int i = 0; i < arr.size(); i++)
+        {
+            if (arr.get(i).getNumStudents() < min)
+            {
+                index = i;
+                min = arr.get(i).getNumStudents();
+            }
+        }
+
+        for (Course c: arr)
+        {
+            if (c.getNumStudents() == min) return c;
+        }
+        return null;
+    }
+
+    public static Course getMaxEnrollment(ArrayList<Course> arr)
+    {
+        int index = 0;
+        int max = arr.get(0).getNumStudents();
+        for (int i = 0; i < arr.size(); i++)
+        {
+            if (arr.get(i).getNumStudents() > max)
+            {
+                index = i;
+                max = arr.get(i).getNumStudents();
+            }
+        }
+
+        for (Course c: arr)
+        {
+            if (c.getNumStudents() == max) return c;
+        }
+        return null;
     }
 }
