@@ -81,8 +81,12 @@ public class ExploringMathAlgorithms
     public static ArrayList<Integer> getFactors(int num)
     {
         ArrayList<Integer> points = new ArrayList<Integer>();
-        for (int i = 1; i <= num; i++)
-            if (num % i == 0 && !points.contains(i)) points.add(i);
+        for (int i = 1; i <= Math.sqrt(num) + 1; i++)
+            if (num % i == 0)
+            {
+                points.add(i);
+                if (i != num / i) points.add(num / i);
+            }
 
         return points;
     }
