@@ -11,7 +11,7 @@ public class ExploringMathAlgorithms
         System.out.println("getNumDigits(578): "+getNumDigits(578));
         System.out.println("getFactors(16): "+getFactors(16));
         System.out.println("isPrime(7): "+isPrime(7));
-        System.out.println("reverseNum(123): "+reverseNum(12345));
+        System.out.println("reverseNum(12345): "+reverseNum(12345));
         System.out.println("getQuadraticSolutions(3, 5, -7): "+getQuadraticSolutions(1, 2, -15)[0]+" "+getQuadraticSolutions(1, 2, -15)[1]);
     }
 
@@ -121,6 +121,19 @@ public class ExploringMathAlgorithms
         }
 
         return value;
+
+
+        /*
+         * int reverse = 0;
+         * while (num > 0)
+         * {
+         *      reverse *= 10;
+         *      reverse += num % 10;
+         *      num /= 10;
+         * }
+         * return reverse;
+         * 
+         */
     }
 
     public static double[] getQuadraticSolutions(double a, double b, double c)
