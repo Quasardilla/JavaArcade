@@ -1,6 +1,7 @@
 package Intro.exploringMath;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExploringMathAlgorithms
 {
@@ -12,7 +13,7 @@ public class ExploringMathAlgorithms
         System.out.println("getFactors(16): "+getFactors(16));
         System.out.println("isPrime(7): "+isPrime(7));
         System.out.println("reverseNum(12345): "+reverseNum(12345));
-        System.out.println("getQuadraticSolutions(3, 5, -7): "+getQuadraticSolutions(1, 2, -15)[0]+" "+getQuadraticSolutions(1, 2, -15)[1]);
+        System.out.println("getQuadraticSolutions(1, 0, -4): "+Arrays.toString(getQuadraticSolutions(1, 0, -4)));
     }
 
     /*
