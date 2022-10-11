@@ -141,18 +141,12 @@ public class ExploringMathAlgorithms
     {
         double[] solutions = new double[2];
 
-        try
-        {
-            solutions[0] = (-b + Math.sqrt((b*b)-(4*a*c))) / (2*a);
-            solutions[1] = (-b - Math.sqrt((b*b)-(4*a*c))) / (2*a);            
-            return solutions;
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("imaginary numbers");
-        }
-
-        return null;
+        solutions[0] = (-b + Math.sqrt((b*b)-(4*a*c))) / (2*a);
+        solutions[1] = (-b - Math.sqrt((b*b)-(4*a*c))) / (2*a);            
+        
+        return solutions;
     }
+
+
 
 }
