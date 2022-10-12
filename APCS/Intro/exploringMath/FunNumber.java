@@ -124,6 +124,43 @@ public class FunNumber implements Comparable<FunNumber>
    public static boolean hasDuplicates(ArrayList<FunNumber> nums) {
       return false;
    }
+
+   public static int lcm(int num1, int num2)
+   {
+      num1 = Math.abs(num1);
+      num2 = Math.abs(num2);
+
+      int lcm = num1 * num2;
+
+      for(int i = lcm - 1; i > 1; i--)
+      {
+         if(i % num1 == 0 && i % num2 == 0)
+         {
+            lcm = i;
+            System.out.println(i);
+         }
+      }
+
+      return lcm;
+   }
+
+   public static int gcf(int num1, int num2)
+   {
+      num1 = Math.abs(num1);
+      num2 = Math.abs(num2);
+
+      int gcf = num1 * num2;
+
+      for(int i = 1; i < Math.max(num1, num2); i++)
+      {
+         if(num1 % i == 0 && num2 % i == 0)
+         {
+            gcf = i;
+         }
+      }
+
+      return gcf;
+   }
    
    
    public static void main(String[] args) {
@@ -138,7 +175,10 @@ public class FunNumber implements Comparable<FunNumber>
       System.out.println(FunNumber.hasDuplicates(nums));
 
       FunNumber temp = new FunNumber(4);
-      System.out.println(temp.getFunFact());
+      // System.out.println(temp.getFunFact());
+
+      System.out.println(lcm(8, 12));
+      System.out.println(gcf(8, 12));
 
       System.out.println("Finished.");
       
