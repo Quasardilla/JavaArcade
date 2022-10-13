@@ -1,5 +1,7 @@
 package Intro.exploringMath;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class FunNumber implements Comparable<FunNumber>
@@ -95,6 +97,9 @@ public class FunNumber implements Comparable<FunNumber>
     *         false otherwise
     */
    public boolean equals(Object obj) {
+      FunNumber other = (FunNumber) obj;
+      if(this.num == other.getFunNum())
+         return true;
       return false;
    }
    
@@ -107,14 +112,19 @@ public class FunNumber implements Comparable<FunNumber>
     *          1 if this FunNumber value is greater than that of the parameter
     */
    public int compareTo(FunNumber other) {
-      return 0;
+      if(this.equals(other))
+         return 0;
+      else if (num > other.getFunNum())
+         return 1;
+      else
+         return -1;
    }
    
    /**
     * @return a String representation of the FunNumber value
     */
    public String toString() {
-      return "";
+      return "[num:" + this.num + "]";
    }
    
    /**
@@ -122,6 +132,13 @@ public class FunNumber implements Comparable<FunNumber>
     *         false otherwise
     */
    public static boolean hasDuplicates(ArrayList<FunNumber> nums) {
+
+      Set<FunNumber> set = new HashSet<FunNumber>();
+
+      for(int i = 0; i < nums.size() - 1; i++)
+         if(set.add(nums.get(i)) == false)
+            return true;
+
       return false;
    }
 
