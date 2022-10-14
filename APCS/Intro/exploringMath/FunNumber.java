@@ -58,6 +58,13 @@ public class FunNumber implements Comparable<FunNumber>
    public ArrayList<Integer> getFactors() {
       ArrayList<Integer> factors = new ArrayList<Integer>();
 
+         for (int i = 1; i <= Math.sqrt(num) + 1; i++)
+            if (num % i == 0)
+            {
+                factors.add(i);
+                if (i != num / i) factors.add(num / i);
+            }
+
       return factors;
    }
 
@@ -65,28 +72,60 @@ public class FunNumber implements Comparable<FunNumber>
     * @return true if the FunNumber is prime, false otherwise
     */
    public boolean isPrime() {
-      return false;
+      for (int i = 2; i <= Math.sqrt(num); i++)
+            if (num % i == 0) return false;
+        return true;
    }
 
    /**
     * @return the number of digits in the FunNumber value
     */
    public int numDigits() {
-      return 0;
+      int length = 1;
+      int temp = num;
+      while (temp / 10 > 0)
+      {
+          length++;
+          temp /= 10;
+      }
+
+      return length;
    }
 
    /**
     * @return the sum of the digits that make up the FunNumber
     */
    public int sumDigits() {
-      return 0;
+      int length = 1;
+      int temp = num;
+      while (temp / 10 > 0)
+      {
+          length++;
+          temp /= 10;
+      }
+
+      int value = 0;
+
+      for (int i = 0; i <= length; i++)
+      {
+          value += (num % Math.pow(10, i)) / Math.pow(10, i-1);
+      }
+      
+      return value;
    }
 
    /**
     * @return an integer with digits that are the reverse of the FunNumber digits
     */
    public int reverseNum() {
-      return 0;
+      int reverse = 0;
+      while (num > 0)
+      {
+         reverse *= 10;
+         reverse += num % 10;
+         num /= 10;
+      }
+      return reverse;
    }
 
    /**
@@ -127,6 +166,11 @@ public class FunNumber implements Comparable<FunNumber>
       return "[num:" + this.num + "]";
    }
    
+   @Override
+   public int hashCode() {
+      return num;
+   }
+
    /**
     * @return true if the FunNumber list contains duplicate FunNumber objects,
     *         false otherwise
@@ -135,12 +179,17 @@ public class FunNumber implements Comparable<FunNumber>
 
       Set<FunNumber> set = new HashSet<FunNumber>();
 
-      for(int i = 0; i < nums.size() - 1; i++)
-         if(set.add(nums.get(i)) == false)
+      for(int i = 0; i <= nums.size() - 1; i++)
+      {
+         if(!set.add(nums.get(i)))
             return true;
+      }
 
       return false;
    }
+
+
+
 
    public static int lcm(int num1, int num2)
    {
@@ -178,25 +227,29 @@ public class FunNumber implements Comparable<FunNumber>
 
       return gcf;
    }
+
    
    
    public static void main(String[] args) {
       ArrayList<FunNumber> nums = new ArrayList<FunNumber>();
       
       for(int i = 0; i < 10; i++)
-         nums.add(new FunNumber((int)(Math.random() * 50) + 1));
+         // nums.add(new FunNumber((int)(Math.random() * 50) + 1));
+         nums.add(new FunNumber(1));
       
       for(FunNumber f : nums)
          System.out.println(f);
       
       System.out.println(FunNumber.hasDuplicates(nums));
 
+
       FunNumber temp = new FunNumber(4);
+      FunNumber temp2 = new FunNumber(4);
+
       // System.out.println(temp.getFunFact());
-
+      
       System.out.println(lcm(8, 12));
-      System.out.println(gcf(8, 12));
-
+      System.out.println(gcf(8, 12));      
       System.out.println("Finished.");
       
 //      //An exploration of using equals versus == (logical vs. reference equality)
