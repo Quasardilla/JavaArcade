@@ -31,7 +31,8 @@ public class RationalNumberTester
       r1 = new RationalNumber(3, 4);
       r1.divide(r2);
       System.out.println(r1);  //Output: RationalNumber [numerator=15, denominator=8]
-      
+    
+
    }
 
 }
