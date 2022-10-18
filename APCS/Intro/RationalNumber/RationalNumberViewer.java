@@ -63,7 +63,29 @@ public class RationalNumberViewer extends JPanel
       RationalNumber r2 = new RationalNumber(Integer.parseInt(n2.getText()), Integer.parseInt(d2.getText()));
       
       if(opBox.getSelectedItem().equals("+"))
-         System.out.println("Add the fractions");
+      {
+         r1.add(r2);
+         nResult1.setText("" + r1.getA());
+         dResult1.setText("" + r1.getB());
+      }
+      if(opBox.getSelectedItem().equals("–"))
+      {
+         r1.subtract(r2);
+         nResult1.setText("" + r1.getA());
+         dResult1.setText("" + r1.getB());
+      }
+      if(opBox.getSelectedItem().equals("x"))
+      {
+         r1.multiply(r2);
+         nResult1.setText("" + r1.getA());
+         dResult1.setText("" + r1.getB());
+      }
+      if(opBox.getSelectedItem().equals("÷"))
+      {
+         r1.divide(r2);
+         nResult1.setText("" + r1.getA());
+         dResult1.setText("" + r1.getB());
+      }
    }
    
    /**
@@ -83,11 +105,25 @@ public class RationalNumberViewer extends JPanel
       
       if(showVinculum) {
          if(functionBox.getSelectedItem().equals("simplified"))
-            System.out.println("Simplify the fraction");
+            r3.simplify();
+            nResult2.setText("" + r3.getA());
+            dResult2.setText("" + r3.getB());
       }
-      else {
-         if(functionBox.getSelectedItem().equals("as a decimal"))
-            answer = "pi";
+      if (functionBox.getSelectedItem().equals("as a decimal"))
+      {
+         answer = "" + ((double) r3.getA() / r3.getB());
+      }
+      if (functionBox.getSelectedItem().equals("reciprocal"))
+      {
+         nResult2.setText("" + r3.getReciprocal().getA());
+         dResult2.setText("" + r3.getReciprocal().getB());
+         repaint();
+      }
+      if (functionBox.getSelectedItem().equals("squared"))
+      {
+         r3.multiply(r3);
+         nResult2.setText("" + r3.getA());
+         dResult2.setText("" + r3.getB());
          repaint();
       }
    }
