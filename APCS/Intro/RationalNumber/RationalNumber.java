@@ -189,7 +189,7 @@ public class RationalNumber implements Comparable<RationalNumber>
         a /= gcf;
         b /= gcf;
 
-        if ((b < 0 && a > 0) || (b < 0 && a < 0))
+        if ((b > 0 && a < 0 || b < 0 && a > 0) || (b < 0 && a < 0))
         {
             b *= -1;
             a *= -1;
