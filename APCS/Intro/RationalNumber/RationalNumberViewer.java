@@ -112,6 +112,7 @@ public class RationalNumberViewer extends JPanel
       if (functionBox.getSelectedItem().equals("as a decimal"))
       {
          answer = "" + ((double) r3.getA() / r3.getB());
+         repaint();
       }
       if (functionBox.getSelectedItem().equals("reciprocal"))
       {
