@@ -64,7 +64,7 @@ public class Teacher implements Comparable<Teacher> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(schedule, id, firstname, lastname);
     }
 
 
