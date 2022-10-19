@@ -1,6 +1,7 @@
 package Intro.course;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Teacher implements Comparable<Teacher> {
     
@@ -59,6 +60,13 @@ public class Teacher implements Comparable<Teacher> {
         else return o.id - this.id;
         
     }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 
     public ArrayList<Course> getSchedule() {
         return this.schedule;
