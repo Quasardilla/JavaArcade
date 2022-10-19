@@ -26,13 +26,14 @@ public class Teacher implements Comparable<Teacher> {
     }
 
     /*
-     * Takes in "Lastname Firstname"
+     * Takes in "Lastname Firstname" and seperates 
+     * the two
      */
     public Teacher(String name)
     {
         int space = name.charAt(' ');
-        lastname = name.substring(0, space);
-        firstname = name.substring(space + 1);
+        firstname = name.substring(0, space);
+        lastname = name.substring(space + 1);
         id = nextID++;
     }
 
