@@ -10,14 +10,14 @@ public class Teacher implements Comparable<Teacher> {
     protected String lastname;
     protected static int nextID;
 
-    Teacher()
+    public Teacher()
     {
         firstname = "John";
         lastname = "Doe";
         id = nextID++;
     }
 
-    Teacher(String lastname, String firstname)
+    public Teacher(String lastname, String firstname)
     {
         this.lastname = lastname;
         this.firstname = firstname;
@@ -27,7 +27,7 @@ public class Teacher implements Comparable<Teacher> {
     /*
      * Takes in "Lastname Firstname"
      */
-    Teacher(String name)
+    public Teacher(String name)
     {
         int space = name.charAt(' ');
         lastname = name.substring(0, space);
@@ -35,7 +35,7 @@ public class Teacher implements Comparable<Teacher> {
         id = nextID++;
     }
 
-    Teacher(String lastname, String firstname, int id, ArrayList<Course> schedule)
+    public Teacher(String lastname, String firstname, int id, ArrayList<Course> schedule)
     {
         this.lastname = lastname;
         this.firstname = firstname;
@@ -59,6 +59,39 @@ public class Teacher implements Comparable<Teacher> {
         else return o.id - this.id;
         
     }
+
+    public ArrayList<Course> getSchedule() {
+        return this.schedule;
+    }
+
+    public void setSchedule(ArrayList<Course> schedule) {
+        this.schedule = schedule;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
 
 
 }
