@@ -218,7 +218,7 @@ public class FunNumber implements Comparable<FunNumber>
 
       int gcf = num1 * num2;
 
-      for(int i = 1; i < Math.max(num1, num2); i++)
+      for(int i = 1; i < Math.min(num1, num2); i++)
       {
          if(num1 % i == 0 && num2 % i == 0)
          {
