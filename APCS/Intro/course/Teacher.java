@@ -102,5 +102,40 @@ public class Teacher implements Comparable<Teacher> {
     }
 
 
+    @Override
+    public String toString() {
+        return "{" +
+            " schedule='" + getSchedule() + "'" +
+            ", id='" + getId() + "'" +
+            ", firstname='" + getFirstname() + "'" +
+            ", lastname='" + getLastname() + "'" +
+            "}";
+    }
 
+    /*
+        8) getPeriodXCourse(int period)
+        Return a Course reference for the course being taught during the given
+        period. Return null if the teacher has no assigned course that period.
+        9) isTeachingCourse(Course course)
+        Return true if the teacher is already teaching the given course.
+        Return false otherwise.
+     */
+
+    public void addCourseToSchedule(Course course)
+    {
+        schedule.add(course);
+    }
+
+    public void removeCourseFromSchedule(Course course)
+    {
+        schedule.remove(course);
+    }
+
+    public boolean isAvailable(int period)
+    {
+        for (Course c: schedule)
+            if (c.getPeriod() == period)
+               return false;
+        return true;
+    }
 }

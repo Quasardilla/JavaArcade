@@ -7,6 +7,7 @@ public class Course implements Comparable<Course>
     private String name;
     private String code;
     private int numStudents;
+    private int period;
 
 
     public Course() 
@@ -14,13 +15,15 @@ public class Course implements Comparable<Course>
         name = "";
         code = "";
         numStudents = 0;
+        period = 0;
     }
 
 
-    public Course(String name, String code, int numStudents) {
+    public Course(String name, String code, int numStudents, int period) {
         this.name = name;
         this.code = code;
         this.numStudents = numStudents;
+        this.period = period;
     }
 
 
@@ -48,12 +51,21 @@ public class Course implements Comparable<Course>
         this.numStudents = numStudents;
     }
 
+    public int getPeriod() {
+        return this.period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
     @Override
     public String toString() {
         return "Course[" +
             " name='" + getName() + "'" +
             ", code='" + getCode() + "'" +
             ", numStudents='" + getNumStudents() + "'" +
+            ", period='" + getPeriod() + "'" +
             "]";
     }
 
