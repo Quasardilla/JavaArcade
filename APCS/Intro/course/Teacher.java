@@ -85,19 +85,19 @@ public class Teacher implements Comparable<Teacher> {
         this.id = id;
     }
 
-    public String getFirstname() {
+    public String getFirst() {
         return this.firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirst(String firstname) {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
+    public String getLast() {
         return this.lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLast(String lastname) {
         this.lastname = lastname;
     }
 
@@ -107,19 +107,10 @@ public class Teacher implements Comparable<Teacher> {
         return "{" +
             " schedule='" + getSchedule() + "'" +
             ", id='" + getId() + "'" +
-            ", firstname='" + getFirstname() + "'" +
-            ", lastname='" + getLastname() + "'" +
+            ", firstname='" + getFirst() + "'" +
+            ", lastname='" + getLast() + "'" +
             "}";
     }
-
-    /*
-        8) getPeriodXCourse(int period)
-        Return a Course reference for the course being taught during the given
-        period. Return null if the teacher has no assigned course that period.
-        9) isTeachingCourse(Course course)
-        Return true if the teacher is already teaching the given course.
-        Return false otherwise.
-     */
 
     public void addCourseToSchedule(Course course)
     {
@@ -137,5 +128,19 @@ public class Teacher implements Comparable<Teacher> {
             if (c.getPeriod() == period)
                return false;
         return true;
+    }
+
+    public Course getPeriodXCourse(int period)
+    {
+        for (Course c: schedule)
+        {
+            if (c.getPeriod() == period) return c;
+        }
+        return null;
+    }
+
+    public boolean isTeachingCourse(Course course)
+    {
+        return schedule.contains(course);
     }
 }
