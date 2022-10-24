@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Teacher implements Comparable<Teacher> {
     
     protected ArrayList<Course> schedule = new ArrayList<Course>();
-    protected int id;
+    protected int id = 10000;
     protected String firstname;
     protected String lastname;
     protected static int nextID;
@@ -31,7 +31,7 @@ public class Teacher implements Comparable<Teacher> {
      */
     public Teacher(String name)
     {
-        int space = name.charAt(' ');
+        int space = name.indexOf(' ');
         firstname = name.substring(0, space);
         lastname = name.substring(space + 1);
         id = nextID++;
@@ -126,8 +126,8 @@ public class Teacher implements Comparable<Teacher> {
     {
         for (Course c: schedule)
             if (c.getPeriod() == period)
-               return false;
-        return true;
+               return true;
+        return false;
     }
 
     public Course getPeriodXCourse(int period)
