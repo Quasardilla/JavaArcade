@@ -20,6 +20,22 @@ public class StringStuff
     */
    public static boolean equalStrings(String s1, String s2)
    {
+      if (s1 != null && s2 != null)
+      {
+         if (s1.length() != s2.length())
+         {
+            return false;
+         }
+
+         for (int i = 0; i < s1.length(); i++)
+         {
+            if (s1.charAt(i) != s2.charAt(i))
+            {
+               return false;
+            }
+         }
+         return true;
+      }
       return false;
    }
    
@@ -40,7 +56,18 @@ public class StringStuff
     * @return  An integer values based on the ruled defined above.
     */
    public static int compareStrings(String s1, String s2)
-   {
+   {         
+      for (int i = 0; i < Math.min(s1.length(), s2.length()); i++)
+      {
+         if (s1.charAt(i) != s2.charAt(i))
+         {
+            return s1.charAt(i) - s2.charAt(i);
+         }
+      }
+      if (s1.length()!=s2.length())
+      {
+         return s1.length()-s2.length();
+      }
       return 0;
    }
    
@@ -58,8 +85,13 @@ public class StringStuff
     */
    public static String removeString(String text, String target)
    {
-      return "removeString is  not yet implemented.";
+      if (text.contains(target))
+      {
+         return text.substring(0, text.indexOf(target)) + text.substring(text.indexOf(target) + target.length());
+      }
+      return text;
    }
+   
    
    /**
     * Replaces the target string value with the replacement string
@@ -78,7 +110,11 @@ public class StringStuff
     */
    public static String replaceString(String text, String target, String repl)
    {
-      return "removeString is  not yet implemented.";
+      if (text.contains(target))
+      {
+         return text.substring(0, text.indexOf(target)) + repl + text.substring(text.indexOf(target) + target.length());
+      }
+      return text;
    }
    
    /**
@@ -95,7 +131,34 @@ public class StringStuff
     */
    public static String removeAllString(String text, String target)
    {
-      return "removeString is  not yet implemented.";
+      if (text.contains(target))
+      {
+         return removeAllString(text.substring(0, text.indexOf(target)) + text.substring(text.indexOf(target) + target.length()), target);
+      }
+      return text;
+   }
+
+   /**
+    * Replaces all occurrences of the target string value from the given text value.
+    * If the target string is not found in the text, the original text is returned.
+    * 
+    * @param text
+    *        The text string to be examined for text replacement.
+    * @param target
+    *        The string to be removed from the text parameter.
+    * @param repl
+    *        The string to be replace from the text parameter.
+    *        
+    * @return  The text parameter with all occurrences of the target string replaced,
+    *          or the original text if the target is not found.
+    */
+   public static String replaceAllString(String text, String target, String repl)
+   {
+      if (text.contains(target))
+      {
+         return replaceAllString(text.substring(0, text.indexOf(target)) + repl + text.substring(text.indexOf(target) + target.length()), target, repl);
+      }
+      return text;
    }
    
    /**
@@ -116,7 +179,12 @@ public class StringStuff
     */
    public static String getRandomText(int numLetters)
    {
-      return "removeString is  not yet implemented.";
+      String text = "";
+      for (int i = 0; i < numLetters; i++)
+      {
+         text += (char) (Math.random() * 26 + 97);
+      }
+      return text;
    }
    
    /**
@@ -132,7 +200,16 @@ public class StringStuff
     */
    public static int countVowels(String text)
    {
-      return -1;
+      int count = 0;
+      String text1=text.toLowerCase();
+      for (int i = 0; i < text.length(); i++)
+      {
+         if (text1.charAt(i) == 'a' || text1.charAt(i) == 'e' || text1.charAt(i) == 'i' || text1.charAt(i) == 'o' || text1.charAt(i) == 'u')
+         {
+            count++;
+         }
+      }
+      return count;
    }
    
 }
