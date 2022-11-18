@@ -1,3 +1,5 @@
+package NestedLoops;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -195,7 +197,7 @@ public class NestedLoopGUI_template extends JPanel implements MouseListener, Key
 
 /*13*/for(int r=4; r>=0; r--)   //MUST USE r HERE...just change values/conditions
       {
-/*14*/   for(int c=0; c<r+1; c++) //MUST USE c HERE...just change values/conditions
+/*14*/   for(int c=0; c<=r; c++) //MUST USE c HERE...just change values/conditions
          {
             if(loop < click)
                drawBox(g2, r, c);
