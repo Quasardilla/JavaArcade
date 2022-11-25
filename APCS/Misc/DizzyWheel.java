@@ -81,19 +81,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
 
         assignRandomColor();
 
-        try {
-            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/highScore.json");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
-            globalHighScore = Integer.parseInt(content.toString());
-        } catch (Exception e) {}
+        getGlobalHighScore();
 
 
         System.out.println(path);
@@ -379,6 +367,8 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
     
     public void scoreManager()
     {
+        getGlobalHighScore();
+
         if(score > highScore)
         try {
             highScore = score;
@@ -400,6 +390,23 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
             out.write("" + in);
             out.close();
             con.getInputStream();
+        } catch (Exception e) {}
+    }
+
+    public void getGlobalHighScore()
+    {
+        try {
+            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/highScore.json");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            globalHighScore = Integer.parseInt(content.toString());
         } catch (Exception e) {}
     }
 }
