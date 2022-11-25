@@ -82,7 +82,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         assignRandomColor();
 
         getGlobalHighScore();
-
+        setPlayAmount();
 
         System.out.println(path);
 
@@ -293,6 +293,8 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         g2.drawString("Your Score: " + score, (PREF_W / 16) + 15, (PREF_H / 16) + 30);
         g2.drawString("Your High Score: " + highScore, (PREF_W / 16) + 15, (PREF_H / 16) + 70);
         g2.drawString("Global High Score: " + globalHighScore, (PREF_W / 16) + 15, (PREF_H / 16) + 110);
+        g2.drawString("This game has been played ", (PREF_W / 16) + 15, (PREF_H / 16) + 190);
+        g2.drawString(getPlayAmount() + " times!", (PREF_W / 16) + 15, (PREF_H / 16) + 230);
     }
 
     public int hoveringColor()
@@ -363,6 +365,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         score = 0;
         angle = 90;
         assignRandomColor();
+        setPlayAmount();
     }
     
     public void scoreManager()
@@ -408,5 +411,42 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
             in.close();
             globalHighScore = Integer.parseInt(content.toString());
         } catch (Exception e) {}
+    }
+
+    public void setPlayAmount()
+    {
+        int playAmount = getPlayAmount();
+        playAmount++;
+
+        try {
+            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/playAmount.json");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("PUT");
+            con.setDoOutput(true);
+            OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
+            out.write("" + playAmount);
+            out.close();
+            con.getInputStream();
+        } catch (Exception e) {}
+
+    }
+
+    public int getPlayAmount()
+    {
+        try {
+            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/playAmount.json");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            return Integer.parseInt(content.toString());
+        } catch (Exception e) {}
+
+        return -1;
     }
 }
