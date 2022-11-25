@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -81,7 +82,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         assignRandomColor();
 
         try {
-            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/highScore");
+            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/highScore.json");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -91,7 +92,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
                 content.append(inputLine);
             }
             in.close();
-            System.out.println(content);
+            globalHighScore = Integer.parseInt(content.toString());
         } catch (Exception e) {}
 
 
@@ -303,7 +304,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         g2.setColor(new Color(255, 255, 255));
         g2.drawString("Your Score: " + score, (PREF_W / 16) + 15, (PREF_H / 16) + 30);
         g2.drawString("Your High Score: " + highScore, (PREF_W / 16) + 15, (PREF_H / 16) + 70);
-        g2.drawString("Global High Score: " + score, (PREF_W / 16) + 15, (PREF_H / 16) + 110);
+        g2.drawString("Global High Score: " + globalHighScore, (PREF_W / 16) + 15, (PREF_H / 16) + 110);
     }
 
     public int hoveringColor()
@@ -382,6 +383,23 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         try {
             highScore = score;
             writer.write(highScore);
+        } catch (Exception e) {}
+
+        if(score > globalHighScore)
+            adjustGlobalHighScore("" + score);
+    }
+
+    public void adjustGlobalHighScore(String in)
+    {
+        try {
+            url = new URL("https://dizzywheel-62a78-default-rtdb.firebaseio.com/highScore.json");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("PUT");
+            con.setDoOutput(true);
+            OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
+            out.write("" + in);
+            out.close();
+            con.getInputStream();
         } catch (Exception e) {}
     }
 }
