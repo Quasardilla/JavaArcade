@@ -52,7 +52,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
     private final String path = System.getProperty("user.dir");
     private final int length = 168;
     private final double initialSpeed = 1;
-    private final File scoreFile = new File(path + "score.txt");
+    private final File scoreFile = new File(path + "/score.txt");
     private URL url;
     private HttpURLConnection con;
     private FileWriter writer;
