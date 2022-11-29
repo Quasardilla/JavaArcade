@@ -5,9 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import UNIVERSAL.UI.TextBox;
-import UNIVERSAL.UI.Trail;
-
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -29,8 +26,10 @@ import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -49,13 +48,12 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
     private int mouseY;
 
     private static FontMetrics metrics;
-    private final String path = System.getProperty("user.dir");
     private final int length = 168;
     private final double initialSpeed = 1;
-    private final File scoreFile = new File(path + "/score.txt");
+    private final File scoreFile = new File("score.txt");
     private URL url;
     private HttpURLConnection con;
-    private FileWriter writer;
+    private PrintWriter pw;
     private double speed = 1;
     private double speedIncrement = 0.1;
     private double angle = 90;
@@ -84,15 +82,15 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         getGlobalHighScore();
         setPlayAmount();
 
-        System.out.println(path);
-
         if(!scoreFile.exists())
         {
             try {
-                scoreFile.createNewFile();
-                writer = new FileWriter(scoreFile);
-                writer.write(0);
+                // scoreFile.createNewFile();
+                pw = new PrintWriter(new FileWriter(scoreFile), false);
+                System.out.println("file created!");
                 highScore = 0;
+                pw.print(highScore);
+                pw.close();
             } catch (Exception e) {
                 System.out.println("score.txt was not able to be created");
             }
@@ -100,9 +98,10 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         else
         {
             try {
+            	pw = new PrintWriter(new FileWriter(scoreFile, true));
                 Scanner sc = new Scanner(scoreFile);
-                highScore = sc.nextInt();
-            } catch (Exception e) {}
+                highScore = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {e.printStackTrace();}
             
         }
 
@@ -375,7 +374,9 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         if(score > highScore)
         try {
             highScore = score;
-            writer.write(highScore);
+            pw = new PrintWriter(new FileWriter(scoreFile), false);
+            pw.print(highScore);
+            pw.close();
         } catch (Exception e) {}
 
         if(score > globalHighScore)
