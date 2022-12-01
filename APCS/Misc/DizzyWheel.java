@@ -207,7 +207,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
 
     private static void createAndShowGUI() {
         DizzyWheel gamePanel = new DizzyWheel();
-        JFrame frame = new JFrame("My Frame");
+        JFrame frame = new JFrame("Dizzy Wheel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(gamePanel);
         frame.pack();
