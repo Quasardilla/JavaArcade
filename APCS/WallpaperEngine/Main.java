@@ -15,13 +15,14 @@ import javax.swing.SwingUtilities;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 import java.awt.Point;
+import java.awt.Toolkit;
 
 public class Main extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     //frame
     private static final long serialVersionUID = 1L;
-    private static final int PREF_W = 600;
-    private static final int PREF_H = 400;
+    private static final int PREF_W = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static final int PREF_H = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     
     private static JFrame frame;
