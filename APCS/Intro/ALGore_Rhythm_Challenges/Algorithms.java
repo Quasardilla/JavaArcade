@@ -1,4 +1,4 @@
-package ALGore_Rhythm_Challenges;
+package Intro.ALGore_Rhythm_Challenges;
 
 import java.util.Arrays;
 

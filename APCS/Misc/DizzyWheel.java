@@ -6,19 +6,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.FontMetrics;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.BasicStroke;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
@@ -26,7 +22,6 @@ import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -35,8 +30,6 @@ import java.net.URL;
 import java.util.Scanner;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
-
 public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListener, MouseListener
 {
     private static final long serialVersionUID = 1L;
@@ -44,15 +37,12 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
     private static final int PREF_H = 600;
     private RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     private static int FPSCap = 60;
-    private int mouseX;
-    private int mouseY;
 
     private static FontMetrics metrics;
     private final int length = 168;
     private final double initialSpeed = 1;
-    private final File scoreFile = new File("score.txt");
+    private File scoreFile = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(5));
     private URL url;
-    private HttpURLConnection con;
     private PrintWriter pw;
     private double speed = 1;
     private double speedIncrement = 0.1;
@@ -82,16 +72,32 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
         getGlobalHighScore();
         setPlayAmount();
 
+        char[] scoreFileArr = scoreFile.toString().toCharArray();
+        int lastSlash = -1;
+        System.out.println(scoreFile.toString());
+        
+        for(int i = scoreFileArr.length - 1; i > 0; i--)
+        	if(scoreFileArr[i] == '/')
+        	{
+        		lastSlash = i;
+    			break;
+        	}
+        
+        scoreFile = new File(scoreFile.toString().substring(0, lastSlash) + "/score.txt");
+        System.out.println(scoreFile.toString());
+        
+        
+        			
         if(!scoreFile.exists())
         {
             try {
-                // scoreFile.createNewFile();
                 pw = new PrintWriter(new FileWriter(scoreFile), false);
                 System.out.println("file created!");
                 highScore = 0;
                 pw.print(highScore);
                 pw.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("score.txt was not able to be created");
             }
         }
@@ -101,6 +107,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
             	pw = new PrintWriter(new FileWriter(scoreFile, true));
                 Scanner sc = new Scanner(scoreFile);
                 highScore = Integer.parseInt(sc.nextLine());
+                sc.close();
             } catch (Exception e) {e.printStackTrace();}
             
         }
@@ -157,6 +164,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
             g2.drawString("speed: " + speed, 0, 45);
             g2.drawString("wasInColor: " + wasInColor, 0, 60);
             g2.drawString("gameOver: " + gameOver, 0, 75);
+            g2.drawString("Path: " + scoreFile, 0, 90);
 
             g2.setStroke(new BasicStroke(1));
             g2.setColor(Color.RED);
@@ -228,11 +236,7 @@ public class DizzyWheel extends JPanel implements KeyListener, MouseMotionListen
     public void mouseDragged(MouseEvent e) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-
-        mouseX = e.getX();
-        mouseY = e.getY();
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
     public void mouseClicked(MouseEvent e) {}

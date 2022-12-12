@@ -1,4 +1,4 @@
-package Exploring2DArrays;
+package Intro.Exploring2DArrays;
 
 import java.io.Console;
 import java.util.Arrays;
@@ -10,13 +10,12 @@ public class Exploring2DArrays {
         nums[2][2] = 42;
         // print2DArrayForEach(nums);
 
-        int[][] numArr = {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}};
         int[][] temp1 = {{1, 2, 3, 4}, {5, 6, 7, 8}};
+        int[][] numArr = {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}};
         String[][] strArr = {{"B", "N", "T"}, {"Z", "A", "J"}};
-
+        
         System.out.println("-------- Average --------");
         System.out.println(getColumnAverage(nums, 2));
-        
         System.out.println("-------- Default Array --------");
         print2DArray(numArr);
         System.out.println("-------- Transposed Array --------");
@@ -30,7 +29,7 @@ public class Exploring2DArrays {
         System.out.println("-------- First Alphabetically --------");
         System.out.println(firstInAlphabet2d(strArr));
         System.out.println("-------- Scaled Array --------");
-        print2DArray(scaleColumnBy(numArr, 0, 50));
+        print2DArray(scaleColumnBy(numArr, 0, -50));
         
     }
 
@@ -50,7 +49,7 @@ public class Exploring2DArrays {
         for(int i = 0; i < arr2D.length; i++)
         {
             for(int j = 0; j < arr2D[i].length; j++)
-            System.out.print(arr2D[i][j]+" ");
+            System.out.print(arr2D[i][j] + " ");
 
             System.out.println("");
         }
@@ -198,7 +197,7 @@ public class Exploring2DArrays {
             for(int j = 0; j < arr[i].length; j++)
             {
                 if(j == col)
-                    scaled[i][j] = arr[i][j] * percent;
+                    scaled[i][j] = arr[i][j] + (arr[i][j] * percent);
                 else
                     scaled[i][j] = arr[i][j];
 
