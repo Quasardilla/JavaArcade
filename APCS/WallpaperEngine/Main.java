@@ -65,7 +65,8 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
 
         frame.toBack();
         
-        
+        g2.setColor(Color.RED);
+        g2.fillRect(0, 25, 50, 50);
 
 
         //debug
@@ -131,7 +132,7 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
     public void keyPressed(KeyEvent e){}
 
     @Override
-    public void keyReleased(KeyEvent e){}
+    public void keyReleased(KeyEvent e) {}
 
     @Override
     public void keyTyped(KeyEvent e){}
@@ -152,7 +153,13 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
     public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) 
+    {
+        if (e.getX() < 50 && e.getY() < 75 && e.getY() > 25)
+        {
+            System.exit(0);
+        }
+    }
 
     @Override
     public void mouseEntered(MouseEvent e) {}
