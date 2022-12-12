@@ -34,6 +34,9 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
     private static double totalFrames = 0;
     private static double lastFPSCheck = 0;
     private static double currentFPS = 0;
+    private static Rectangle fpsRect;
+
+    private static Rectangle exitButton;
 
 
     private static Point mouse = new Point(0, 0);
@@ -47,7 +50,8 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
         // setFocusable(true);
         // requestFocus();
 
-
+        exitButton = new Rectangle(0, 25, 50, 50);
+        fpsRect = new Rectangle(0, 25, 50, 50);
 
     }
     
@@ -66,7 +70,7 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
         frame.toBack();
         
         g2.setColor(Color.RED);
-        g2.fillRect(0, 25, 50, 50);
+        g2.fillRect((int) exitButton.getX(), (int) exitButton.getY(), (int) exitButton.getWidth(), (int) exitButton.getHeight());
 
 
         //debug
@@ -155,7 +159,7 @@ public class Main extends JPanel implements KeyListener, MouseMotionListener, Mo
     @Override
     public void mouseReleased(MouseEvent e) 
     {
-        if (e.getX() < 50 && e.getY() < 75 && e.getY() > 25)
+        if (exitButton.contains(e.getX(), e.getY()))
         {
             System.exit(0);
         }
