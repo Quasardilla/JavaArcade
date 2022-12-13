@@ -115,6 +115,11 @@ public class Pixel
         return "r: " + red + " g: " + green + " b: " + blue + " a: " + alpha;
     }
 
+    public void averagePixels(Pixel pix)
+    {
+        setColor((pix.red + red) / 2, (pix.green + green) / 2, (pix.blue + blue) / 2);
+    }
+
     public static Pixel averagePixels(Pixel pix, Pixel pix2)
     {
         return new Pixel((pix.red + pix2.red) / 2, (pix.green + pix2.green) / 2, (pix.blue + pix2.blue) / 2);
