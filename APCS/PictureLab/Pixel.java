@@ -114,4 +114,22 @@ public class Pixel
     {
         return "r: " + red + " g: " + green + " b: " + blue + " a: " + alpha;
     }
+
+    public static Pixel averagePixels(Pixel pix, Pixel pix2)
+    {
+        return new Pixel((pix.red + pix2.red) / 2, (pix.green + pix2.green) / 2, (pix.blue + pix2.blue) / 2);
+    }
+
+    public static Pixel averagePixels(Pixel[] pixels)
+    {
+        int r = 0, g = 0, b = 0;
+        for(Pixel pix : pixels)
+            {
+                r += pix.getRed();
+                g += pix.getRed();
+                b += pix.getRed();
+            }
+
+        return new Pixel(r / pixels.length, g / pixels.length, b / pixels.length);
+    }
 }
