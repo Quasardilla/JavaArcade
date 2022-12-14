@@ -12,6 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import Intro.Exploring2DArrays.Exploring2DArrays;
+
 //Mr. Uhl
 //Program description: Starter code for the Picture Lab
 //Dec 12, 2022
@@ -171,9 +173,219 @@ public class Picture
    
    //ALL THE PICTURE LAB METHODS SHOULD BE WRITTEN BELOW
 
-//   public void photoNegative()
-//   {
-//      
-//   }
-  
+   public void photoNegative()
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j].setNegative();
+         }
+      }
+   }
+   
+   public void grayscale() 
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j].setToGray();
+         }
+      }
+      
+   }
+
+   public void zeroRed() 
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j].setRed(0);
+         }
+      }
+   }
+
+   public void zeroGreen() 
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j].setGreen(0);
+         }
+      }
+   }
+
+   public void zeroBlue() 
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j].setBlue(0);
+         }
+      }
+   }
+
+   public void mirrorRightToLeft() 
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length/2; j++)
+         {
+            pix[i][pix[i].length-j-1] = pix[i][j];
+         }
+      }
+   }
+
+   public void mirrorLeftToRight() 
+   {
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length/2; j++)
+         {
+            pix[i][j] = pix[i][pix[i].length-j-1];
+         }
+      }
+   }
+   
+   public void mirrorTopToBottom() 
+   {
+      for (int i = 0; i < pix.length/2; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[pix.length-i-1][j] = pix[i][j];
+         }
+      }
+   }
+
+   public void mirrorBottomToTop() 
+   {
+      for (int i = 0; i < pix.length/2; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j] = pix[pix.length-i-1][j];
+         }
+      }
+   }
+
+   public void flipHorizontal() 
+   {
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length/2; j++)
+         {
+            Pixel temp = pix[i][pix[i].length-j-1];
+            pix[i][pix[i].length-j-1] = pix[i][j];
+            pix[i][j] = temp;
+         }
+      }
+   }
+
+   public void flipVertical() 
+   {
+      for (int i = 0; i < pix.length/2; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            Pixel temp = pix[pix.length-i-1][j];
+            pix[pix.length-i-1][j] = pix[i][j];
+            pix[i][j] = temp;
+         }
+      }
+   }
+
+   public void edgeDetection(int tolerance) 
+   {
+      Pixel[][] temp = new Pixel[pix.length][pix[0].length];
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            double north_diff = 0;
+            double south_diff = 0;
+            double east_diff = 0;
+            double west_diff = 0;
+
+            if (i > 0)
+            {
+               north_diff = pix[i][j].colorDistance(pix[i-1][j].getColor());
+            }
+            if (i < pix.length-1)
+            {
+               south_diff = pix[i][j].colorDistance(pix[i+1][j].getColor());
+            }
+
+            if (j > 0)
+            {
+               east_diff = pix[i][j].colorDistance(pix[i][j-1].getColor());
+            }
+            if (j < pix[i].length-1)
+            {
+               west_diff = pix[i][j].colorDistance(pix[i][j+1].getColor());
+            }
+
+            if (north_diff > tolerance || south_diff > tolerance || east_diff > tolerance || west_diff > tolerance)
+            {
+               temp[i][j] = new Pixel(0, 0, 0);
+            }
+            else
+            {
+               temp[i][j] = new Pixel(255, 255, 255);
+            }
+
+         }
+      }
+
+      pix = temp;
+   }
+
+   public void blur() 
+   {
+      Pixel[][] temp = new Pixel[pix.length][pix[0].length];
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            Pixel north_diff = pix[i][j];
+            Pixel south_diff = pix[i][j];
+            Pixel east_diff = pix[i][j];
+            Pixel west_diff = pix[i][j];
+
+            if (i > 0)
+            {
+               north_diff = Pixel.averagePixels(pix[i][j], pix[i-1][j]);
+            }
+            if (i < pix.length-1)
+            {
+               south_diff = Pixel.averagePixels(pix[i][j], pix[i+1][j]);
+            }
+
+            if (j > 0)
+            {
+               east_diff = Pixel.averagePixels(pix[i][j], pix[i][j-1]);
+            }
+            if (j < pix[i].length-1)
+            {
+               west_diff = Pixel.averagePixels(pix[i][j], pix[i][j+1]);
+            }
+
+            Pixel pix1 = Pixel.averagePixels(north_diff, south_diff);
+            Pixel pix2 = Pixel.averagePixels(east_diff, west_diff);
+            temp[i][j] = Pixel.averagePixels(pix1, pix2);
+         }
+      }
+
+      pix = temp;
+   }
+
+
+
 }
