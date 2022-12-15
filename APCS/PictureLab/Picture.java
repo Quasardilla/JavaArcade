@@ -386,6 +386,184 @@ public class Picture
       pix = temp;
    }
 
+   public Pixel[][] decodeReturnRed() 
+   {
+      Pixel[][] temp = new Pixel[pix.length][pix[0].length];
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            double north_diff = 0;
+            double south_diff = 0;
+            double east_diff = 0;
+            double west_diff = 0;
+
+            if (i > 0)
+            {
+               north_diff = pix[i][j].getRed() - pix[i-1][j].getRed();
+            }
+            if (i < pix.length-1)
+            {
+               south_diff = pix[i][j].getRed() - pix[i+1][j].getRed();
+            }
+
+            if (j > 0)
+            {
+               east_diff = pix[i][j].getRed() - pix[i][j-1].getRed();
+            }
+            if (j < pix[i].length-1)
+            {
+               west_diff = pix[i][j].getRed() - pix[i][j+1].getRed();
+            }
+
+            if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
+            {
+               temp[i][j] = new Pixel(0, 0, 0);
+            }
+            else
+            {
+               temp[i][j] = new Pixel(255, 255, 255);
+            }
+
+         }
+      }
+
+      return temp;
+   }
+
+   public Pixel[][] decodeReturnGreen() 
+   {
+      Pixel[][] temp = new Pixel[pix.length][pix[0].length];
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            double north_diff = 0;
+            double south_diff = 0;
+            double east_diff = 0;
+            double west_diff = 0;
+
+            if (i > 0)
+            {
+               north_diff = pix[i][j].getGreen() - pix[i-1][j].getGreen();
+            }
+            if (i < pix.length-1)
+            {
+               south_diff = pix[i][j].getGreen() - pix[i+1][j].getGreen();
+            }
+
+            if (j > 0)
+            {
+               east_diff = pix[i][j].getGreen() - pix[i][j-1].getGreen();
+            }
+            if (j < pix[i].length-1)
+            {
+               west_diff = pix[i][j].getGreen() - pix[i][j+1].getGreen();
+            }
+
+            if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
+            {
+               temp[i][j] = new Pixel(0, 0, 0);
+            }
+            else
+            {
+               temp[i][j] = new Pixel(255, 255, 255);
+            }
+
+         }
+      }
+      return temp;
+   }
+
+
+   public Pixel[][] decodeReturnBlue() 
+   {
+      Pixel[][] temp = new Pixel[pix.length][pix[0].length];
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            double north_diff = 0;
+            double south_diff = 0;
+            double east_diff = 0;
+            double west_diff = 0;
+
+            if (i > 0)
+            {
+               north_diff = pix[i][j].getBlue() - pix[i-1][j].getBlue();
+            }
+            if (i < pix.length-1)
+            {
+               south_diff = pix[i][j].getBlue() - pix[i+1][j].getBlue();
+            }
+
+            if (j > 0)
+            {
+               east_diff = pix[i][j].getBlue() - pix[i][j-1].getBlue();
+            }
+            if (j < pix[i].length-1)
+            {
+               west_diff = pix[i][j].getBlue() - pix[i][j+1].getBlue();
+            }
+
+            if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
+            {
+               temp[i][j] = new Pixel(0, 0, 0);
+            }
+            else
+            {
+               temp[i][j] = new Pixel(255, 255, 255);
+            }
+
+         }
+      }
+
+      return temp;
+   }
+
+   public void decodeUsingRed()
+   {
+      pix = decodeReturnRed();
+   }
+
+   public void decodeUsingGreen()
+   {
+      pix = decodeReturnGreen();
+   }
+
+   public void decodeUsingBlue()
+   {
+      pix = decodeReturnBlue();
+   }
+
+   public void decodeUsingShades()
+   {
+      Pixel[][][] rgbList = {decodeReturnRed(), decodeReturnGreen(), decodeReturnBlue()};
+      Pixel[][] returnList = new Pixel[pix.length][pix[0].length];
+
+      for(int i = 0; i < returnList.length; i++)
+         for(int j = 0; j < returnList[i].length; j++)
+            returnList[i][j] = new Pixel(255, 255, 255);
+
+      for(int h = 0; h < 3; h++)
+      {
+         for (int i = 0; i < pix.length; i++)
+         {
+            for (int j = 0; j < pix[i].length; j++)
+            {
+               if(rgbList[h][i][j].getColor().equals(Color.BLACK))
+                  returnList[i][j].setColor(Color.BLACK);
+            }
+         }
+      }
+
+
+      pix = returnList;
+      
+   }
 
 
 }

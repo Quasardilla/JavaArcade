@@ -395,7 +395,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-//            upic.decodeUsingRed();
+            upic.decodeUsingRed();
             gui.update();
          }
       });
@@ -412,7 +412,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-//            upic.decodeUsingGreen();
+           upic.decodeUsingGreen();
             gui.update();
          }
       });
@@ -429,7 +429,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-//            upic.decodeUsingBlue();
+           upic.decodeUsingBlue();
             gui.update();
          }
       });
@@ -446,7 +446,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-//            upic.decodeUsingShades();
+           upic.decodeUsingShades();
             gui.update();
          }
       });

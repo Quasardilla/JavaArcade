@@ -87,6 +87,13 @@ public class Pixel
         blue = b;
     }
 
+    public void setColor(Color color)
+    {
+        red = color.getRed();
+        green = color.getGreen();
+        blue = color.getBlue();
+    }
+
     public void setToGray()
     {
         int gray = (red + green + blue) / 3;
