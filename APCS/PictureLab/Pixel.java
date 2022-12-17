@@ -158,14 +158,13 @@ public class Pixel
         double[][] weightMap = getGaussianMap(pixels.length, pixels[0].length);
         double weightTotal = 0;
 
+        int skipped = 0;
         for(int i = 0; i < pixels.length; i++)
             for(int j = 0; j < pixels[0].length; j++)
             {
                 if(pixels[i][j] == null)
                 {
-                    r += center.getRed();
-                    g += center.getGreen();
-                    b += center.getBlue();
+                    skipped++;
                     continue;
                 }
                 // System.out.println("Weight: " + weightMap[i][j]);
@@ -175,7 +174,7 @@ public class Pixel
                 // weightTotal += weightMap[i][j];
             }
 
-        weightTotal = pixels.length * pixels[0].length;
+        weightTotal = pixels.length * pixels[0].length - skipped;
         return new Pixel((int) (r / weightTotal), (int) (g / weightTotal), (int) (b / weightTotal));
         // return new Pixel(r, g, b);
     }
