@@ -555,7 +555,7 @@ public class Picture
    public void glitch() 
    {
       slicer();
-      scanLines();
+      scanLines(5, 0.5);
       colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*30), (int) (Math.random()*30));
    }
 
@@ -564,9 +564,42 @@ public class Picture
 
    }
 
-   private void scanLines() 
+   /**
+    * 
+    * @param size
+    *       - size of the scan lines (positive integer)
+    * @param opacity
+    *       - opacity of the scan lines (0 to 1)
+    */
+   private void scanLines(int size, double opacity) 
    {
+      if(size < 1)
+         throw new IllegalArgumentException("Size must be a positive integer");
+  
+      if(opacity > 255 || opacity < 0)
+         throw new IllegalArgumentException("Opacity must be between 0 and 1");
 
+      size += 1;
+
+      Pixel[][] returnList = new Pixel[pix.length][pix[0].length];
+
+      for(int i = 0; i < returnList.length; i++)
+         for(int j = 0; j < returnList[i].length; j++)
+               {
+                  if(pix[i][j] !=null)
+                  {
+                     returnList[i][j] = new Pixel();
+                     double scanOpacity = ((Math.cos((2.0 * Math.PI* i)/size)*opacity)+opacity)/2.0;
+                     Pixel scanPixel = new Pixel(255, 255, 255, (int) (scanOpacity * 255));
+
+                     returnList[i][j].setColor((int) (pix[i][j].getRed() * (1 - scanOpacity) + scanPixel.getRed() * scanOpacity),
+                                       (int) (pix[i][j].getGreen() * (1 - scanOpacity) + scanPixel.getGreen() * scanOpacity),
+                                       (int) (pix[i][j].getBlue() * (1 - scanOpacity) + scanPixel.getBlue() * scanOpacity));
+                  }
+
+               }
+
+      pix = returnList;
    }
 
    private void colorSplit(double opacity, int rise, int run) 
