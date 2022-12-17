@@ -510,14 +510,14 @@ public class UPicControlPanel extends JPanel
    
    public void addEmptyButton1()
    {
-      button1 = new JButton("Button 1");
+      button1 = new JButton("Glitch");
       button1.setPreferredSize(new Dimension(PANEL_WIDTH, 40));
       button1.setFont(buttonFont);
       button1.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e)
          {
-            //upic.methodName();
+            upic.glitch();
             gui.update();
          }
       });

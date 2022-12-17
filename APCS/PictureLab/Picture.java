@@ -552,5 +552,10 @@ public class Picture
       
    }
 
+   public void glitch() 
+   {
+
+   }
+
 
 }
