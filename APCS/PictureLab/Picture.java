@@ -554,9 +554,9 @@ public class Picture
 
    public void glitch() 
    {
-      colorSplit();
-      scanLines();
       slicer();
+      scanLines();
+      colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*30), (int) (Math.random()*30));
    }
 
    private void slicer() 
@@ -569,9 +569,48 @@ public class Picture
 
    }
 
-   private void colorSplit() 
+   private void colorSplit(double opacity, int rise, int run) 
    {
-      
+      Pixel[][] reds = new Pixel[pix.length][pix[0].length];
+      Pixel[][] greens = new Pixel[pix.length][pix[0].length];
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            if (i+rise < pix.length-1 && j+run < pix[i].length-1)//if its not out of bounds
+            {
+               reds[i+rise][j+run] = new Pixel(pix[i][j].getRed(), 0, 0);
+            }
+            if (i-rise > 0 && j-run > 0)//if its not out of bounds
+            {
+               greens[i-rise][j-run] = new Pixel(0, pix[i][j].getGreen(), 0);
+            }
+            if (i > pix.length-rise && j > pix[i].length-run)//get missed pixels
+            {
+               reds[i][j] = new Pixel(pix[pix.length-rise][pix[i].length-run].getRed(), 0, 0);
+               greens[i][j] = new Pixel(0, pix[pix.length-rise][pix[i].length-run].getGreen(), 0);
+            }
+         }
+      }
+
+
+      //add reds and greens to pix
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            if (reds[i][j] != null)
+            {
+               pix[i][j].setRed((int)(pix[i][j].getRed() * (1-opacity) + reds[i][j].getRed() * opacity));
+            }
+            if (greens[i][j] != null)
+            {
+               pix[i][j].setGreen((int)(pix[i][j].getGreen() * (1-opacity) + greens[i][j].getGreen() * opacity));
+            }
+         }
+      }
+
    }
 
 
