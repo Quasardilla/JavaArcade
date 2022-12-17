@@ -78,7 +78,13 @@ public class Pixel
 
     public Color getColor()
     {
-        return new Color(red, green, blue);
+        try {
+            return new Color(red, green, blue);
+            
+        } catch (Exception e) {
+            System.out.println("r: " + red + " g: " + green + " b: " + blue);
+            return new Color(0, 0, 0);
+        }
     }
 
     public void setColor(int r, int g, int b)
@@ -146,7 +152,7 @@ public class Pixel
         return new Pixel(r / pixels.length, g / pixels.length, b / pixels.length);
     }
 
-    public static Pixel averageWeightedPixels(Pixel[][] pixels)
+    public static Pixel averageWeightedPixels(Pixel[][] pixels, Pixel center)
     {
         int r = 0, g = 0, b = 0;
         double[][] weightMap = getGaussianMap(pixels.length, pixels[0].length);
@@ -157,13 +163,16 @@ public class Pixel
             {
                 if(pixels[i][j] == null)
                     continue;
-                r += pixels[i][j].getRed() * weightMap[i][j];
-                g += pixels[i][j].getGreen() * weightMap[i][j];
-                b += pixels[i][j].getBlue() * weightMap[i][j];
-                weightTotal += weightMap[i][j];
+                // System.out.println("Weight: " + weightMap[i][j]);
+                r += (Math.abs(center.getRed() - pixels[i][j].getRed()) * weightMap[i][j])+Math.min(center.getRed(), pixels[i][j].getRed());
+                g += (Math.abs(center.getGreen() - pixels[i][j].getGreen()) * weightMap[i][j])+Math.min(center.getGreen(), pixels[i][j].getGreen());
+                b += (Math.abs(center.getBlue() - pixels[i][j].getBlue()) * weightMap[i][j])+Math.min(center.getBlue(), pixels[i][j].getBlue());
+                // weightTotal += weightMap[i][j];
             }
 
+        weightTotal = pixels.length * pixels[0].length;
         return new Pixel((int) (r / weightTotal), (int) (g / weightTotal), (int) (b / weightTotal));
+        // return new Pixel(r, g, b);
     }
 
     //Helper Functions

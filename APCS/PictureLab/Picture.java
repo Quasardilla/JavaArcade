@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import Intro.Exploring2DArrays.Exploring2DArrays;
+// import Intro.Exploring2DArrays.Exploring2DArrays;
 
 //Mr. Uhl
 //Program description: Starter code for the Picture Lab
@@ -366,7 +366,7 @@ public class Picture
                      temp[k][l] = pix[i + k - sideLength / 2][j + l - sideLength / 2];
 
             //Weighted average the pixels in the temp array
-            newPix[i][j] = Pixel.averageWeightedPixels(temp);
+            newPix[i][j] = Pixel.averageWeightedPixels(temp, pix[i][j]);
          }
       }
 

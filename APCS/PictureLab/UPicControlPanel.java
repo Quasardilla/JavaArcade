@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import Intro.Exploring2DArrays.Exploring2DArrays;
+// import Intro.Exploring2DArrays.Exploring2DArrays;
 
 //Mr. Uhl
 //Program description: For use with the Picture Lab
