@@ -1,6 +1,7 @@
 package PictureLab;
 
 import java.awt.Color;
+import java.awt.Point;
 
 public class Pixel 
 {
@@ -143,5 +144,43 @@ public class Pixel
             }
 
         return new Pixel(r / pixels.length, g / pixels.length, b / pixels.length);
+    }
+
+    public static Pixel averageWeightedPixels(Pixel[][] pixels)
+    {
+        int r = 0, g = 0, b = 0;
+        double[][] weightMap = getGaussianMap(pixels.length, pixels[0].length);
+        double weightTotal = 0;
+
+        for(int i = 0; i < pixels.length; i++)
+            for(int j = 0; j < pixels[0].length; j++)
+            {
+                if(pixels[i][j] == null)
+                    continue;
+                r += pixels[i][j].getRed() * weightMap[i][j];
+                g += pixels[i][j].getGreen() * weightMap[i][j];
+                b += pixels[i][j].getBlue() * weightMap[i][j];
+                weightTotal += weightMap[i][j];
+            }
+
+        return new Pixel((int) (r / weightTotal), (int) (g / weightTotal), (int) (b / weightTotal));
+    }
+
+    //Helper Functions
+
+    public static double[][] getGaussianMap(int length, int width)
+    {
+        double[][] temp = new double[length][width];
+        double a = 2.7182818284590452353602874713527;
+        Point center = new Point(length / 2, width / 2);
+
+        for(int i = 0; i < length; i++)
+            for(int j = 0; j < width; j++)
+            {
+                double dist = Math.pow(center.x - j, 2) + Math.pow(center.y - i, 2);
+                temp[i][j] = Math.pow(a, -(Math.pow(dist, 2) / (Math.max(length, width))));
+            }
+
+        return temp;
     }
 }

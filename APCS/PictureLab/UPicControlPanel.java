@@ -20,6 +20,8 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import Intro.Exploring2DArrays.Exploring2DArrays;
+
 //Mr. Uhl
 //Program description: For use with the Picture Lab
 //Jan 13, 2021
@@ -360,7 +362,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-            upic.blur();
+            upic.blur(1);
             gui.update();
          }
       });
@@ -412,7 +414,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-           upic.decodeUsingGreen();
+            upic.decodeUsingGreen();
             gui.update();
          }
       });
@@ -429,7 +431,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-           upic.decodeUsingBlue();
+            upic.decodeUsingBlue();
             gui.update();
          }
       });

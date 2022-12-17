@@ -346,44 +346,31 @@ public class Picture
       pix = temp;
    }
 
-   public void blur() 
+   public void blur(int magnitude) 
    {
-      Pixel[][] temp = new Pixel[pix.length][pix[0].length];
+      //Converts the magnitude into an odd side length
+      int sideLength = 2 * magnitude + 1;
 
+      Pixel[][] newPix = new Pixel[pix.length][pix[0].length];
+      Pixel[][] temp = new Pixel[sideLength][sideLength];
+      
       for (int i = 0; i < pix.length; i++)
       {
          for (int j = 0; j < pix[i].length; j++)
          {
-            Pixel north_diff = pix[i][j];
-            Pixel south_diff = pix[i][j];
-            Pixel east_diff = pix[i][j];
-            Pixel west_diff = pix[i][j];
+            for(int k = 0; k < sideLength; k++)
+               for(int l = 0; l < sideLength; l++)
+                  if(i + k - sideLength / 2 < 0 || i + k - sideLength / 2 >= pix.length || j + l - sideLength / 2 < 0 || j + l - sideLength / 2 >= pix[i].length)
+                     temp[k][l] = null;
+                  else   
+                     temp[k][l] = pix[i + k - sideLength / 2][j + l - sideLength / 2];
 
-            if (i > 0)
-            {
-               north_diff = Pixel.averagePixels(pix[i][j], pix[i-1][j]);
-            }
-            if (i < pix.length-1)
-            {
-               south_diff = Pixel.averagePixels(pix[i][j], pix[i+1][j]);
-            }
-
-            if (j > 0)
-            {
-               east_diff = Pixel.averagePixels(pix[i][j], pix[i][j-1]);
-            }
-            if (j < pix[i].length-1)
-            {
-               west_diff = Pixel.averagePixels(pix[i][j], pix[i][j+1]);
-            }
-
-            Pixel pix1 = Pixel.averagePixels(north_diff, south_diff);
-            Pixel pix2 = Pixel.averagePixels(east_diff, west_diff);
-            temp[i][j] = Pixel.averagePixels(pix1, pix2);
+            //Weighted average the pixels in the temp array
+            newPix[i][j] = Pixel.averageWeightedPixels(temp);
          }
       }
 
-      pix = temp;
+      pix = newPix;
    }
 
    public Pixel[][] decodeReturnRed() 
