@@ -555,8 +555,8 @@ public class Picture
    public void glitch() 
    {
       slicer();
-      scanLines(5, 0.5);
-      colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*30), (int) (Math.random()*30));
+      scanLines((int) (Math.random()*5)+5, Math.random()*0.3+0.1);
+      colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*20), (int) (Math.random()*20));
    }
 
    private void slicer() 
@@ -590,7 +590,7 @@ public class Picture
                   {
                      returnList[i][j] = new Pixel();
                      double scanOpacity = ((Math.cos((2.0 * Math.PI* i)/size)*opacity)+opacity)/2.0;
-                     Pixel scanPixel = new Pixel(255, 255, 255, (int) (scanOpacity * 255));
+                     Pixel scanPixel = new Pixel(0, 0, 0, (int) (scanOpacity * 255));
 
                      returnList[i][j].setColor((int) (pix[i][j].getRed() * (1 - scanOpacity) + scanPixel.getRed() * scanOpacity),
                                        (int) (pix[i][j].getGreen() * (1 - scanOpacity) + scanPixel.getGreen() * scanOpacity),
