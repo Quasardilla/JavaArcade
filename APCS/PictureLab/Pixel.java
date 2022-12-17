@@ -164,9 +164,9 @@ public class Pixel
                 if(pixels[i][j] == null)
                     continue;
                 // System.out.println("Weight: " + weightMap[i][j]);
-                r += (Math.abs(center.getRed() - pixels[i][j].getRed()) * weightMap[i][j])+Math.min(center.getRed(), pixels[i][j].getRed());
-                g += (Math.abs(center.getGreen() - pixels[i][j].getGreen()) * weightMap[i][j])+Math.min(center.getGreen(), pixels[i][j].getGreen());
-                b += (Math.abs(center.getBlue() - pixels[i][j].getBlue()) * weightMap[i][j])+Math.min(center.getBlue(), pixels[i][j].getBlue());
+                r += (center.getRed() - pixels[i][j].getRed()) * weightMap[i][j]+pixels[i][j].getRed();
+                g += (center.getGreen() - pixels[i][j].getGreen()) * weightMap[i][j]+pixels[i][j].getGreen();
+                b += (center.getBlue() - pixels[i][j].getBlue()) * weightMap[i][j]+pixels[i][j].getBlue();
                 // weightTotal += weightMap[i][j];
             }
 
