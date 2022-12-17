@@ -554,7 +554,24 @@ public class Picture
 
    public void glitch() 
    {
+      colorSplit();
+      scanLines();
+      slicer();
+   }
 
+   private void slicer() 
+   {
+
+   }
+
+   private void scanLines() 
+   {
+
+   }
+
+   private void colorSplit() 
+   {
+      
    }
 
 
