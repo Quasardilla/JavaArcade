@@ -379,7 +379,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-//            upic.encodeUsingRed(new Picture("Upic_testmessage.png"));
+         //   upic.encodeUsingRed(new Picture("Upic_testmessage.png"));
 //            upic.encodeUsingRed(getSecondPic());
             gui.update();
          }

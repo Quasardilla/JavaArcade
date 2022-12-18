@@ -388,20 +388,20 @@ public class Picture
 
             if (i > 0)
             {
-               north_diff = pix[i][j].getRed() - pix[i-1][j].getRed();
+               north_diff = pix[i-1][j].getRed()%2;
             }
             if (i < pix.length-1)
             {
-               south_diff = pix[i][j].getRed() - pix[i+1][j].getRed();
+               south_diff = pix[i][j].getRed()%2;
             }
 
             if (j > 0)
             {
-               east_diff = pix[i][j].getRed() - pix[i][j-1].getRed();
+               east_diff = pix[i][j].getRed()%2;
             }
             if (j < pix[i].length-1)
             {
-               west_diff = pix[i][j].getRed() - pix[i][j+1].getRed();
+               west_diff = pix[i][j].getRed()%2;
             }
 
             if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
@@ -434,20 +434,20 @@ public class Picture
 
             if (i > 0)
             {
-               north_diff = pix[i][j].getGreen() - pix[i-1][j].getGreen();
+               north_diff = pix[i-1][j].getGreen()%2;
             }
             if (i < pix.length-1)
             {
-               south_diff = pix[i][j].getGreen() - pix[i+1][j].getGreen();
+               south_diff = pix[i][j].getGreen()%2;
             }
 
             if (j > 0)
             {
-               east_diff = pix[i][j].getGreen() - pix[i][j-1].getGreen();
+               east_diff = pix[i][j].getGreen()%2;
             }
             if (j < pix[i].length-1)
             {
-               west_diff = pix[i][j].getGreen() - pix[i][j+1].getGreen();
+               west_diff = pix[i][j].getGreen()%2;
             }
 
             if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
@@ -480,20 +480,20 @@ public class Picture
 
             if (i > 0)
             {
-               north_diff = pix[i][j].getBlue() - pix[i-1][j].getBlue();
+               north_diff = pix[i-1][j].getBlue()%2;
             }
             if (i < pix.length-1)
             {
-               south_diff = pix[i][j].getBlue() - pix[i+1][j].getBlue();
+               south_diff = pix[i][j].getBlue()%2;
             }
 
             if (j > 0)
             {
-               east_diff = pix[i][j].getBlue() - pix[i][j-1].getBlue();
+               east_diff = pix[i][j].getBlue()%2;
             }
             if (j < pix[i].length-1)
             {
-               west_diff = pix[i][j].getBlue() - pix[i][j+1].getBlue();
+               west_diff = pix[i][j].getBlue()%2;
             }
 
             if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
@@ -541,8 +541,15 @@ public class Picture
          {
             for (int j = 0; j < pix[i].length; j++)
             {
-               if(rgbList[h][i][j].getColor().equals(Color.BLACK))
-                  returnList[i][j].setColor(Color.BLACK);
+               if(h == 0)
+                  if(rgbList[h][i][j].getColor().equals(Color.BLACK))
+                     returnList[i][j].setColor(Color.LIGHT_GRAY);
+               if(h == 1)
+                  if(rgbList[h][i][j].getColor().equals(Color.BLACK))
+                     returnList[i][j].setColor(Color.GRAY);
+               if(h == 2)
+                  if(rgbList[h][i][j].getColor().equals(Color.BLACK))
+                     returnList[i][j].setColor(Color.BLACK);
             }
          }
       }
