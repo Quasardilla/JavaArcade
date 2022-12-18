@@ -35,6 +35,12 @@ public class Pixel
         alpha = 255;
     }
 
+    //parameter constructor but with color
+    public Pixel(Color clr)
+    {
+        this.setColor(clr);
+    }
+
     //getters and setters for all instance variables
     public int getRed()
     {
@@ -114,6 +120,54 @@ public class Pixel
         red = 255 - red;
         green = 255 - green;
         blue = 255 - blue;
+    }
+
+    public void setEven()
+    {
+        red = red - red % 2;
+        green = green - green % 2;
+        blue = blue - blue % 2;
+    }
+
+    /**
+     * 
+     * @param clr
+     *          Which color to set to even
+     */
+    public void setEven(Color clr)
+    {
+        if (clr == Color.RED)
+            red = red - red % 2;
+        else if (clr == Color.GREEN)
+            green = green - green % 2;
+        else if (clr == Color.BLUE)
+            blue = blue - blue % 2;
+        else
+            throw new IllegalArgumentException("Color must be red, green, or blue");
+    }
+
+    public void setOdd()
+    {
+        red = red - red % 2 + 1;
+        green = green - green % 2 + 1;
+        blue = blue - blue % 2 + 1;
+    }
+
+    /**
+     * 
+     * @param clr
+     *          Which color to set to odd
+     */
+    public void setOdd(Color clr)
+    {
+        if(clr == Color.RED)
+            red = red - red % 2 + 1;
+        else if(clr == Color.GREEN)
+            green = green - green % 2 + 1;
+        else if(clr == Color.BLUE)
+            blue = blue - blue % 2 + 1;
+        else
+            throw new IllegalArgumentException("Color must be red, green, or blue");
     }
 
     public double colorDistance(Color col)

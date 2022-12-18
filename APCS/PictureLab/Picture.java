@@ -373,6 +373,138 @@ public class Picture
       pix = newPix;
    }
 
+   public void encodeUsingRed(Picture pic)
+   {
+      setAllEven();
+      BufferedImage buffImg = pic.pic;
+      
+      for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
+         for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
+            {
+               Color clr = new Color(buffImg.getRGB(j, i));
+               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+                  pix[i][j].setOdd(Color.RED);
+               else
+                  pix[i][j].setEven();
+            }
+   }
+   
+   public void encodeUsingRed(String text)
+   {
+      setAllEven();
+      BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
+      Graphics2D g2 = buffImg.createGraphics();
+      g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+      g2.drawString(text, 0, 50);
+
+      for(int i = 0; i < buffImg.getHeight(); i++)
+         for(int j = 0; j < buffImg.getWidth(); j++)
+            {
+               Color clr = new Color(buffImg.getRGB(j, i));
+               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+                  pix[i][j].setOdd(Color.RED);
+               else
+                  pix[i][j].setEven();
+            }
+   }
+
+   public void encodeUsingGreen(Picture pic)
+   {
+      setAllEven();
+      BufferedImage buffImg = pic.pic;
+      
+      for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
+         for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
+            {
+               Color clr = new Color(buffImg.getRGB(j, i));
+               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+                  pix[i][j].setOdd(Color.GREEN);
+               else
+                  pix[i][j].setEven();
+            }
+   }
+   
+   public void encodeUsingGreen(String text)
+   {
+      setAllEven();
+      BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
+      Graphics2D g2 = buffImg.createGraphics();
+      g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+      g2.drawString(text, 0, 50);
+
+      for(int i = 0; i < buffImg.getHeight(); i++)
+         for(int j = 0; j < buffImg.getWidth(); j++)
+            {
+               Color clr = new Color(buffImg.getRGB(j, i));
+               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+                  pix[i][j].setOdd(Color.GREEN);
+               else
+                  pix[i][j].setEven();
+            }
+   }
+
+   public void encodeUsingBlue(Picture pic)
+   {
+      setAllEven();
+      BufferedImage buffImg = pic.pic;
+      
+      for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
+         for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
+            {
+               Color clr = new Color(buffImg.getRGB(j, i));
+               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+                  pix[i][j].setOdd(Color.BLUE);
+               else
+                  pix[i][j].setEven();
+            }
+   }
+   
+   public void encodeUsingBlue(String text)
+   {
+      setAllEven();
+      BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
+      Graphics2D g2 = buffImg.createGraphics();
+      g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+      g2.drawString(text, 0, 50);
+
+      for(int i = 0; i < buffImg.getHeight(); i++)
+         for(int j = 0; j < buffImg.getWidth(); j++)
+            {
+               Color clr = new Color(buffImg.getRGB(j, i));
+               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+                  pix[i][j].setOdd(Color.BLUE);
+               else
+                  pix[i][j].setEven();
+            }
+   }
+
+   public void encodeUsingRGB(Picture pic)
+   {
+      setAllEven();
+
+      for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
+         for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
+            {
+               BufferedImage buffImg = pic.pic;
+               Pixel clr = new Pixel(new Color(buffImg.getRGB(j, i)));
+               clr.setToGray();
+
+               if (clr.getRed() > 200)
+                  pix[i][j].setOdd(Color.RED);
+               else if (clr.getGreen() > 100)
+                  pix[i][j].setOdd(Color.GREEN);
+               else
+                  pix[i][j].setOdd(Color.BLUE);
+            }
+   }
+   
+   public void setAllEven()
+   {
+      for(int i = 0; i < pix.length; i++)
+         for(int j = 0; j < pix[i].length; j++)
+            pix[i][j].setEven();
+   }
+
    public Pixel[][] decodeReturnRed() 
    {
       Pixel[][] temp = new Pixel[pix.length][pix[0].length];
