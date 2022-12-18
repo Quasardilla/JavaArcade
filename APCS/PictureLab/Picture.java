@@ -561,14 +561,56 @@ public class Picture
 
    public void glitch() 
    {
-      slicer();
+      slicer((int) (Math.random()*5)+3, 50, 100, 20);
       scanLines((int) (Math.random()*5)+5, Math.random()*0.3+0.1);
       colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*20), (int) (Math.random()*20));
+      // colorSplit(1, 50, 50);
    }
 
-   private void slicer() 
+   private void slicer(int rect_count, int min_size, int max_size, int move) 
    {
+      int opacity = 1;
+      
+      Pixel[][] offset = pix;
+      
+      for (int count = 0; count < rect_count; count++)
+      {
+         int x = (int) (Math.random()*(pix[0].length-1));
+         int y = (int) (Math.random()*(pix.length-1));
+         int w = (int) (Math.random()*(max_size-min_size) + min_size);
+         int h = (int) (Math.random()*(max_size-min_size) + min_size);
+         int rise = (int) ((Math.random()-0.5)*(move*2));
+         int run = (int) ((Math.random()-0.5)*(move*2));
+         // int rise = -20;
+         // int run = -20;
 
+         if (x+w > pix[0].length-1)
+            w = pix[0].length-1-x;
+         if (y+h > pix.length-1)
+            h = pix.length-1-y;
+
+         for (int i = y; i < h+y; i++)
+         {
+            for (int j = x; j < w+x; j++)
+            {
+               if (i+rise < pix.length-1 && j+run < pix[i].length-1 && i+rise > 0 && j+run > 0)//if its not out of bounds
+               {
+                  offset[i][j] = new Pixel(pix[i+rise][j+run].getRed(), pix[i+rise][j+run].getGreen(), pix[i+rise][j+run].getBlue());
+               }
+               // if (i-rise > 0 && j-run > 0)//if its not out of bounds
+               // {
+               //    offset[i-rise][j-run] = new Pixel(0, pix[i][j].getGreen(), 0);
+               // }
+               if (i > pix.length-rise && j > pix[i].length-run)//get missed pixels
+               {
+                  offset[i][j] = new Pixel(pix[pix.length-rise][pix[i].length-run].getRed(), pix[pix.length-rise][pix[i].length-run].getGreen(), pix[pix.length-rise][pix[i].length-run].getBlue());
+               }
+            }
+         }
+      }
+
+
+      pix = offset;
    }
 
    /**
@@ -626,14 +668,31 @@ public class Picture
             {
                greens[i-rise][j-run] = new Pixel(0, pix[i][j].getGreen(), 0);
             }
-            if (i > pix.length-rise && j > pix[i].length-run)//get missed pixels
-            {
-               reds[i][j] = new Pixel(pix[pix.length-rise][pix[i].length-run].getRed(), 0, 0);
-               greens[i][j] = new Pixel(0, pix[pix.length-rise][pix[i].length-run].getGreen(), 0);
-            }
+            // if (i > pix.length-rise && j > pix[i].length-run)//get missed pixels
+            // {
+            //    reds[i][j] = new Pixel(pix[pix.length-rise][pix[i].length-run].getRed(), 0, 0);
+            //    greens[i][j] = new Pixel(0, pix[pix.length-rise][pix[i].length-run].getGreen(), 0);
+            // }
+            // if (i < rise)
+            // {
+            //    reds[i][j] = new Pixel(pix[rise][j].getRed(), 0, 0);
+            // }
+            // if (i > pix.length-rise)
+            // {
+            //    greens[i][j] = new Pixel(0, pix[rise][j].getGreen(), 0);
+            // }
+            // if (j < run)
+            // {
+            //    reds[i][j] = new Pixel(pix[i][run].getRed(), 0, 0);
+            // }
+            // if (j > pix[i].length-run)
+            // {
+            //    greens[i][j] = new Pixel(0, pix[i][run].getGreen(), 0);
+         
+            // }
+      
          }
       }
-
 
       //add reds and greens to pix
       for (int i = 0; i < pix.length; i++)
