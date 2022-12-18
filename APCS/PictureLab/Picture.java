@@ -712,5 +712,33 @@ public class Picture
 
    }
 
+   public void pixelate(int size) 
+   {
+      Pixel[][] temp = pix;
+      for (int i = 0; i < pix.length-size; i+=size)
+      {
+         for (int j = 0; j < pix[i].length-size; j+=size)
+         {
+            Pixel[][] avg = new Pixel[size][size];
+            for (int y = i; y < i+size; y++)
+            {
+               for (int x = j; x < j+size; x++)
+               {
+                  avg[y-i][x-j] = pix[y][x];
+               }
+            }
+            for (int y = i; y < i+size; y++)
+            {
+               for (int x = j; x < j+size; x++)
+               {
+                  temp[y][x] = Pixel.averagePixels(avg);
+               }
+            }
+         }
+      }
+
+      pix = temp;
+   }
+
 
 }

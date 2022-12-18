@@ -152,6 +152,20 @@ public class Pixel
         return new Pixel(r / pixels.length, g / pixels.length, b / pixels.length);
     }
 
+    public static Pixel averagePixels(Pixel[][] pixels)
+    {
+        int r = 0, g = 0, b = 0;
+        for(int i = 0; i < pixels.length; i++)
+            for(int j = 0; j < pixels[0].length; j++)
+            {
+                r += pixels[i][j].getRed();
+                g += pixels[i][j].getGreen();
+                b += pixels[i][j].getBlue();
+            }
+
+        return new Pixel(r / (pixels.length * pixels[0].length), g / (pixels.length * pixels[0].length), b / (pixels.length * pixels[0].length));
+    }
+
     public static Pixel averageWeightedPixels(Pixel[][] pixels, Pixel center)
     {
         int r = 0, g = 0, b = 0;
