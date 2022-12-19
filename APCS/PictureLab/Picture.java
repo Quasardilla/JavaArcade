@@ -12,6 +12,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import java.awt.image.Kernel;
+import java.awt.image.ConvolveOp;
+import java.awt.image.BufferedImageOp;
+
 // import Intro.Exploring2DArrays.Exploring2DArrays;
 
 //Mr. Uhl
@@ -693,7 +697,8 @@ public class Picture
 
    public void glitch() 
    {
-      for (int i = 0; i < (int) (Math.random()*5)+1; i++)
+      embossBad();
+      // for (int i = 0; i < (int) (Math.random()*5)+1; i++)
          slicer((int) (Math.random()*5)+3, (int) ((Math.random()*20) * (pix.length / 75)), (int) ((Math.random()*20) * (pix[0].length / 75)), 20);
       scanLines((int) (Math.random()*(pix[0].length / 250))+(pix[0].length / 100), Math.random()*0.3+0.1);
       colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*(pix.length / 16)), (int) (Math.random()*(pix[0].length / 16)));
@@ -957,6 +962,10 @@ public class Picture
             //set alpha to opaque i fkin hate int rgb unpacking why is it sometimes ARGB and other RGBA T_T
             edgeColor = 0xff000000 | (edgeColor << 16) | (edgeColor << 8) | edgeColor;
 
+            // Pixel p = new Pixel(new Color(edgeColor));
+            // p.setNegative();
+            // pix[i][j] = p;
+
             pix[i][j] = new Pixel(new Color(edgeColor));
          }
       }
@@ -969,4 +978,36 @@ public class Picture
       p.setToGray();
       return p.getRed();
   }
+
+   public void embossBad() 
+   {
+      BufferedImage image = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_BYTE_INDEXED);
+
+      //convert pix to image
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            image.setRGB(j, i, pix[i][j].getColor().getRGB());//this uses xy on setrgb, but yx on getrgb FML
+         }
+      }
+
+      //stuff google gave because tf is a kerne and convolveop
+
+      Kernel kernel = new Kernel(3, 3, new float[] {-2, 0, 0,
+                                                                  0, 1, 0,
+                                                                  0, 0, 2});
+     
+      BufferedImageOp op = new ConvolveOp(kernel);
+     
+      image = op.filter(image, null);
+   
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            pix[i][j] = new Pixel(new Color(image.getRGB(j, i)));
+         }
+      }
+   }
 }
