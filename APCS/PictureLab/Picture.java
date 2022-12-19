@@ -696,8 +696,7 @@ public class Picture
       for (int i = 0; i < (int) (Math.random()*5)+1; i++)
          slicer((int) (Math.random()*5)+3, (int) ((Math.random()*20) * (pix.length / 75)), (int) ((Math.random()*20) * (pix[0].length / 75)), 20);
       scanLines((int) (Math.random()*(pix[0].length / 250))+(pix[0].length / 100), Math.random()*0.3+0.1);
-      colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*(pix.length / 8)), (int) (Math.random()*(pix[0].length / 10)));
-
+      colorSplit((Math.random()*0.5)+0.4, (int) (Math.random()*(pix.length / 16)), (int) (Math.random()*(pix[0].length / 16)));
    }
 
    private void slicer(int rect_count, int min_size, int max_size, int move) 
