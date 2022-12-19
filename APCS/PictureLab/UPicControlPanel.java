@@ -345,7 +345,8 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-           upic.edgeDetection(15);
+         //   upic.edgeDetection(15);
+           upic.sobel();
             gui.update();
          }
       });

@@ -109,7 +109,10 @@ public class Pixel
 
     public void setToGray()
     {
-        int gray = (red + green + blue) / 3;
+        //int gray = (red + green + blue) / 3;
+        //changed to use weights because its supposedly better 
+        //https://en.wikipedia.org/wiki/Grayscale
+        int gray = (int)(0.2126 * red + 0.7152 * green + 0.0722 * blue);
         red = gray;
         green = gray;
         blue = gray;

@@ -882,5 +882,91 @@ public class Picture
       pix = temp;
    }
 
+   public void sobel() 
+   {
+      //im using buffered image becasue its easier to deal with int rgb color values
+      //i got confused again because this takes x, y and i was using y, x T_T
+      BufferedImage image = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
 
+      //convert pix to image
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            image.setRGB(j, i, pix[i][j].getColor().getRGB());//this uses xy on setrgb, but yx on getrgb FML
+         }
+      }
+
+      int width = image.getWidth();
+      int height = image.getHeight();
+
+      int[][] edgeColors = new int[height][width];
+      int maxGradient = -1;
+
+      //dont do edges (i dont wanna make if statements to im just skipping them)
+      for (int i = 1; i < height - 1; i++) 
+      {
+         for (int j = 1; j < width - 1; j++) 
+         {
+            //get surrounding pixels (nums in var names are relative coords)
+            int val00 = getGrayScale(image.getRGB(j - 1, i - 1));
+            int val01 = getGrayScale(image.getRGB(j - 1, i));
+            int val02 = getGrayScale(image.getRGB(j - 1, i + 1));
+
+            int val10 = getGrayScale(image.getRGB(j, i - 1));
+            int val11 = getGrayScale(image.getRGB(j, i));
+            int val12 = getGrayScale(image.getRGB(j, i + 1));
+
+            int val20 = getGrayScale(image.getRGB(j + 1, i - 1));
+            int val21 = getGrayScale(image.getRGB(j + 1, i));
+            int val22 = getGrayScale(image.getRGB(j + 1, i + 1));
+
+            //matrix shenaniganry that idfk how it works
+            //yoinked matrixes from https://en.wikipedia.org/wiki/Sobel_operator
+            int gx =  ((-1 * val00) + (0 * val01) + (1 * val02)) 
+                  + ((-2 * val10) + (0 * val11) + (2 * val12))
+                  + ((-1 * val20) + (0 * val21) + (1 * val22));
+
+            int gy =  ((-1 * val00) + (-2 * val01) + (-1 * val02))
+                  + ((0 * val10) + (0 * val11) + (0 * val12))
+                  + ((1 * val20) + (2 * val21) + (1 * val22));
+
+            double gval = Math.sqrt((gx * gx) + (gy * gy));
+            int g = (int) gval;
+
+            //get largest gradient to scale down everything at the end
+            if(maxGradient < g) {
+               maxGradient = g;
+            }
+
+            edgeColors[i][j] = g;
+         }
+      }
+
+      //scale down all the gradients to fit within 255
+      double scale = 255.0 / maxGradient;
+
+      //fix edge colors and draw them in
+      for (int i = 0; i < height; i++) 
+      {
+         for (int j = 0; j < width; j++) 
+         {
+            int edgeColor = edgeColors[i][j];
+            edgeColor = (int)(edgeColor * scale);
+            
+            //set alpha to opaque i fkin hate int rgb unpacking why is it sometimes ARGB and other RGBA T_T
+            edgeColor = 0xff000000 | (edgeColor << 16) | (edgeColor << 8) | edgeColor;
+
+            pix[i][j] = new Pixel(new Color(edgeColor));
+         }
+      }
+
+   }
+
+   public static int  getGrayScale(int rgb) {
+      //grayscales an int rgb using pixel method because idgaf
+      Pixel p = new Pixel(new Color(rgb));
+      p.setToGray();
+      return p.getRed();
+  }
 }
