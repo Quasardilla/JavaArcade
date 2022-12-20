@@ -1022,23 +1022,93 @@ public class Picture
       //3.5: go through all pixels and set color 
       //done
 
+      ArrayList<ArrayList<Pixel>> pixels = new ArrayList<ArrayList<Pixel>>();
       Point[] points = new Point[cell_count];
-
-      //make points full of random points on screen
       for (int i = 0; i < cell_count; i++)
       {
+         //add {cell_count} arraylists to pixels
+         pixels.add(new ArrayList<Pixel>());
+         
+         //make points full of random points on screen
+         points[i] = new Point();
          points[i].x = (int) (Math.random()*pix[0].length);
          points[i].y = (int) (Math.random()*pix.length);
       }
-      
 
-      ArrayList<ArrayList<Pixel>> pixels = new ArrayList<ArrayList<Pixel>>();
       for (int i = 0; i < pix.length; i++)
       {
          for (int j = 0; j < pix[i].length; j++)
          {
             //get the point with the closest distance to the pixel
+            int closestDist = Integer.MAX_VALUE;
+            int closestPointIndex = 0;
+            for (int k = 0; k < points.length; k++)
+            {
+               //get distance between pixel and point
+               double dist = Math.sqrt(Math.pow(points[k].x - j, 2) + Math.pow(points[k].y - i, 2));
+
+               //if the distance is less than the current closest distance, set the current closest distance to the new distance and set the index of the closest point to the current point
+               if (dist < closestDist)
+               {
+                  closestDist = (int) dist;
+                  closestPointIndex = k;
+               }
+            }
+            pixels.get(closestPointIndex).add(pix[i][j]);
+
+         }
+      }
+
+      //average each arraylist
+      Color[] colors = new Color[cell_count];
+      for (int i = 0; i < pixels.size(); i++)
+      {
+         if (pixels.get(i).size() == 0)
+         {
+            colors[i] = new Color(0, 0, 0);
+            continue;
+         }
+         int r = 0;
+         int g = 0;
+         int b = 0;
+
+         for (int j = 0; j < pixels.get(i).size(); j++)
+         {
+            r += pixels.get(i).get(j).getRed();
+            g += pixels.get(i).get(j).getGreen();
+            b += pixels.get(i).get(j).getBlue();
+         }
+
+         r /= pixels.get(i).size();
+         g /= pixels.get(i).size();
+         b /= pixels.get(i).size();
+
+         colors[i] = new Color(r, g, b);
+      }
+
+
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            //get the point with the closest distance to the pixel
+            int closestDist = Integer.MAX_VALUE;
+            int closestPointIndex = 0;
+            for (int k = 0; k < points.length; k++)
+            {
+               //get distance between pixel and point
+               double dist = Math.sqrt(Math.pow(points[k].x - j, 2) + Math.pow(points[k].y - i, 2));
+
+               //if the distance is less than the current closest distance, set the current closest distance to the new distance and set the index of the closest point to the current point
+               if (dist < closestDist)
+               {
+                  closestDist = (int) dist;
+                  closestPointIndex = k;
+               }
+            }
             
+            pix[i][j].setColor(colors[closestPointIndex]);
+
          }
       }
       

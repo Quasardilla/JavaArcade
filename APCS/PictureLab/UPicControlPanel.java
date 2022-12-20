@@ -504,7 +504,7 @@ public class UPicControlPanel extends JPanel
          public void actionPerformed(ActionEvent e)
          {
 //            upic.magnify(gui.getSelRow(), gui.getSelCol(), 100, 2);
-            upic.cellify(50);
+            upic.cellify(500);
             gui.update();
          }
       });
