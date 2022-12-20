@@ -16,6 +16,9 @@ import java.awt.image.Kernel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.BufferedImageOp;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 // import Intro.Exploring2DArrays.Exploring2DArrays;
 
 //Mr. Uhl
@@ -1009,5 +1012,35 @@ public class Picture
             pix[i][j] = new Pixel(new Color(image.getRGB(j, i)));
          }
       }
+   }
+
+   public void cellify(int cell_count) 
+   {
+      //1: create {cell_count} points
+      //2: for each point, make an arraylist of pixels in it
+      //3: average each arraylist
+      //3.5: go through all pixels and set color 
+      //done
+
+      Point[] points = new Point[cell_count];
+
+      //make points full of random points on screen
+      for (int i = 0; i < cell_count; i++)
+      {
+         points[i].x = (int) (Math.random()*pix[0].length);
+         points[i].y = (int) (Math.random()*pix.length);
+      }
+      
+
+      ArrayList<ArrayList<Pixel>> pixels = new ArrayList<ArrayList<Pixel>>();
+      for (int i = 0; i < pix.length; i++)
+      {
+         for (int j = 0; j < pix[i].length; j++)
+         {
+            //get the point with the closest distance to the pixel
+            
+         }
+      }
+      
    }
 }

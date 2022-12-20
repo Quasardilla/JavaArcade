@@ -496,7 +496,7 @@ public class UPicControlPanel extends JPanel
    
    public void addZoomButton()
    {
-      zoomButton = new JButton("Zoom");
+      zoomButton = new JButton("Cellify");
       zoomButton.setPreferredSize(new Dimension(PANEL_WIDTH, 40));
       zoomButton.setFont(buttonFont);
       zoomButton.addActionListener(new ActionListener(){
@@ -504,6 +504,7 @@ public class UPicControlPanel extends JPanel
          public void actionPerformed(ActionEvent e)
          {
 //            upic.magnify(gui.getSelRow(), gui.getSelCol(), 100, 2);
+            upic.cellify(50);
             gui.update();
          }
       });
