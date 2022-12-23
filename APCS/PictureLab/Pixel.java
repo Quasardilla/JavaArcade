@@ -2,6 +2,7 @@ package PictureLab;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Objects;
 
 public class Pixel 
 {
@@ -284,4 +285,27 @@ public class Pixel
 
         return temp;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Pixel)) {
+            return false;
+        }
+        Pixel pixel = (Pixel) o;
+        return red == pixel.red && green == pixel.green && blue == pixel.blue && alpha == pixel.alpha;
+    }
+
+    public boolean equals(Pixel p, int tolerance)
+    {
+        return p.colorDistance(this.getColor()) < tolerance;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(red, green, blue, alpha);
+    }
+
 }

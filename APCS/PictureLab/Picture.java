@@ -1113,4 +1113,27 @@ public class Picture
       }
       
    }
+
+   public void chromakey(Picture secondPic, Pixel selectedPixel) 
+   {
+      Pixel[][] temp = pix.clone();
+
+      //go through temp and draw secondPic onto it
+      for (int i = 0; i < secondPic.getHeight(); i++)
+      {
+         for (int j = 0; j < secondPic.getWidth(); j++)
+         {
+            if (temp[i][j].equals(selectedPixel, 10))
+            {
+               temp[i][j] = secondPic.pix[i][j];
+               
+            }
+         }
+      }
+      
+      pix = temp;
+
+   }
+
+
 }
