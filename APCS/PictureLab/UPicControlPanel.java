@@ -476,7 +476,7 @@ public class UPicControlPanel extends JPanel
       buttonPanel.add(chromakeyButton);
    }
    
-   int x = 2;
+   int x = 260;
    public void addPixelateButton()
    {
       pixelateButton = new JButton("Pixelate");

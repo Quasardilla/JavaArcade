@@ -8,7 +8,6 @@
 //  2022 Update - A default message is displayed if no images are present.
 package PictureLab;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

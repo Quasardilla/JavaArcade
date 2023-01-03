@@ -12,6 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import Intro.Exploring2DArrays.Exploring2DArrays;
+
 import java.awt.image.Kernel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.BufferedImageOp;
@@ -242,7 +244,7 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length/2; j++)
          {
-            pix[i][pix[i].length-j-1] = pix[i][j];
+            pix[i][pix[i].length-j-1].setPixel(pix[i][j]);
          }
       }
    }
@@ -253,7 +255,7 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length/2; j++)
          {
-            pix[i][j] = pix[i][pix[i].length-j-1];
+            pix[i][j].setPixel(pix[i][pix[i].length-j-1]);
          }
       }
    }
@@ -264,7 +266,7 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length; j++)
          {
-            pix[pix.length-i-1][j] = pix[i][j];
+            pix[pix.length-i-1][j].setPixel(pix[i][j]);
          }
       }
    }
@@ -275,20 +277,19 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length; j++)
          {
-            pix[i][j] = pix[pix.length-i-1][j];
+            pix[i][j].setPixel(pix[pix.length-i-1][j]);
          }
       }
    }
 
    public void flipHorizontal() 
    {
-
       for (int i = 0; i < pix.length; i++)
       {
          for (int j = 0; j < pix[i].length/2; j++)
          {
-            Pixel temp = pix[i][pix[i].length-j-1];
-            pix[i][pix[i].length-j-1] = pix[i][j];
+            Pixel temp = pix[i][pix[0].length-j-1];
+            pix[i][pix[0].length-j-1] = pix[i][j];
             pix[i][j] = temp;
          }
       }

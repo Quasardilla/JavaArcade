@@ -107,6 +107,14 @@ public class Pixel
         blue = color.getBlue();
     }
 
+    public void setPixel(Pixel pix)
+    {
+        this.red = pix.red;
+        this.green = pix.green;
+        this.blue = pix.blue;
+        this.alpha = pix.alpha;
+    }
+
     public void setToGray()
     {
         //int gray = (red + green + blue) / 3;
