@@ -249,10 +249,9 @@ public class Pixel
         return new Pixel(r / size, g / size, b / size);
     }
 
-    public static Pixel averageWeightedPixels(Pixel[][] pixels, Pixel center, double standard_deviation)
+    public static Pixel averageWeightedPixels(Pixel[][] pixels, Pixel center, double standard_deviation, double[][] weightMap)
     {
         int r = 0, g = 0, b = 0;
-        double[][] weightMap = getGaussianMap(pixels.length, pixels[0].length, standard_deviation);
         double weightTotal = 0;
 
         int skipped = 0;

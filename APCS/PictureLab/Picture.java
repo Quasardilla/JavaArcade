@@ -361,6 +361,8 @@ public class Picture
 
       Pixel[][] newPix = new Pixel[pix.length][pix[0].length];
       Pixel[][] temp = new Pixel[sideLength][sideLength];
+
+      double[][] weightMap = Pixel.getGaussianMap(sideLength, sideLength, standard_deviation);
       
       for (int i = 0; i < pix.length; i++)
       {
@@ -374,7 +376,7 @@ public class Picture
                      temp[k][l] = pix[i + k - sideLength / 2][j + l - sideLength / 2];
 
             //Weighted average the pixels in the temp array
-            newPix[i][j] = Pixel.averageWeightedPixels(temp, pix[i][j], standard_deviation);
+            newPix[i][j] = Pixel.averageWeightedPixels(temp, pix[i][j], standard_deviation, weightMap);
          }
       }
 
