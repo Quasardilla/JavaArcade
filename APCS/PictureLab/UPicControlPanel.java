@@ -468,7 +468,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-//            upic.chromakey(new Picture("snowman_greenscreen.png"), 120, 100);
+           upic.chromakey(getSecondPic(), getSelectedPixel());
             gui.update();
          }
       });
