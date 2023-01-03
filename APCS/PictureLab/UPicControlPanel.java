@@ -363,7 +363,7 @@ public class UPicControlPanel extends JPanel
          @Override
          public void actionPerformed(ActionEvent e)
          {
-            upic.blur(1);
+            upic.blur(5, 1);
             gui.update();
          }
       });
@@ -476,7 +476,7 @@ public class UPicControlPanel extends JPanel
       buttonPanel.add(chromakeyButton);
    }
    
-   int x = 260;
+   int x = 2;
    public void addPixelateButton()
    {
       pixelateButton = new JButton("Pixelate");

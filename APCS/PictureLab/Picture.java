@@ -354,10 +354,10 @@ public class Picture
       pix = temp;
    }
 
-   public void blur(int magnitude) 
+   public void blur(int kernel_size, double standard_deviation) 
    {
       //Converts the magnitude into an odd side length
-      int sideLength = 2 * magnitude + 1;
+      int sideLength = 2 * kernel_size + 1;
 
       Pixel[][] newPix = new Pixel[pix.length][pix[0].length];
       Pixel[][] temp = new Pixel[sideLength][sideLength];
@@ -368,13 +368,13 @@ public class Picture
          {
             for(int k = 0; k < sideLength; k++)
                for(int l = 0; l < sideLength; l++)
-                  if(i + k - sideLength / 2 < 0 || i + k - sideLength / 2 >= pix.length || j + l - sideLength / 2 < 0 || j + l - sideLength / 2 >= pix[i].length)
+                  if(i + k - sideLength / 2 < 0 || j + l - sideLength / 2 < 0 || i + k - sideLength / 2 >= pix.length || j + l - sideLength / 2 >= pix[i].length)
                      temp[k][l] = null;
-                  else   
+                  else
                      temp[k][l] = pix[i + k - sideLength / 2][j + l - sideLength / 2];
 
             //Weighted average the pixels in the temp array
-            newPix[i][j] = Pixel.averageWeightedPixels(temp, pix[i][j]);
+            newPix[i][j] = Pixel.averageWeightedPixels(temp, pix[i][j], standard_deviation);
          }
       }
 

@@ -249,10 +249,10 @@ public class Pixel
         return new Pixel(r / size, g / size, b / size);
     }
 
-    public static Pixel averageWeightedPixels(Pixel[][] pixels, Pixel center)
+    public static Pixel averageWeightedPixels(Pixel[][] pixels, Pixel center, double standard_deviation)
     {
         int r = 0, g = 0, b = 0;
-        double[][] weightMap = getGaussianMap(pixels.length, pixels[0].length);
+        double[][] weightMap = getGaussianMap(pixels.length, pixels[0].length, standard_deviation);
         double weightTotal = 0;
 
         int skipped = 0;
@@ -278,22 +278,20 @@ public class Pixel
 
     //Helper Functions
 
-    public static double[][] getGaussianMap(int length, int width)
+    public static double[][] getGaussianMap(int length, int width, double standard_deviation)
     {
         double[][] temp = new double[length][width];
-        double a = 2.7182818284590452353602874713527;
-        Point center = new Point(length / 2, width / 2);
+        Point center = new Point(width / 2, length / 2);
 
         for(int i = 0; i < length; i++)
             for(int j = 0; j < width; j++)
             {
-                double dist = Math.pow(center.x - j, 2) + Math.pow(center.y - i, 2);
-                temp[i][j] = Math.pow(a, -(Math.pow(dist, 2) / (Math.max(length, width))));
+                double dist = Math.sqrt(Math.pow(center.x - j, 2) + Math.pow(center.y - i, 2));
+                temp[i][j] = standard_deviation * Math.pow(Math.E, -(Math.pow(dist, 2) / Math.pow((Math.max(length, width)/2), 2)));
             }
 
         return temp;
     }
-
 
     @Override
     public boolean equals(Object o) {
