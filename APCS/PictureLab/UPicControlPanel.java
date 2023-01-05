@@ -383,7 +383,11 @@ public class UPicControlPanel extends JPanel
          //   upic.encodeUsingRed(new Picture("APCS/PictureLab/cat.png"));
          //   upic.encodeUsingRGB(new Picture("APCS/PictureLab/cat.png"));
          //   upic.encodeUsingRed(getSecondPic());
+            upic.setAllEven();
+
             upic.encodeUsingRed("I've lost my mind");
+            upic.encodeUsingGreen("I can't find it");
+            upic.encodeUsingBlue("It's gone");
             gui.update();
          }
       });

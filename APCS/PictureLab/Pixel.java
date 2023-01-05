@@ -148,11 +148,11 @@ public class Pixel
      */
     public void setEven(Color clr)
     {
-        if (clr == Color.RED)
+        if (clr.equals(Color.RED))
             red = red - red % 2;
-        else if (clr == Color.GREEN)
+        else if (clr.equals(Color.GREEN))
             green = green - green % 2;
-        else if (clr == Color.BLUE)
+        else if (clr.equals(Color.BLUE))
             blue = blue - blue % 2;
         else
             throw new IllegalArgumentException("Color must be red, green, or blue");
@@ -172,11 +172,11 @@ public class Pixel
      */
     public void setOdd(Color clr)
     {
-        if(clr == Color.RED)
+        if(clr.equals(Color.RED))
             red = red - red % 2 + 1;
-        else if(clr == Color.GREEN)
+        else if(clr.equals(Color.GREEN))
             green = green - green % 2 + 1;
-        else if(clr == Color.BLUE)
+        else if(clr.equals(Color.BLUE))
             blue = blue - blue % 2 + 1;
         else
             throw new IllegalArgumentException("Color must be red, green, or blue");

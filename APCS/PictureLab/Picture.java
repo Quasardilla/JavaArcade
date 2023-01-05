@@ -385,7 +385,6 @@ public class Picture
 
    public void encodeUsingRed(Picture pic)
    {
-      setAllEven();
       BufferedImage buffImg = pic.pic;
       
       for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
@@ -394,14 +393,11 @@ public class Picture
                Color clr = new Color(buffImg.getRGB(j, i));
                if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
                   pix[i][j].setOdd(Color.RED);
-               else
-                  pix[i][j].setEven();
             }
    }
    
    public void encodeUsingRed(String text)
    {
-      setAllEven();
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
@@ -413,14 +409,11 @@ public class Picture
                Color clr = new Color(buffImg.getRGB(j, i));
                if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
                   pix[i][j].setOdd(Color.RED);
-               else
-                  pix[i][j].setEven();
             }
    }
 
    public void encodeUsingGreen(Picture pic)
    {
-      setAllEven();
       BufferedImage buffImg = pic.pic;
       
       for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
@@ -429,18 +422,15 @@ public class Picture
                Color clr = new Color(buffImg.getRGB(j, i));
                if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
                   pix[i][j].setOdd(Color.GREEN);
-               else
-                  pix[i][j].setEven();
             }
    }
    
    public void encodeUsingGreen(String text)
    {
-      setAllEven();
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-      g2.drawString(text, 0, 50);
+      g2.drawString(text, 0, 150);
 
       for(int i = 0; i < buffImg.getHeight(); i++)
          for(int j = 0; j < buffImg.getWidth(); j++)
@@ -448,34 +438,28 @@ public class Picture
                Color clr = new Color(buffImg.getRGB(j, i));
                if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
                   pix[i][j].setOdd(Color.GREEN);
-               else
-                  pix[i][j].setEven();
             }
    }
 
    public void encodeUsingBlue(Picture pic)
    {
-      setAllEven();
       BufferedImage buffImg = pic.pic;
       
       for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
          for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+               if(clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.BLUE);
-               else
-                  pix[i][j].setEven();
             }
    }
    
    public void encodeUsingBlue(String text)
    {
-      setAllEven();
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-      g2.drawString(text, 0, 50);
+      g2.drawString(text, 0, 250);
 
       for(int i = 0; i < buffImg.getHeight(); i++)
          for(int j = 0; j < buffImg.getWidth(); j++)
@@ -483,15 +467,11 @@ public class Picture
                Color clr = new Color(buffImg.getRGB(j, i));
                if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
                   pix[i][j].setOdd(Color.BLUE);
-               else
-                  pix[i][j].setEven();
             }
    }
 
    public void encodeUsingRGB(Picture pic)
    {
-      setAllEven();
-
       for(int i = 0; i < Math.min(pic.pic.getHeight(), pix.length); i++)
          for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
             {
@@ -548,11 +528,11 @@ public class Picture
 
             if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
             {
-               temp[i][j] = new Pixel(0, 0, 0);
+               temp[i][j] = new Pixel(Color.BLACK);
             }
             else
             {
-               temp[i][j] = new Pixel(255, 255, 255);
+               temp[i][j] = new Pixel(Color.WHITE);
             }
 
          }
@@ -594,11 +574,11 @@ public class Picture
 
             if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
             {
-               temp[i][j] = new Pixel(0, 0, 0);
+               temp[i][j] = new Pixel(Color.BLACK);
             }
             else
             {
-               temp[i][j] = new Pixel(255, 255, 255);
+               temp[i][j] = new Pixel(Color.WHITE);
             }
 
          }
@@ -640,11 +620,11 @@ public class Picture
 
             if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
             {
-               temp[i][j] = new Pixel(0, 0, 0);
+               temp[i][j] = new Pixel(Color.BLACK);
             }
             else
             {
-               temp[i][j] = new Pixel(255, 255, 255);
+               temp[i][j] = new Pixel(Color.WHITE);
             }
 
          }
