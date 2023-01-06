@@ -400,6 +400,9 @@ public class Picture
    {
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
+      g2.setColor(Color.WHITE);
+      g2.fillRect(0, 0, buffImg.getWidth(), buffImg.getHeight());
+      g2.setColor(Color.BLACK);
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
       g2.drawString(text, 0, 50);
 
@@ -407,7 +410,7 @@ public class Picture
          for(int j = 0; j < buffImg.getWidth(); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+               if(clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.RED);
             }
    }
@@ -429,6 +432,9 @@ public class Picture
    {
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
+      g2.setColor(Color.WHITE);
+      g2.fillRect(0, 0, buffImg.getWidth(), buffImg.getHeight());
+      g2.setColor(Color.BLACK);
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
       g2.drawString(text, 0, 150);
 
@@ -436,7 +442,7 @@ public class Picture
          for(int j = 0; j < buffImg.getWidth(); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+               if(clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.GREEN);
             }
    }
@@ -458,6 +464,9 @@ public class Picture
    {
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
+      g2.setColor(Color.WHITE);
+      g2.fillRect(0, 0, buffImg.getWidth(), buffImg.getHeight());
+      g2.setColor(Color.BLACK);
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
       g2.drawString(text, 0, 250);
 
@@ -465,7 +474,7 @@ public class Picture
          for(int j = 0; j < buffImg.getWidth(); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.getRed() < 127 || clr.getGreen() < 127 || clr.getBlue() < 127)
+               if(clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.BLUE);
             }
    }
@@ -503,30 +512,7 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length; j++)
          {
-            double north_diff = 0;
-            double south_diff = 0;
-            double east_diff = 0;
-            double west_diff = 0;
-
-            if (i > 0)
-            {
-               north_diff = pix[i-1][j].getRed()%2;
-            }
-            if (i < pix.length-1)
-            {
-               south_diff = pix[i][j].getRed()%2;
-            }
-
-            if (j > 0)
-            {
-               east_diff = pix[i][j].getRed()%2;
-            }
-            if (j < pix[i].length-1)
-            {
-               west_diff = pix[i][j].getRed()%2;
-            }
-
-            if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
+            if (pix[i][j].getRed() % 2 == 1)
             {
                temp[i][j] = new Pixel(Color.BLACK);
             }
@@ -549,30 +535,7 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length; j++)
          {
-            double north_diff = 0;
-            double south_diff = 0;
-            double east_diff = 0;
-            double west_diff = 0;
-
-            if (i > 0)
-            {
-               north_diff = pix[i-1][j].getGreen()%2;
-            }
-            if (i < pix.length-1)
-            {
-               south_diff = pix[i][j].getGreen()%2;
-            }
-
-            if (j > 0)
-            {
-               east_diff = pix[i][j].getGreen()%2;
-            }
-            if (j < pix[i].length-1)
-            {
-               west_diff = pix[i][j].getGreen()%2;
-            }
-
-            if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
+            if (pix[i][j].getGreen() % 2 == 1)
             {
                temp[i][j] = new Pixel(Color.BLACK);
             }
@@ -595,30 +558,7 @@ public class Picture
       {
          for (int j = 0; j < pix[i].length; j++)
          {
-            double north_diff = 0;
-            double south_diff = 0;
-            double east_diff = 0;
-            double west_diff = 0;
-
-            if (i > 0)
-            {
-               north_diff = pix[i-1][j].getBlue()%2;
-            }
-            if (i < pix.length-1)
-            {
-               south_diff = pix[i][j].getBlue()%2;
-            }
-
-            if (j > 0)
-            {
-               east_diff = pix[i][j].getBlue()%2;
-            }
-            if (j < pix[i].length-1)
-            {
-               west_diff = pix[i][j].getBlue()%2;
-            }
-
-            if (north_diff == 1 || south_diff == 1 || east_diff == 1 || west_diff == 1)
+            if (pix[i][j].getBlue() % 2 == 1)
             {
                temp[i][j] = new Pixel(Color.BLACK);
             }
