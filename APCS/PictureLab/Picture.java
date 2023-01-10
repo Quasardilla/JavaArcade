@@ -400,9 +400,6 @@ public class Picture
    {
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
-      g2.setColor(Color.WHITE);
-      g2.fillRect(0, 0, buffImg.getWidth(), buffImg.getHeight());
-      g2.setColor(Color.BLACK);
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
       g2.drawString(text, 0, 50);
 
@@ -432,9 +429,6 @@ public class Picture
    {
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
-      g2.setColor(Color.WHITE);
-      g2.fillRect(0, 0, buffImg.getWidth(), buffImg.getHeight());
-      g2.setColor(Color.BLACK);
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
       g2.drawString(text, 0, 150);
 
@@ -442,7 +436,7 @@ public class Picture
          for(int j = 0; j < buffImg.getWidth(); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.equals(Color.BLACK))
+               if(!clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.GREEN);
             }
    }
@@ -455,7 +449,7 @@ public class Picture
          for(int j = 0; j < Math.min(pic.pic.getWidth(), pix[0].length); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.equals(Color.BLACK))
+               if(!clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.BLUE);
             }
    }
@@ -464,9 +458,6 @@ public class Picture
    {
       BufferedImage buffImg = new BufferedImage(pix[0].length, pix.length, BufferedImage.TYPE_INT_RGB);
       Graphics2D g2 = buffImg.createGraphics();
-      g2.setColor(Color.WHITE);
-      g2.fillRect(0, 0, buffImg.getWidth(), buffImg.getHeight());
-      g2.setColor(Color.BLACK);
       g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
       g2.drawString(text, 0, 250);
 
@@ -474,7 +465,7 @@ public class Picture
          for(int j = 0; j < buffImg.getWidth(); j++)
             {
                Color clr = new Color(buffImg.getRGB(j, i));
-               if(clr.equals(Color.BLACK))
+               if(!clr.equals(Color.BLACK))
                   pix[i][j].setOdd(Color.BLUE);
             }
    }
