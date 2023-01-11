@@ -2,7 +2,11 @@ package Intro.interfaces;
 
 public interface Driveable {
 
-    public void accelerate(int rate);
+    
+    void setCharge(double charge);
+    double getCharge();
 
-    public void stop();
+    void accelerate(int rate);
+
+    void stop();
 }
