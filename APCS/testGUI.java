@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import UNIVERSAL.UI.TextBox;
-import UNIVERSAL.UI.Trail;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

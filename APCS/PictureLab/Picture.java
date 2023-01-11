@@ -12,8 +12,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import Intro.Exploring2DArrays.Exploring2DArrays;
-
 import java.awt.image.Kernel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.BufferedImageOp;
@@ -623,7 +621,7 @@ public class Picture
 
    private void slicer(int rect_count, int min_size, int max_size, int move) 
    {
-      int opacity = 1;
+      // int opacity = 1;
       
       Pixel[][] offset = pix;
       

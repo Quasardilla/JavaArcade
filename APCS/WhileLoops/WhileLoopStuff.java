@@ -12,7 +12,7 @@ public class WhileLoopStuff {
         Scanner sc = new Scanner(System.in);
         int sum = 0;
         int count = 0;
-        boolean hasNegative;
+        boolean hasNegative = false;
 
         do{
             System.out.println("Enter an integer");
@@ -24,9 +24,11 @@ public class WhileLoopStuff {
         }
         while(sum < 100 && count < 20);
 
+        sc.close();
 
-        System.out.println();
         System.out.println("You entered " + count + " values.");
+        if(hasNegative)
+            System.out.println("It had negative values");
         System.out.println("This sum is " + sum + ".");
     }
 }
