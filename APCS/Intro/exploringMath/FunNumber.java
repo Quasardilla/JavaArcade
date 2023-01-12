@@ -244,8 +244,8 @@ public class FunNumber implements Comparable<FunNumber>
       System.out.println(FunNumber.hasDuplicates(nums));
 
 
-      FunNumber temp = new FunNumber(4);
-      FunNumber temp2 = new FunNumber(4);
+      // FunNumber temp = new FunNumber(4);
+      // FunNumber temp2 = new FunNumber(4);
 
       // System.out.println(temp.getFunFact());
       

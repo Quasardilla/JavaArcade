@@ -24,7 +24,7 @@ public class WhileLoopStuff {
         }
         while(sum < 100 && count < 20);
 
-        sc.close();
+        sc.close(   );
 
         System.out.println("You entered " + count + " values.");
         if(hasNegative)

@@ -1,8 +1,5 @@
 package Intro.Exploring2DArrays;
 
-import java.io.Console;
-import java.util.Arrays;
-
 public class Exploring2DArrays {
     public static void main(String[] args) {
         int[][] nums = new int[3][5];
@@ -10,7 +7,7 @@ public class Exploring2DArrays {
         nums[2][2] = 42;
         // print2DArrayForEach(nums);
 
-        int[][] temp1 = {{1, 2, 3, 4}, {5, 6, 7, 8}};
+        // int[][] temp1  = {{1, 2, 3, 4}, {5, 6, 7, 8}};
         int[][] numArr = {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}};
         String[][] strArr = {{"B", "N", "T"}, {"Z", "A", "J"}};
         
