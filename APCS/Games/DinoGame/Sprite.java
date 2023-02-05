@@ -80,7 +80,7 @@ public class Sprite {
 
     @Override
     public String toString() {
-        return "Sprite {" +
+        return this.getClass().getName() + " {" +
             " x='" + getX() + "'" +
             ", y='" + getY() + "'" +
             ", dx='" + getDx() + "'" +
@@ -108,7 +108,7 @@ public class Sprite {
     }
 
     public void update() {
-        System.out.println("Updating the sprite!");
+        // System.out.println("Updating the sprite!");
     }
 
     public void draw(Graphics2D g2) {

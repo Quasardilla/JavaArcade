@@ -20,7 +20,7 @@ public class DinosaurGame extends JPanel implements KeyListener
 {
    private static final long serialVersionUID = 1L;
    public static final int PREF_W = 600;
-   public static final int PREF_H = 200;
+   public static final int PREF_H = 300;
    
    private Dinosaur dino;
    private ArrayList<Sprite> enemies;
@@ -62,11 +62,11 @@ public class DinosaurGame extends JPanel implements KeyListener
          for(Sprite s : enemies)
             s.update();
          // Check collisions
-         for(int i = 0; i < enemies.size(); i++)
-            if(dino.isCollidingWith(enemies.get(i))) {
-               playing = false;
-               gameOver = true;
-            }
+         // for(int i = 0; i < enemies.size(); i++)
+         //    if(dino.isCollidingWith(enemies.get(i))) {
+         //       playing = false;
+         //       gameOver = true;
+         //    }
       }
    }
    
