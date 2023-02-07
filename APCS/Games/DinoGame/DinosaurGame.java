@@ -34,10 +34,11 @@ public class DinosaurGame extends JPanel implements KeyListener
       this.addKeyListener(this);
       this.setFocusable(true);
       
-      dino = new Dinosaur(KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+      dino = new Dinosaur(KeyEvent.VK_UP, KeyEvent.VK_SPACE, KeyEvent.VK_DOWN);
 
       enemies = new ArrayList<Sprite>();
-      enemies.add(new Cactus());
+      enemies.add(new Cactus(PREF_W));
+      enemies.add(new Cactus(PREF_W + 200));
       enemies.add(new Bird());
       timeCounter = 0;
       score = 0;
@@ -62,11 +63,11 @@ public class DinosaurGame extends JPanel implements KeyListener
          for(Sprite s : enemies)
             s.update();
          // Check collisions
-         // for(int i = 0; i < enemies.size(); i++)
-         //    if(dino.isCollidingWith(enemies.get(i))) {
-         //       playing = false;
-         //       gameOver = true;
-         //    }
+         for(int i = 0; i < enemies.size(); i++)
+            if(dino.isCollidingWith(enemies.get(i))) {
+               playing = false;
+               gameOver = true;
+            }
       }
    }
    
@@ -121,7 +122,7 @@ public class DinosaurGame extends JPanel implements KeyListener
 	   if(!gameOver)
 	      dino.keyWasPressed(e.getKeyCode());
 	   
-	   if(gameOver && e.getKeyCode() == 'R') {
+	   if(gameOver && (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_R)) {
 	      gameOver = false;
 	      dino.reset();
 	      for(Sprite s : enemies)
@@ -132,7 +133,8 @@ public class DinosaurGame extends JPanel implements KeyListener
 
 	public void keyReleased(KeyEvent e)
 	{
-	   dino.keyWasReleased(e.getKeyCode());
+      if(!gameOver)
+	      dino.keyWasReleased(e.getKeyCode());
 	}
 	
 	@Override

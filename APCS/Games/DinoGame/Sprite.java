@@ -7,10 +7,16 @@ import java.awt.Graphics2D;
 public class Sprite {
 
     protected double x, y, dx, dy;
+    protected double initx, inity;
     protected int w, h;
+    protected int initw, inith;
     
 
     public Sprite() {
+        initx = 0;
+        inity = 0;
+        initw = 0;
+        inith = 0;
         this.x = 0;
         this.y = 0;
         this.dx = 0;
@@ -20,6 +26,10 @@ public class Sprite {
     }    
 
     public Sprite(double x, double y, double dx, double dy, int w, int h) {
+        initx = x;
+        inity = y;
+        initw = w;
+        inith = h;
         this.x = x;
         this.y = y;
         this.dx = dx;
@@ -120,17 +130,14 @@ public class Sprite {
     }
 
     public void reset() {
-        System.out.println("Resetting the sprite!");
+        x = initx;
+        y = inity;
+        w = initw;
+        h = inith;
     }
     
     public boolean isCollidingWith(Sprite spr) {
-        if(spr.getBounds().intersects(getBounds()))
-        {
-            System.out.println("Colliding!!!");
-            return true;
-        }
-
-        return false;
+        return spr.getBounds().intersects(getBounds());
     }
 
 }

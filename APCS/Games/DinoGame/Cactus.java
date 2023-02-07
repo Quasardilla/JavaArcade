@@ -6,6 +6,10 @@ public class Cactus extends Sprite {
         super(800, 200, -2, 0, 50, 50);
     }
 
+    Cactus(int x) {
+        super(x, 200, -2, 0, 50, 50);
+    }
+
     @Override
     public void update() {
         x += dx;

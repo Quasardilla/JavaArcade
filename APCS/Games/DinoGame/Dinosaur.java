@@ -10,7 +10,10 @@ public class Dinosaur extends Sprite {
 
     public Dinosaur() {
         super(30, 200, 0, 0, 50, 50);
-        groundLevel = 200;
+        groundLevel = (int) (super.y + super.h);
+        
+        jumpSpeed = 2.5;
+        gravity = 0.025;
 
         jumpKey = KeyEvent.VK_UP;
         altJumpKey = KeyEvent.VK_SPACE;
@@ -19,16 +22,22 @@ public class Dinosaur extends Sprite {
 
     public Dinosaur(int jumpKey, int duckKey) {
         super(30, 200, 0, 0, 30, 50);
-        groundLevel = 200;
+        groundLevel = (int) (super.y + super.h);
 
+        jumpSpeed = 2.5;
+        gravity = 0.025;
+        
         this.jumpKey = jumpKey;
         this.duckKey = duckKey;
     }
-
+    
     public Dinosaur(int jumpKey, int altJumpKey, int duckKey) {
         super(30, 200, 0, 0, 30, 50);
-        groundLevel = 200;
+        groundLevel = (int) (super.y + super.h);
 
+        jumpSpeed = 2.5;
+        gravity = 0.025;
+        
         this.jumpKey = jumpKey;
         this.altJumpKey = altJumpKey;
         this.duckKey = duckKey;
@@ -38,30 +47,44 @@ public class Dinosaur extends Sprite {
 
     @Override
     public void update() {
-        if(y > groundLevel)
-        {
+        if(y + h + dy > groundLevel) {
             dy = 0;
-            y = groundLevel;
+            y = groundLevel - h;
             isFalling = false;
         }
 
         if(isJumping) {
-            dy = -5;
+            dy = -this.jumpSpeed;
             isJumping = false;
             isFalling = true;
         }
         else if(isFalling) {
-            dy += 0.08;
+            dy += this.gravity;
         }
 
         if(isDucking) {
-            h = 30;
-            w = 50;
-            y = groundLevel + (50 - h);
+            if(isFalling) {
+                dy += 0.5;
+            }
+            else {
+                h = 30;
+                w = 50;
+                y = groundLevel - h;
+            }
         }
 
         y += dy;
-        x += dx;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        
+        isDucking = false;
+        isFalling = false;
+        isJumping = false;
+        dy = 0;
+        y = groundLevel - h;
     }
 
     public void keyWasPressed(int key) {
@@ -72,8 +95,6 @@ public class Dinosaur extends Sprite {
     }
 
     public void keyWasReleased(int key) {
-        // if(key == jumpKey || key == altJumpKey)
-        //     isJumping = false;
         if(key == duckKey) {
             isDucking = false;
             h = 50;
