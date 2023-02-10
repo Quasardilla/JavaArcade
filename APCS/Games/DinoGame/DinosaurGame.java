@@ -128,6 +128,7 @@ public class DinosaurGame extends JPanel implements KeyListener
 	      for(Sprite s : enemies)
 	         s.reset();
 	      score = 0;
+         timeCounter = 0;
 	   }
 	}
 
