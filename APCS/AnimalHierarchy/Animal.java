@@ -18,11 +18,11 @@ public abstract class Animal implements Careable{
 
     @Override
     public String toString() {
-        return this.getClass().getName() + "{" +
-            " species='" + species + "'" +
-            ", weight='" + weight + "'" +
-            ", birthday='" + birthday + "'" +
-            "}";
+        return this.getClass().getName() + "[" +
+            "Species: " + species +
+            ", Weight: " + weight +
+            ", Born: " + birthday + 
+            "]";
     }
 
 

@@ -23,9 +23,9 @@ public class Dog extends Pet {
 
     @Override
     public String toString() {
-        return super.toString() + "{" +
-            " licenseNumber#='" + licenseNumber + "'" +
-            "}";
+        return super.toString() + "[" +
+            "License# " + licenseNumber +
+            "]";
     }
 
 }

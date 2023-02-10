@@ -23,9 +23,9 @@ public class Bird extends Pet {
 
     @Override
     public String toString() {
-        return super.toString() + "{" +
-            " exotic='" + exotic + "'" +
-            "}";
+        return super.toString() + "[" +
+            "Exotic: " + exotic + 
+            "]";
     }
 
 }

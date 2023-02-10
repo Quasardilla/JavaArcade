@@ -15,9 +15,9 @@ public abstract class Pet extends Animal {
 
     @Override
     public String toString() {
-        return super.toString() + "{" +
-            " name='" + name + "'" +
-            "}";
+        return "[" +
+            "Name: " + name +
+            "]";
     }
 
 }
