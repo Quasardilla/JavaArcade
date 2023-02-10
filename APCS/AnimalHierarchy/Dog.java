@@ -1,7 +1,27 @@
 package AnimalHierarchy;
 
 public class Dog extends Pet {
-    int licenseNumber;
+    protected static int currentLicenseNumber = 10000;
+    protected int licenseNumber;
+
+    public Dog() {
+        super("Default Dog", "dog", 0.0, "01-01-2016");
+        licenseNumber = currentLicenseNumber;
+        currentLicenseNumber++;
+    }
+
+    public Dog(String name) {
+        super(name, "dog", 0.0, "01-01-2016");
+        licenseNumber = currentLicenseNumber;
+        currentLicenseNumber++;
+    }
+    
+    public Dog(String name, String birthday, double weight) {
+        super(name, "dog", weight, birthday);
+        licenseNumber = currentLicenseNumber;
+        currentLicenseNumber++;
+    }
+
 
     @Override
     public void feed() {

@@ -1,7 +1,23 @@
 package AnimalHierarchy;
 
 public class Bird extends Pet {
-    boolean exotic = false;
+    protected boolean exotic = false;
+
+    public Bird() {
+        super("Default Bird", "bird", 0.0, "01-01-2016");
+        this.exotic = false;
+        
+    }
+
+    public Bird(String name) {
+        super(name, "bird", 0.0, "01-01-2016");
+        this.exotic = false;
+    }
+
+    public Bird(String name, String birthday, double weight, boolean exotic) {
+        super(name, "bird", weight, birthday);
+        this.exotic = exotic;
+    }
 
     @Override
     public void feed() {

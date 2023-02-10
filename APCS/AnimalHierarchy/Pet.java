@@ -1,7 +1,13 @@
 package AnimalHierarchy;
 
 public abstract class Pet extends Animal {
-    String name;
+    protected String name;
+
+    public Pet(String name, String species, double weight, String birthday)
+    {
+        super(species, weight, birthday);
+        this.name = name;
+    }
 
     @Override
     public abstract void feed();
@@ -15,7 +21,7 @@ public abstract class Pet extends Animal {
 
     @Override
     public String toString() {
-        return "[" +
+        return super.toString() + "[" +
             "Name: " + name +
             "]";
     }
