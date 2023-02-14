@@ -9,17 +9,7 @@ public abstract class Animal implements Careable{
         this.species = species;
         this.weight = weight;
         this.birthday = birthday;
-    } 
-
-    @Override
-    public abstract void feed();
-
-    @Override
-    public abstract void groom();
-
-    @Override
-    public abstract void checkUp();
-
+    }
 
     @Override
     public String toString() {

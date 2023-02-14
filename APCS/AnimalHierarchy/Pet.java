@@ -10,16 +10,6 @@ public abstract class Pet extends Animal {
     }
 
     @Override
-    public abstract void feed();
-
-    @Override
-    public abstract void groom();
-
-    @Override
-    public abstract void checkUp();
-
-
-    @Override
     public String toString() {
         return super.toString() + "[" +
             "Name: " + name +
