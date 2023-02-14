@@ -20,5 +20,4 @@ public abstract class Animal implements Careable{
             "]";
     }
 
-
 }
