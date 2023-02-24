@@ -38,5 +38,10 @@ public class exploringRecursion {
     public static void main(String[] args) {
         System.out.println(sumAB(3, 5));
         System.out.println(countDigits(3));
+        System.out.println(evenOdd(2));
+    }
+
+    public static String evenOdd(int num) {
+        return  ((num>>0 & 1) == 1) ? "odd" : "even";
     }
 }
