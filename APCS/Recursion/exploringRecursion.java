@@ -38,5 +38,24 @@ public class exploringRecursion {
     public static void main(String[] args) {
         System.out.println(sumAB(3, 5));
         System.out.println(countDigits(3));
+        System.out.println(evenOdd(239877));
+        System.out.println(rushEEE("hello worlde"));
+    }
+
+    public static String evenOdd(int num) {
+        return  ((num & 1) == 1) ? "odd" : "even";
+    }
+
+    public static int rushEEE(String str)
+    {
+        return (str.length() == 0) ? 0 : (str.charAt(0) == 'e' || str.charAt(0) == 'E') ? 1 + rushEEE(str.substring(1)) : 0 + rushEEE(str.substring(1));
+        // if (str.length() != 0)
+        // {
+        //     return (str.charAt(0) == 'e' || str.charAt(0) == 'E') ? 1 + rushEEE(str.substring(1)) : 0 + rushEEE(str.substring(1));
+        // }
+        // else
+        // {
+        //     return 0;
+        // }
     }
 }
