@@ -211,5 +211,12 @@ public class StringStuff
       }
       return count;
    }
-   
+ 
+   public static int indexOf(String[] text, String target)
+   {
+      for (int i = 0; i < text.length; i++)
+         if (text[i].equals(target)) return i;
+      return -1;
+   }
+
 }
