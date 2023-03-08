@@ -1,6 +1,22 @@
 package Recursion;
 
 public class exploringRecursion {
+
+
+
+    public static void main(String[] args) {
+        // System.out.println(sumAB(3, 5));
+        // System.out.println(countDigits(3));
+        // System.out.println(evenOdd(239877));
+        // System.out.println(rushEEE("hello worlde"));
+        // System.out.println(isPalindrome("gohangasalamiimalasagnahog"));
+        // forkBomb();
+        System.out.println(gcf(16, 32));
+    }
+
+
+
+
     public static int factorial(int x){
         return (x == 0) ? 1 : (x > 0) ? x * factorial(x - 1) : x * factorial(x + 1);
     }
@@ -35,12 +51,6 @@ public class exploringRecursion {
         return (a < 10) ? 1 : 1 + countDigits(a / 10);
     }
 
-    public static void main(String[] args) {
-        System.out.println(sumAB(3, 5));
-        System.out.println(countDigits(3));
-        System.out.println(evenOdd(239877));
-        System.out.println(rushEEE("hello worlde"));
-    }
 
     public static String evenOdd(int num) {
         return  ((num & 1) == 1) ? "odd" : "even";
@@ -57,5 +67,49 @@ public class exploringRecursion {
         // {
         //     return 0;
         // }
+    }
+
+    public static boolean isPalindrome(String str)
+    {
+        return (str.length() <= 2) ? true : (str.charAt(0) == str.charAt(str.length()-1)) ? isPalindrome(str.substring(1, str.length()-1)) && true : false;
+
+        // if (str.length() <= 2)
+        // {
+        //     return true;
+        // }
+        // else
+        // {
+        //     if (str.charAt(0) == str.charAt(str.length()-1))
+        //     {
+        //         return isPalindrome(str.substring(1, str.length()-1)) && true;
+        //     }
+        //     else
+        //     {
+        //         return isPalindrome(str.substring(1, str.length()-1)) && false;
+        //     }
+        // }
+    }
+
+    public static void forkBomb()
+    {
+        Thread t = new Thread(
+            () -> {System.out.println("test");}
+        );
+
+        t.start();
+
+        System.out.println("oki");
+    }
+
+    public static int gcf(int a, int b)
+    {
+        System.out.println("a: "+a+" b: "+b);
+        return (a <= 0 || b <= 0) ? Math.min(a, b) : gcf(b, a%b);
+
+        // if (a <= 0 || b <= 0) return (a != 0) ? a : b;
+        // // int temp = Math.min(a, b);
+        // // a = Math.max(a, b);
+        // // b = temp;
+        // return gcf(b, a%b);
     }
 }
