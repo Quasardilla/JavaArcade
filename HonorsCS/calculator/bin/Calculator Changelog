@@ -1,0 +1,45 @@
+September 14 2021; 12:30 PM (1.0)
+	- Released Calculator
+September 15 2021; 2:21 PM (1.1)
+	- Added Divisibles
+	- Changed the return datatype from double to String
+	- Added "Run again?"
+	- Bug Fixes
+September 17 2021; 8:34 AM (1.2)
+	- Added Quadratic Formula
+September 17 2021; 8:37 AM (1.2.1)
+	- Added more comments
+	- Added planned changes
+September 20 2021; 9:21 AM (1.3)
+	- Rewrote program
+	- Performance Upgrades
+	- Cleaned up code
+	- Removed Mix/Max
+	- Removed Divisibles
+September 20 2021; 9:27 AM (1.3.1)
+	- Patched Quadratic Formula
+	- Patched Power
+	- Added Sections
+September 20 2021; 11:40 AM (1.3.1.1)
+	- Patches
+	- Menu Changes
+September 21 2021; 7:50 AM (2.0)
+	- Removed scanner input, replaced with JOptionPanel
+	- All inputs are in a window now
+September 21 2021; 10:36 AM (2.1)
+	- Added Pythag Theorem
+	- Added Option to choose a, b, or c
+	- Improved look and feel
+	- Improved options
+		- Added dropdowns
+		- Added yes/no
+September 21 2021; 3:17 PM (2.1.1)
+	- Patches
+	- Bug Fixes
+	- Fixed Pythag Theorem
+September 23 2021; 8:00 PM (2.2)
+	- Beat RobTop at updating
+	- Added an icon
+	- Copies solution to clipboard
+September 23 2021; 9:50 PM (2.2.0.1)
+	- Fixed "No solution to give. Answer copied to clipboard." glitch.
