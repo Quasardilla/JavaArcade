@@ -2,9 +2,26 @@ package Searching;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FileUtility {
+
+    public static void main(String[] args) {
+        String[] words = null;
+        try {
+            words = readFile("APCS/Searching/wordlist.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        int[] nums = new int[]{1, 2, 3, 4, 5};
+        Arrays.sort(nums);
+        System.out.println(Searcher.binaryIndexOf(nums, 3));
+        Arrays.sort(words);
+        System.out.println(Searcher.binaryIndexOf(words, "programming"));
+        
+    }
+
 
     public static String[] readFile(String fileName) throws FileNotFoundException
     {
