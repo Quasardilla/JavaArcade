@@ -2,6 +2,8 @@ package Sorting;
 
 import java.util.Arrays;
 
+import Searching.FileUtility;
+
 public class Sorter {
 
 
@@ -51,8 +53,20 @@ public class Sorter {
 
     public static void insertionSort(int[] a) {
         for(int i = 0; i < a.length; i++) {
-            for(int j = 0; j < i; j++) {
-                
+            for(int j = i; j > 0 && a[j-1] > a[j]; j--) {
+                int temp = a[j-1];
+                a[j-1] = a[j];
+                a[j] = temp;
+            }
+        }
+    }
+
+    public static void insertionSort(String[] a) {
+        for(int i = 0; i < a.length; i++) {
+            for(int j = i; j > 0 && a[j-1].toLowerCase().compareTo(a[j].toLowerCase()) > 0; j--) {
+                String temp = a[j-1];
+                a[j-1] = a[j];
+                a[j] = temp;
             }
         }
     }
@@ -109,13 +123,22 @@ public class Sorter {
         //     System.out.println(i);
     
         // System.out.println((System.nanoTime()-nano)/1_000_000_000.0);
-
+ 
 
         int[] first = {};
         int[] second= {1, 3};
         int[] a = new int[first.length+second.length];
         a = merge(first, second);
         System.out.println(Arrays.toString(a));
+        int[] arr = new int[]{1, 90, 34, 7, 6, 3, 2, 2, 8, 87};
+        String[] starr;
+        try { starr = FileUtility.readFile("wordlist.txt");  } catch (Exception e) { starr = new String[]{"uh oh"};}
+        // selectionSort(arr);
+        insertionSort(arr);
+        insertionSort(starr);
+        
+        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(starr));
     }
 
     private static int[] mergeSort(int[] arr) 
