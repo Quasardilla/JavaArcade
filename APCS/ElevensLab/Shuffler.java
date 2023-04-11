@@ -1,5 +1,9 @@
 package ElevensLab;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class provides a convenient way to test shuffling methods.
  */
@@ -14,7 +18,7 @@ public class Shuffler {
 	/**
 	 * The number of values to shuffle.
 	 */
-	private static final int VALUE_COUNT = 4;
+	private static final int VALUE_COUNT = 11;//TODO: breaks with odd numbers
 
 	/**
 	 * Tests shuffling methods.
@@ -63,6 +67,14 @@ public class Shuffler {
 	 */
 	public static void perfectShuffle(int[] values) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
+		int[] temp = values.clone();
+
+		for (int i = 0, ii = 0; i < values.length/2; i++, ii+=2)
+		{
+			values[ii] = temp[i];
+			values[ii+1] = temp[i+temp.length/2];
+		}
+
 	}
 
 	/**
@@ -78,5 +90,25 @@ public class Shuffler {
 	 */
 	public static void selectionShuffle(int[] values) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
+
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		
+		for (int i: values)
+			arr.add(i);
+		
+		ArrayList<Integer> arr1 = new ArrayList<Integer>();
+		
+		for (int i = 0; i < values.length; i++)
+		{
+			int index = (int) (Math.random()*arr.size());
+
+			arr1.add(arr.get(index));
+			arr.remove(index);
+		}
+
+		for (int i = 0; i < values.length; i++)
+			values[i] = arr1.get(i);
+	
 	}
+
 }
