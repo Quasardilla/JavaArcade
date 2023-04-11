@@ -15,37 +15,6 @@ public class Color {
     private static String PURPLE = "\033[0;35m";  // PURPLE
     private static String CYAN = "\033[0;36m";    // CYAN
     private static String WHITE = "\033[0;37m";   // WHITE
-
-    // Bold
-    private static String BLACK_BOLD = "\033[1;30m";  // BLACK
-    private static String RED_BOLD = "\033[1;31m";    // RED
-    private static String GREEN_BOLD = "\033[1;32m";  // GREEN
-    private static String YELLOW_BOLD = "\033[1;33m"; // YELLOW
-    private static String BLUE_BOLD = "\033[1;34m";   // BLUE
-    private static String PURPLE_BOLD = "\033[1;35m"; // PURPLE
-    private static String CYAN_BOLD = "\033[1;36m";   // CYAN
-    private static String WHITE_BOLD = "\033[1;37m";  // WHITE
-
-    // Underline
-    private static String BLACK_UNDERLINED = "\033[4;30m";  // BLACK
-    private static String RED_UNDERLINED = "\033[4;31m";    // RED
-    private static String GREEN_UNDERLINED = "\033[4;32m";  // GREEN
-    private static String YELLOW_UNDERLINED = "\033[4;33m"; // YELLOW
-    private static String BLUE_UNDERLINED = "\033[4;34m";   // BLUE
-    private static String PURPLE_UNDERLINED = "\033[4;35m"; // PURPLE
-    private static String CYAN_UNDERLINED = "\033[4;36m";   // CYAN
-    private static String WHITE_UNDERLINED = "\033[4;37m";  // WHITE
-
-    // Background
-    private static String BLACK_BACKGROUND = "\033[40m";  // BLACK
-    private static String RED_BACKGROUND = "\033[41m";    // RED
-    private static String GREEN_BACKGROUND = "\033[42m";  // GREEN
-    private static String YELLOW_BACKGROUND = "\033[43m"; // YELLOW
-    private static String BLUE_BACKGROUND = "\033[44m";   // BLUE
-    private static String PURPLE_BACKGROUND = "\033[45m"; // PURPLE
-    private static String CYAN_BACKGROUND = "\033[46m";   // CYAN
-    private static String WHITE_BACKGROUND = "\033[47m";  // WHITE
-
     // High Intensity
     private static String BLACK_BRIGHT = "\033[0;90m";  // BLACK
     private static String RED_BRIGHT = "\033[0;91m";    // RED
@@ -56,6 +25,15 @@ public class Color {
     private static String CYAN_BRIGHT = "\033[0;96m";   // CYAN
     private static String WHITE_BRIGHT = "\033[0;97m";  // WHITE
 
+    // Bold
+    private static String BLACK_BOLD = "\033[1;30m";  // BLACK
+    private static String RED_BOLD = "\033[1;31m";    // RED
+    private static String GREEN_BOLD = "\033[1;32m";  // GREEN
+    private static String YELLOW_BOLD = "\033[1;33m"; // YELLOW
+    private static String BLUE_BOLD = "\033[1;34m";   // BLUE
+    private static String PURPLE_BOLD = "\033[1;35m"; // PURPLE
+    private static String CYAN_BOLD = "\033[1;36m";   // CYAN
+    private static String WHITE_BOLD = "\033[1;37m";  // WHITE
     // Bold High Intensity
     private static String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
     private static String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
@@ -66,6 +44,15 @@ public class Color {
     private static String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
     private static String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
 
+    // Background
+    private static String BLACK_BACKGROUND = "\033[40m";  // BLACK
+    private static String RED_BACKGROUND = "\033[41m";    // RED
+    private static String GREEN_BACKGROUND = "\033[42m";  // GREEN
+    private static String YELLOW_BACKGROUND = "\033[43m"; // YELLOW
+    private static String BLUE_BACKGROUND = "\033[44m";   // BLUE
+    private static String PURPLE_BACKGROUND = "\033[45m"; // PURPLE
+    private static String CYAN_BACKGROUND = "\033[46m";   // CYAN
+    private static String WHITE_BACKGROUND = "\033[47m";  // WHITE
     // High Intensity backgrounds
     private static String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";// BLACK
     private static String RED_BACKGROUND_BRIGHT = "\033[0;101m";// RED
@@ -76,6 +63,23 @@ public class Color {
     private static String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
     private static String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
     
+    // Underline
+    private static String BLACK_UNDERLINED = "\033[4;30m";  // BLACK
+    private static String RED_UNDERLINED = "\033[4;31m";    // RED
+    private static String GREEN_UNDERLINED = "\033[4;32m";  // GREEN
+    private static String YELLOW_UNDERLINED = "\033[4;33m"; // YELLOW
+    private static String BLUE_UNDERLINED = "\033[4;34m";   // BLUE
+    private static String PURPLE_UNDERLINED = "\033[4;35m"; // PURPLE
+    private static String CYAN_UNDERLINED = "\033[4;36m";   // CYAN
+    private static String WHITE_UNDERLINED = "\033[4;37m";  // WHITE
+
+    public static String style(String input, String... params) {
+        String rtnStr = "";
+        for(String s : params)
+            rtnStr += s;
+        return rtnStr + input + RESET;
+    }
+
     public static void textRed()
     {
         System.out.print(RED);
@@ -115,7 +119,6 @@ public class Color {
     //make methods that will change the background colors of the text
     public static void backgroundRed()
     {
-        System.out.print(RED_BACKGROUND);
     }
     public static void backgroundBlack()
     {
