@@ -18,7 +18,7 @@ public class Shuffler {
 	/**
 	 * The number of values to shuffle.
 	 */
-	private static final int VALUE_COUNT = 11;//TODO: breaks with odd numbers
+	private static final int VALUE_COUNT = 11;
 
 	/**
 	 * Tests shuffling methods.
