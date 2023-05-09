@@ -64,7 +64,7 @@ public class Deck {
 	 * and reset the size to represent the entire deck.
 	 */
 	public void shuffle() {
-		
+		cards = Shuffler.selectionShuffle(cards);
 	}
 
 	/**

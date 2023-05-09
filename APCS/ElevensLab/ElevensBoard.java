@@ -58,7 +58,8 @@ public class ElevensBoard {
 			System.out.println(deck);
 			System.out.println("----------");
 		}
-		dealMyCards();
+		
+		newGame();
 	}
 
 	/**
@@ -187,7 +188,8 @@ public class ElevensBoard {
 	 */
 	public boolean isLegal(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return true;
+		System.out.println("islegla");
+		return containsPairSum11(selectedCards) || containsJQK(selectedCards);
 	}
 
 	/**
@@ -200,7 +202,8 @@ public class ElevensBoard {
 	 */
 	public boolean anotherPlayIsPossible() {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return true;
+		System.out.println("anotgerplaypiossiubel");
+		return containsJQK(cardIndexes()) || containsPairSum11(cardIndexes());
 	}
 
 
@@ -223,6 +226,7 @@ public class ElevensBoard {
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		System.out.println("containsparismsum11");
 		return true;
 	}
 
@@ -236,6 +240,7 @@ public class ElevensBoard {
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		System.out.println("containsjqk");
 		return true;
 	}
 }

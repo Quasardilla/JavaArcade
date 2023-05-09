@@ -88,17 +88,16 @@ public class Shuffler {
 	 * searching for an as-yet-unselected card.
 	 * @param values is an array of integers simulating cards to be shuffled.
 	 */
-	public static void selectionShuffle(int[] values) {
+	public static List<Card> selectionShuffle(List<Card> values) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
-
-		ArrayList<Integer> arr = new ArrayList<Integer>();
+		ArrayList<Card> arr = new ArrayList<Card>();
 		
-		for (int i: values)
+		for (Card i: values)
 			arr.add(i);
 		
-		ArrayList<Integer> arr1 = new ArrayList<Integer>();
+		ArrayList<Card> arr1 = new ArrayList<Card>();
 		
-		for (int i = 0; i < values.length; i++)
+		for (int i = 0; i < values.size(); i++)
 		{
 			int index = (int) (Math.random()*arr.size());
 
@@ -106,8 +105,10 @@ public class Shuffler {
 			arr.remove(index);
 		}
 
-		for (int i = 0; i < values.length; i++)
-			values[i] = arr1.get(i);
+		for (int i = 0; i < values.size(); i++)
+			values.set(i, arr1.get(i));
+
+		return values;
 	
 	}
 
