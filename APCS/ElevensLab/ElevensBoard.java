@@ -188,7 +188,6 @@ public class ElevensBoard {
 	 */
 	public boolean isLegal(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		System.out.println("islegla");
 		return containsPairSum11(selectedCards) || containsJQK(selectedCards);
 	}
 
@@ -202,7 +201,6 @@ public class ElevensBoard {
 	 */
 	public boolean anotherPlayIsPossible() {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		System.out.println("anotgerplaypiossiubel");
 		return containsJQK(cardIndexes()) || containsPairSum11(cardIndexes());
 	}
 
@@ -227,7 +225,7 @@ public class ElevensBoard {
 	private boolean containsPairSum11(List<Integer> selectedCards) {
 		for(int i = 0; i < selectedCards.size(); i++)
 			for(int j = i + 1; j < selectedCards.size(); j++)
-				if(cards[selectedCards.get(i)].equals(cards[selectedCards.get(j)]))
+				if(cards[selectedCards.get(i)].pointValue() + cards[selectedCards.get(j)].pointValue() == 11)
 					return true;
 		return false;
 	}
@@ -244,11 +242,11 @@ public class ElevensBoard {
 		boolean jack = false, queen = false, king = false;
 
 		for(int i = 0; i < selectedCards.size(); i++) {
-			if(cards[selectedCards.get(i)].suit().equals("jack"))
+			if(cards[selectedCards.get(i)].rank().equals("jack"))
 				jack = true;
-			else if(cards[selectedCards.get(i)].suit().equals("queen"))
+			else if(cards[selectedCards.get(i)].rank().equals("queen"))
 				queen = true;
-			else if(cards[selectedCards.get(i)].suit().equals("king"))
+			else if(cards[selectedCards.get(i)].rank().equals("king"))
 				king = true;
 		}
 
