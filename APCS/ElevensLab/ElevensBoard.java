@@ -222,8 +222,11 @@ public class ElevensBoard {
 	 *              contain an 11-pair; false otherwise.
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return true;
+		for(int i = 0; i < selectedCards.size(); i++)
+			for(int j = i + 1; j < selectedCards.size(); j++)
+				if(cards[selectedCards.get(i)].equals(cards[selectedCards.get(j)]))
+					return true;
+		return false;
 	}
 
 	/**
@@ -235,7 +238,20 @@ public class ElevensBoard {
 	 *              include a jack, a queen, and a king; false otherwise.
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return true;
+		boolean jack = false, queen = false, king = false;
+
+		for(int i = 0; i < selectedCards.size(); i++) {
+			if(cards[selectedCards.get(i)].suit().equals("jack"))
+				jack = true;
+			else if(cards[selectedCards.get(i)].suit().equals("queen"))
+				queen = true;
+			else if(cards[selectedCards.get(i)].suit().equals("king"))
+				king = true;
+		}
+
+		if(jack && queen && king)
+			return true;
+
+		return false;
 	}
 }
