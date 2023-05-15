@@ -19,7 +19,8 @@ public abstract class GameBoard {
         POINT_VALUES = pointValues;
 
 		cards = new Card[BOARD_SIZE];
-		deck = new Deck(RANKS, SUITS, POINT_VALUES);
+
+		newGame();
     }
 
 
@@ -28,6 +29,7 @@ public abstract class GameBoard {
 	 * dealing some cards to this board.
 	 */
     public void newGame() {
+		deck = new Deck(RANKS, SUITS, POINT_VALUES);
 		deck.shuffle();
 		dealMyCards();
 	}
